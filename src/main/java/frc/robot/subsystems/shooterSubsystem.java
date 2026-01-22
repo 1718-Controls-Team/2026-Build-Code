@@ -23,7 +23,6 @@ public class shooterSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX shooterSpinMotor = new TalonFX(0);
-    TalonFX indexerSpinMotor = new TalonFX(0);
     TalonFX hoodMotor = new TalonFX(1);
     TalonFX turretMotor = new TalonFX(1);
 
@@ -33,7 +32,6 @@ public class shooterSubsystem extends SubsystemBase {
 
   public shooterSubsystem() {
     this.configureshooterSpinMotor(shooterSpinMotor);
-    this.configureindexerSpinMotor(indexerSpinMotor);
     this.configurehoodMotor(hoodMotor);
     this.configureturretMotor(turretMotor);
   }
@@ -45,10 +43,6 @@ public class shooterSubsystem extends SubsystemBase {
    */
   public void setShooterSpinSpeed(double shooterSpeed) {
     shooterSpinMotor.setControl(voltageRequest.withVelocity(shooterSpeed));
-  }
-
-  public void setIndexerSpinMotor(double indexerSpeed){
-    indexerSpinMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
   }
 
   public void setHoodMotor(double hoodPos){
@@ -110,45 +104,9 @@ public class shooterSubsystem extends SubsystemBase {
     }
   }
 
-  //######################################### INDEXER SPIN CONFIGURATION ###################################################### 
+  //######################################### HOOD SPIN CONFIGURATION ###################################################### 
 
-  public void configureindexerSpinMotor(TalonFX indexerMotor){
-    TalonFXConfiguration indexerMotorConfig = new TalonFXConfiguration();
-
-    indexerMotorConfig.MotorOutput.Inverted = Constants.kindexerMotorDirection;
-    indexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-
-
-    indexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kindexerMotorSupplyCurrentLimit;
-    indexerMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-    indexerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kindexerMotorClosedLoopRampPeriod;
-    indexerMotorConfig.Voltage.PeakForwardVoltage = Constants.kindexerMotorPeakForwardVoltage;
-    indexerMotorConfig.Voltage.PeakReverseVoltage = Constants.kindexerMotorPeakReverseVoltage;
-    
-
-    Slot0Configs slot0 = indexerMotorConfig.Slot0;
-    slot0.kP = Constants.kindexerMotorProportional;
-    slot0.kI = Constants.kindexerMotorIntegral;
-    slot0.kD = Constants.kindexerMotorDerivative;
-
-    slot0.GravityType = GravityTypeValue.Elevator_Static;
-    slot0.kV = Constants.kindexerMotorVelocityFeedForward;
-    slot0.kG = Constants.kindexerMotorGravityFeedForward;
-    slot0.kS = Constants.kindexerMotorStaticFeedForward;
- 
-
-
-    StatusCode indexerMotorStatus = StatusCode.StatusCodeNotInitialized;
-    for(int i = 0; i < 5; ++i) {
-      indexerMotorStatus = indexerMotor.getConfigurator().apply(indexerMotorConfig);
-      if (indexerMotorStatus.isOK()) break;
-    }
-    if (!indexerMotorStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + indexerMotorStatus.toString());
-    }
-  }
-
-  public void configurehoodMotor(TalonFX algaeIntakeSpin){
+  public void configurehoodMotor(TalonFX hoodMotor){
     TalonFXConfiguration hoodMotorConfig = new TalonFXConfiguration();
 
     hoodMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.khoodMotorSupplyCurrentLimit;
@@ -185,7 +143,7 @@ public class shooterSubsystem extends SubsystemBase {
     hoodMotor.setPosition(0);
   }
 
-  public void configureturretMotor(TalonFX algaeIntakeSpin){
+  public void configureturretMotor(TalonFX turretMotor){
     TalonFXConfiguration turretMotorConfig = new TalonFXConfiguration();
 
     turretMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kturretMotorSupplyCurrentLimit;
