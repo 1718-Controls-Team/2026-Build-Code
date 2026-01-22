@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.735517857142856,
-        "y": 2.577321428571429
+        "x": 7.524964285714285,
+        "y": 2.706892857142857
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.249142857142854,
-        "y": 0.2936249999935141
+        "x": 7.201035714285714,
+        "y": 0.39080357142857114
       },
       "isLocked": false,
       "linkedName": "end of germ 2"
@@ -44,7 +44,12 @@
       "linkedName": "end of germ 3"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4171122994652407,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -71,7 +76,7 @@
   "folder": "germ",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 91.10170611520634
   },
   "useDefaultConstraints": true
 }
