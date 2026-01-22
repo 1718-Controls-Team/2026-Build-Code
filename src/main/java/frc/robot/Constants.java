@@ -1,12 +1,8 @@
 package frc.robot;
 
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.pathplanner.lib.path.PathConstraints;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.units.measure.Time;
+
 
 public class Constants {
     public static final double kintakeSpinMotorSupplyCurrentLimit = 0;

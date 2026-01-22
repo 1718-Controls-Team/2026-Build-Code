@@ -1,0 +1,59 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.767392857142857,
+        "y": 0.6175535714285718
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.375017857142857,
+        "y": 0.5527678571428567
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.524964285714285,
+        "y": 1.2168214285714283
+      },
+      "prevControl": {
+        "x": 7.1362499999999995,
+        "y": 0.5203749999999994
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "end of germ 1"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 89.99999999980858
+  },
+  "reversed": false,
+  "folder": "germ",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}
