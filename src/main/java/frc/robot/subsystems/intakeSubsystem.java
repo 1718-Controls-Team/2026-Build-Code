@@ -23,14 +23,15 @@ public class intakeSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX intakeSpinMotor = new TalonFX(0);
-    TalonFX intakeEletricSlideMotor = new TalonFX(0);
+    TalonFX intakeEletricSlideMotor = new TalonFX(1);
 
     PositionVoltage intakePosition = new PositionVoltage(0);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
+
   public intakeSubsystem() {
     this.configureintakeSpinMotor(intakeSpinMotor);
-    this.
+    this.configureintakeElectricSlideMotor(intakeEletricSlideMotor);
   }
 
   
@@ -40,36 +41,41 @@ public class intakeSubsystem extends SubsystemBase {
    *
    * @return a command
    */
- 
-  public void setEricaPower(double Erika) {
-    
+  public void setIntakeSpinSpeed(double intakeSpeed) {
+    intakeSpinMotor.setControl(voltageRequest.withVelocity(intakeSpeed));
   }
 
+  public void setIntakeElectricSlidePos(double intakePos){
+    intakeEletricSlideMotor.setControl(intakePosition.withPosition(intakePos));
+  }
 
+  public double getIntakeElectricSlidePos(){
+    return intakeEletricSlideMotor.getPosition().getValueAsDouble();
+  }
 
-  public void configureintakeSpinMotor(TalonFX algaeIntakeSpin){
+  public void configureintakeSpinMotor(TalonFX intakeSpinMotor){
     TalonFXConfiguration intakeSpinMotorConfig = new TalonFXConfiguration();
 
-    intakeSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.intakeSpinMotorSupplyCurrentLimit;
+    intakeSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kintakeSpinMotorSupplyCurrentLimit;
     intakeSpinMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
 
-    intakeSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.intakeSpinMotorClosedLoopRampPeriod;
-    intakeSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.intakeSpinMotorPeakForwardVoltage;
-    intakeSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.intakeSpinMotorPeakReverseVoltage;
+    intakeSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kintakeSpinMotorClosedLoopRampPeriod;
+    intakeSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.kintakeSpinMotorPeakForwardVoltage;
+    intakeSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kintakeSpinMotorPeakReverseVoltage;
 
-    intakeSpinMotorConfig.MotorOutput.Inverted = Constants.intakeSpinMotorDirection;
+    intakeSpinMotorConfig.MotorOutput.Inverted = Constants.kintakeSpinMotorDirection;
     intakeSpinMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
 
     Slot0Configs slot0 = intakeSpinMotorConfig.Slot0;
-    slot0.kP = Constants.intakeSpinMotorProportional;
-    slot0.kI = Constants.intakeSpinMotorIntegral;
-    slot0.kD = Constants.intakeSpinMotorDerivative;
+    slot0.kP = Constants.kintakeSpinMotorProportional;
+    slot0.kI = Constants.kintakeSpinMotorIntegral;
+    slot0.kD = Constants.kintakeSpinMotorDerivative;
+    slot0.kV = Constants.kintakeSpinMotorVelocityFeedForward;
     
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.intakeSpinMotorGravityFeedForward;
-    slot0.kV = Constants.intakeSpinMotorVelocityFeedForward;
-    slot0.kS = Constants.intakeSpinMotorStaticFeedForward;
+    slot0.kG = Constants.kintakeSpinMotorGravityFeedForward;
+    slot0.kS = Constants.kintakeSpinMotorStaticFeedForward;
     
 
     
@@ -84,41 +90,41 @@ public class intakeSubsystem extends SubsystemBase {
     intakeSpinMotor.setPosition(0);
   }
 
-  public void configureintakeElectricSlideMotor(TalonFX algaeIntakeSpin){
+  public void configureintakeElectricSlideMotor(TalonFX intakeElectricSlideMotor){
     TalonFXConfiguration intakeElectricSlideMotorConfig = new TalonFXConfiguration();
 
-    intakeElectricSlideMotorConfig.MotorOutput.Inverted = Constants.intakeElectricSlideMotorDirection;
+    intakeElectricSlideMotorConfig.MotorOutput.Inverted = Constants.kintakeElectricSlideMotorDirection;
     intakeElectricSlideMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
 
-    intakeElectricSlideMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.intakeElectricSlideMotorSupplyCurrentLimit;
+    intakeElectricSlideMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kintakeElectricSlideMotorSupplyCurrentLimit;
     intakeElectricSlideMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-    intakeElectricSlideMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.intakeElectricSlideMotorVoltageClosedLoopRampPeriod;
-    intakeElectricSlideMotorConfig.Voltage.PeakForwardVoltage = Constants.intakeElectricSlideMotorMaxForwardVoltage;
-    intakeElectricSlideMotorConfig.Voltage.PeakReverseVoltage = Constants.intakeElectricSlideMotorMaxReverseVoltage;
+    intakeElectricSlideMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kintakeElectricSlideMotorVoltageClosedLoopRampPeriod;
+    intakeElectricSlideMotorConfig.Voltage.PeakForwardVoltage = Constants.kintakeElectricSlideMotorMaxForwardVoltage;
+    intakeElectricSlideMotorConfig.Voltage.PeakReverseVoltage = Constants.kintakeElectricSlideMotorMaxReverseVoltage;
     
 
     Slot0Configs slot0 = intakeElectricSlideMotorConfig.Slot0;
-    slot0.kP = Constants.intakeElectricSlideMotorProportional;
-    slot0.kI = Constants.intakeElectricSlideMotorIntegral;
-    slot0.kD = Constants.intakeElectricSlideMotorDerivative;
+    slot0.kP = Constants.kintakeElectricSlideMotorProportional;
+    slot0.kI = Constants.kintakeElectricSlideMotorIntegral;
+    slot0.kD = Constants.kintakeElectricSlideMotorDerivative;
 
     slot0.GravityType = GravityTypeValue.Elevator_Static;
-    slot0.kV = Constants.intakeElectricSlideMotorVelocityFeedForward;
-    slot0.kG = Constants.intakeElectricSlideMotorGravityFeedForward;
-    slot0.kS = Constants.intakeElectricSlideMotorStaticFeedForward;
+    slot0.kV = Constants.kintakeElectricSlideMotorVelocityFeedForward;
+    slot0.kG = Constants.kintakeElectricSlideMotorGravityFeedForward;
+    slot0.kS = Constants.kintakeElectricSlideMotorStaticFeedForward;
  
 
 
     StatusCode intakeElectricSlideMotorStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
-      intakeElectricSlideMotorStatus = intakeElectricSlideMotor.getConfigurator().apply(intakeElectricSlideMotorConfig);
+      intakeElectricSlideMotorStatus = intakeEletricSlideMotor.getConfigurator().apply(intakeElectricSlideMotorConfig);
       if (intakeElectricSlideMotorStatus.isOK()) break;
     }
     if (!intakeElectricSlideMotorStatus.isOK()) {
       System.out.println("Could not configure device. Error: " + intakeElectricSlideMotorStatus.toString());
     }
-    m_intakeElectricSlideMotor.setPosition(0);
+    intakeEletricSlideMotor.setPosition(0);
   }
 
   /**
