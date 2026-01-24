@@ -53,6 +53,14 @@ public class intakeSubsystem extends SubsystemBase {
     return intakeEletricSlideMotor.getPosition().getValueAsDouble();
   }
 
+  public boolean getIntakeSlideInPos(){
+    if ((Math.abs(intakeEletricSlideMotor.getPosition().getValueAsDouble() - getIntakeElectricSlidePos()) < 0.1)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public void configureintakeSpinMotor(TalonFX intakeSpinMotor){
     TalonFXConfiguration intakeSpinMotorConfig = new TalonFXConfiguration();
 

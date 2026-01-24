@@ -10,6 +10,15 @@ import edu.wpi.first.units.measure.Time;
 
 
 public class Constants {
+    public static final double kintakeSlidePos = 0.5;
+
+
+
+
+
+
+
+
     public static final double kintakeSpinMotorSupplyCurrentLimit = 0;
     public static final double kintakeSpinMotorClosedLoopRampPeriod = 0;
     public static final double kintakeSpinMotorPeakForwardVoltage = 0;
