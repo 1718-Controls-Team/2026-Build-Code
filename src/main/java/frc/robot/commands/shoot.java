@@ -12,7 +12,7 @@ import frc.robot.Constants;
 /** An example command that uses an example subsystem. */
 public class shoot extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Shooter m_shooterSubsystem;
+  private final shoot m_shooterSubsystem;
 
   private boolean m_isFinished = false;
   
@@ -21,16 +21,16 @@ public class shoot extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public shoot(Shooter shooterSubsystem) {
+    public shoot(shoot shooterSubsystem) {
       m_shooterSubsystem = shooterSubsystem;
   
-      addRequirements(m_shooterSubsystem);
+      // addRequirements(m_shooterSubsystem);
     }
    
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_shooterSubsystem.setShooterSpinSpeed(.57);  
+      // m_shooterSubsystem.setShooterSpinSpeed(.57);  
     }
 
 
