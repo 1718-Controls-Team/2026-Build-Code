@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.Utils;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,21 +16,46 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
-  LimelightHelpers.PoseEstimate LLmeasurementTurret;
+  private Field2d field2d = new Field2d();
+  private Field2d odomField = new Field2d();
+  LimelightHelpers.PoseEstimate llMeasurementTurret;
 
   public Robot() {
     m_robotContainer = new RobotContainer();
 
     int[] validIDs = {5, 8, 9, 10, 11, 15, 16, 18, 21, 24, 25, 26, 31, 32};
     LimelightHelpers.SetFiducialIDFiltersOverride("limelight-lime", validIDs);
+
+    SmartDashboard.putData(field2d);
+    SmartDashboard.putData(odomField);
   }
 
   @Override
   public void robotPeriodic() {
+    
+    CommandScheduler.getInstance().run(); 
+
+
+
+    // limelight stuff down below 
+
     double headingDeg = m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees();
 
-    LimelightHelpers.SetRobotOrientation("limelight-lime", headingDeg, 0,0,0,0,0);
-    CommandScheduler.getInstance().run(); 
+    LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0,0,0,0,0);
+    llMeasurementTurret = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+
+    
+    if (LimelightHelpers.getTV("limelight")) {
+      var driveState = m_robotContainer.drivetrain.getState();
+
+      field2d.setRobotPose(llMeasurementTurret.pose);
+      odomField.setRobotPose(driveState.Pose);
+      if (llMeasurementTurret != null && llMeasurementTurret.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
+        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementTurret.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, .1));
+      }
+    }
+
+    SmartDashboard.putNumber("robot heading", headingDeg);
   }
 
   @Override
