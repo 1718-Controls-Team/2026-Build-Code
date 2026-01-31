@@ -13,6 +13,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
+  LimelightHelpers.PoseEstimate LLmeasurementTurret;
 
   public Robot() {
     m_robotContainer = new RobotContainer();
@@ -23,6 +24,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    double headingDeg = m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees();
+
+    LimelightHelpers.SetRobotOrientation("limelight-lime", headingDeg, 0,0,0,0,0);
     CommandScheduler.getInstance().run(); 
   }
 
