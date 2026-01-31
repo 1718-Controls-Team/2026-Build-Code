@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.hardware.Pigeon2;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -19,6 +21,7 @@ public class Robot extends TimedRobot {
   private Field2d field2d = new Field2d();
   private Field2d odomField = new Field2d();
   LimelightHelpers.PoseEstimate llMeasurementTurret;
+  private boolean kUseLimelight = true;
 
   public Robot() {
     m_robotContainer = new RobotContainer();
@@ -39,23 +42,7 @@ public class Robot extends TimedRobot {
 
     // limelight stuff down below 
 
-    double headingDeg = m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees();
-
-    LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0,0,0,0,0);
-    llMeasurementTurret = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-
     
-    if (LimelightHelpers.getTV("limelight")) {
-      var driveState = m_robotContainer.drivetrain.getState();
-
-      field2d.setRobotPose(llMeasurementTurret.pose);
-      odomField.setRobotPose(driveState.Pose);
-      if (llMeasurementTurret != null && llMeasurementTurret.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
-        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementTurret.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, .1));
-      }
-    }
-
-    SmartDashboard.putNumber("robot heading", headingDeg);
   }
 
   @Override
@@ -94,7 +81,28 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    double headingDeg = m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees();
+
+    if (kUseLimelight) {
+      
+    LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0,0,0,0,0);
+    llMeasurementTurret = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+
+
+    if (LimelightHelpers.getTV("limelight")) {
+      var driveState = m_robotContainer.drivetrain.getState();
+
+      field2d.setRobotPose(llMeasurementTurret.pose);
+      odomField.setRobotPose(driveState.Pose);
+      if (llMeasurementTurret != null && llMeasurementTurret.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
+        m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementTurret.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, .1));
+      }
+    }
+  }
+    SmartDashboard.putNumber("robot heading", headingDeg);
+    SmartDashboard.getNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getRotation2d().getDegrees());
+  }
 
   @Override
   public void teleopExit() {}
