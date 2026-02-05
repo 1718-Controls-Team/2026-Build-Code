@@ -53,7 +53,7 @@ public class deployIntake extends Command {
             m_intakeSubsystem.setIntakeSpinSpeed(11);
             m_stateMachine = 0;
         }
-        break;
+        break; 
     }
   }
 
