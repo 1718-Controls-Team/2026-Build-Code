@@ -7,13 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "germ left 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "germ left 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "germ left 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "germ left 4"
           }
         }
       ]

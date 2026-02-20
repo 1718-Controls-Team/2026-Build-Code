@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.112725694438616,
-        "y": 7.546475694439685
+        "x": 2.5850535714285714,
+        "y": 0.7795178571428574
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.112725694438616,
-        "y": 7.546475694439685
+        "x": 2.989964285714285,
+        "y": 0.6499464285714283
       },
       "isLocked": false,
-      "linkedName": "end of something 1"
+      "linkedName": "end of No Climb 3"
     },
     {
       "anchor": {
-        "x": 2.8217013888888887,
-        "y": 7.404756944444444
+        "x": 7.753724167979838,
+        "y": 1.2215812299316224
       },
       "prevControl": {
-        "x": 1.8217013888888887,
-        "y": 7.404756944444444
+        "x": 7.848892857142857,
+        "y": 0.27742857142857136
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "end of something 2"
+      "linkedName": "end of No Climb 4"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.29144385026737973,
+      "rotationDegrees": 90.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -176.18482258167225
+    "rotation": 90.63294560211692
   },
   "reversed": false,
-  "folder": "sam",
+  "folder": "No Climb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -178.36342295838335
+    "rotation": 67.38013505195943
   },
   "useDefaultConstraints": true
 }

@@ -45,7 +45,7 @@ public class deployIntake extends Command {
   public void execute() {
    switch (m_stateMachine) {
     case 1:
-            m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kintakeSlidePos);
+            m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlidePos);
             m_stateMachine = 2;
         break;
     case 2:

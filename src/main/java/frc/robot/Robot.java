@@ -37,6 +37,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     
     CommandScheduler.getInstance().run(); 
+    SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getRotation2d().getDegrees());
 
 
 
@@ -50,7 +51,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getRotation2d().getDegrees());
 
   }
 

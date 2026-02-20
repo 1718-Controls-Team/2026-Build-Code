@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.767392857142857,
-        "y": 0.6175535714285718
+        "x": 4.451239140150982,
+        "y": 0.6539348039016704
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.375017857142857,
-        "y": 0.5527678571428567
+        "x": 6.682750000005593,
+        "y": 0.7309285714266083
       },
       "isLocked": false,
       "linkedName": null
@@ -28,12 +28,7 @@
       "linkedName": "end of germ 1"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -50,7 +45,7 @@
     "rotation": 89.99999999980858
   },
   "reversed": false,
-  "folder": "germ",
+  "folder": "Right Trench",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

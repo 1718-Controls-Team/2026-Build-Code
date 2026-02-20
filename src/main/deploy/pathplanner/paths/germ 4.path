@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.925178571428571,
-        "y": 3.824446428571429
+        "x": 2.6138496356861367,
+        "y": 3.752568961789202
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1963392857142856,
-        "y": 3.7758571428571432
+        "x": 1.8850103499718514,
+        "y": 3.7039796760749155
       },
       "isLocked": false,
       "linkedName": "end of germ 3"
     },
     {
       "anchor": {
-        "x": 1.6294642857142851,
-        "y": 3.824446428571429
+        "x": 1.6354417452513061,
+        "y": 3.752568961789202
       },
       "prevControl": {
-        "x": 1.8789105751784374,
-        "y": 3.841076181202372
+        "x": 1.8848880347154584,
+        "y": 3.7691987144201455
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "germ",
+  "folder": "Right Trench",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

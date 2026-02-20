@@ -45,26 +45,26 @@ public class climberSubsystem extends SubsystemBase {
   public void configureclimberSpinMotor(TalonFX climberSpinMotor){
     TalonFXConfiguration climberSpinMotorConfig = new TalonFXConfiguration();
 
-    climberSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kclimberSpinMotorSupplyCurrentLimit;
+    climberSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kClimberSpinMotorSupplyCurrentLimit;
     climberSpinMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
 
-    climberSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kclimberSpinMotorClosedLoopRampPeriod;
-    climberSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.kclimberSpinMotorPeakForwardVoltage;
-    climberSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kclimberSpinMotorPeakReverseVoltage;
+    climberSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kClimberSpinMotorClosedLoopRampPeriod;
+    climberSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.kClimberSpinMotorPeakForwardVoltage;
+    climberSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kClimberSpinMotorPeakReverseVoltage;
 
-    climberSpinMotorConfig.MotorOutput.Inverted = Constants.kclimberSpinMotorDirection;
+    climberSpinMotorConfig.MotorOutput.Inverted = Constants.kClimberSpinMotorDirection;
     climberSpinMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
 
     Slot0Configs slot0 = climberSpinMotorConfig.Slot0;
-    slot0.kP = Constants.kclimberSpinMotorProportional;
-    slot0.kI = Constants.kclimberSpinMotorIntegral;
-    slot0.kD = Constants.kclimberSpinMotorDerivative;
-    slot0.kV = Constants.kclimberSpinMotorVelocityFeedForward;
+    slot0.kP = Constants.kClimberSpinMotorProportional;
+    slot0.kI = Constants.kClimberSpinMotorIntegral;
+    slot0.kD = Constants.kClimberSpinMotorDerivative;
+    slot0.kV = Constants.kClimberSpinMotorVelocityFeedForward;
     
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.kclimberSpinMotorGravityFeedForward;
-    slot0.kS = Constants.kclimberSpinMotorStaticFeedForward;
+    slot0.kG = Constants.kClimberSpinMotorGravityFeedForward;
+    slot0.kS = Constants.kClimberSpinMotorStaticFeedForward;
     
 
     

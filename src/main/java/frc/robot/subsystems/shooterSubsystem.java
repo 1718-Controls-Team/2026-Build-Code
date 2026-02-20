@@ -49,15 +49,15 @@ public class shooterSubsystem extends SubsystemBase {
     hoodMotor.setControl(shooterPosition.withVelocity(hoodPos));
   }
 
-  /*public void setTurretMotor(double indexerSpeed){
-    indexerSpinMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
-  } this wont be used bc the turret will auto adjust with april tags */
+  public void setTurretMotorPos(double indexerSpeed){
+    turretMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
+  } 
 
-  public double getHoodMotorePos(){
+  public double getHoodMotorPos(){
     return hoodMotor.getPosition().getValueAsDouble();
   }
 
-  public double getTurretMotorePos(){
+  public double getTurretMotorPos(){
     return turretMotor.getPosition().getValueAsDouble();
   }
 
@@ -71,26 +71,26 @@ public class shooterSubsystem extends SubsystemBase {
   public void configureshooterSpinMotor(TalonFX shooterSpinMotor){
     TalonFXConfiguration shooterSpinMotorConfig = new TalonFXConfiguration();
 
-    shooterSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kshooterSpinMotorSupplyCurrentLimit;
+    shooterSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterSpinMotorSupplyCurrentLimit;
     shooterSpinMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
 
-    shooterSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kshooterSpinMotorClosedLoopRampPeriod;
-    shooterSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.kshooterSpinMotorPeakForwardVoltage;
-    shooterSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kshooterSpinMotorPeakReverseVoltage;
+    shooterSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterSpinMotorClosedLoopRampPeriod;
+    shooterSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.kShooterSpinMotorPeakForwardVoltage;
+    shooterSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kShooterSpinMotorPeakReverseVoltage;
 
-    shooterSpinMotorConfig.MotorOutput.Inverted = Constants.kshooterSpinMotorDirection;
+    shooterSpinMotorConfig.MotorOutput.Inverted = Constants.kShooterSpinMotorDirection;
     shooterSpinMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
 
     Slot0Configs slot0 = shooterSpinMotorConfig.Slot0;
-    slot0.kP = Constants.kshooterSpinMotorProportional;
-    slot0.kI = Constants.kshooterSpinMotorIntegral;
-    slot0.kD = Constants.kshooterSpinMotorDerivative;
-    slot0.kV = Constants.kshooterSpinMotorVelocityFeedForward;
+    slot0.kP = Constants.kShooterSpinMotorProportional;
+    slot0.kI = Constants.kShooterSpinMotorIntegral;
+    slot0.kD = Constants.kShooterSpinMotorDerivative;
+    slot0.kV = Constants.kShooterSpinMotorVelocityFeedForward;
     
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.kshooterSpinMotorGravityFeedForward;
-    slot0.kS = Constants.kshooterSpinMotorStaticFeedForward;
+    slot0.kG = Constants.kShooterSpinMotorGravityFeedForward;
+    slot0.kS = Constants.kShooterSpinMotorStaticFeedForward;
     
 
     
@@ -109,26 +109,26 @@ public class shooterSubsystem extends SubsystemBase {
   public void configurehoodMotor(TalonFX hoodMotor){
     TalonFXConfiguration hoodMotorConfig = new TalonFXConfiguration();
 
-    hoodMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.khoodMotorSupplyCurrentLimit;
+    hoodMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kHoodMotorSupplyCurrentLimit;
     hoodMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
 
-    hoodMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.khoodMotorClosedLoopRampPeriod;
-    hoodMotorConfig.Voltage.PeakForwardVoltage = Constants.khoodMotorPeakForwardVoltage;
-    hoodMotorConfig.Voltage.PeakReverseVoltage = Constants.khoodMotorPeakReverseVoltage;
+    hoodMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kHoodMotorClosedLoopRampPeriod;
+    hoodMotorConfig.Voltage.PeakForwardVoltage = Constants.kHoodMotorPeakForwardVoltage;
+    hoodMotorConfig.Voltage.PeakReverseVoltage = Constants.kHoodMotorPeakReverseVoltage;
 
-    hoodMotorConfig.MotorOutput.Inverted = Constants.khoodMotorDirection;
+    hoodMotorConfig.MotorOutput.Inverted = Constants.kHoodMotorDirection;
     hoodMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
 
     Slot0Configs slot0 = hoodMotorConfig.Slot0;
-    slot0.kP = Constants.khoodMotorProportional;
-    slot0.kI = Constants.khoodMotorIntegral;
-    slot0.kD = Constants.khoodMotorDerivative;
+    slot0.kP = Constants.kHoodMotorProportional;
+    slot0.kI = Constants.kHoodMotorIntegral;
+    slot0.kD = Constants.kHoodMotorDerivative;
     
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.khoodMotorGravityFeedForward;
-    slot0.kV = Constants.khoodMotorVelocityFeedForward;
-    slot0.kS = Constants.khoodMotorStaticFeedForward;
+    slot0.kG = Constants.kHoodMotorGravityFeedForward;
+    slot0.kV = Constants.kHoodMotorVelocityFeedForward;
+    slot0.kS = Constants.kHoodMotorStaticFeedForward;
     
 
     
@@ -146,26 +146,26 @@ public class shooterSubsystem extends SubsystemBase {
   public void configureturretMotor(TalonFX turretMotor){
     TalonFXConfiguration turretMotorConfig = new TalonFXConfiguration();
 
-    turretMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kturretMotorSupplyCurrentLimit;
+    turretMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kTurretMotorSupplyCurrentLimit;
     turretMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
 
-    turretMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kturretMotorClosedLoopRampPeriod;
-    turretMotorConfig.Voltage.PeakForwardVoltage = Constants.kturretMotorPeakForwardVoltage;
-    turretMotorConfig.Voltage.PeakReverseVoltage = Constants.kturretMotorPeakReverseVoltage;
+    turretMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kTurretMotorClosedLoopRampPeriod;
+    turretMotorConfig.Voltage.PeakForwardVoltage = Constants.kTurretMotorPeakForwardVoltage;
+    turretMotorConfig.Voltage.PeakReverseVoltage = Constants.kTurretMotorPeakReverseVoltage;
 
-    turretMotorConfig.MotorOutput.Inverted = Constants.kturretMotorDirection;
+    turretMotorConfig.MotorOutput.Inverted = Constants.kTurretMotorDirection;
     turretMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
 
     Slot0Configs slot0 = turretMotorConfig.Slot0;
-    slot0.kP = Constants.kturretMotorProportional;
-    slot0.kI = Constants.kturretMotorIntegral;
-    slot0.kD = Constants.kturretMotorDerivative;
+    slot0.kP = Constants.kTurretMotorProportional;
+    slot0.kI = Constants.kTurretMotorIntegral;
+    slot0.kD = Constants.kTurretMotorDerivative;
     
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.kturretMotorGravityFeedForward;
-    slot0.kV = Constants.kturretMotorVelocityFeedForward;
-    slot0.kS = Constants.kturretMotorStaticFeedForward;
+    slot0.kG = Constants.kTurretMotorGravityFeedForward;
+    slot0.kV = Constants.kTurretMotorVelocityFeedForward;
+    slot0.kS = Constants.kTurretMotorStaticFeedForward;
     
 
     

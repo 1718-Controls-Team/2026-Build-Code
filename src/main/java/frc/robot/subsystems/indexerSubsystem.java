@@ -58,26 +58,26 @@ public class indexerSubsystem extends SubsystemBase {
   public void configureindexerSpinMotor(TalonFX indexerMotor){
     TalonFXConfiguration indexerMotorConfig = new TalonFXConfiguration();
 
-    indexerMotorConfig.MotorOutput.Inverted = Constants.kindexerMotorDirection;
+    indexerMotorConfig.MotorOutput.Inverted = Constants.kIndexerMotorDirection;
     indexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
 
-    indexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kindexerMotorSupplyCurrentLimit;
+    indexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kIndexerMotorSupplyCurrentLimit;
     indexerMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-    indexerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kindexerMotorClosedLoopRampPeriod;
-    indexerMotorConfig.Voltage.PeakForwardVoltage = Constants.kindexerMotorPeakForwardVoltage;
-    indexerMotorConfig.Voltage.PeakReverseVoltage = Constants.kindexerMotorPeakReverseVoltage;
+    indexerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kIndexerMotorClosedLoopRampPeriod;
+    indexerMotorConfig.Voltage.PeakForwardVoltage = Constants.kIndexerMotorPeakForwardVoltage;
+    indexerMotorConfig.Voltage.PeakReverseVoltage = Constants.kIndexerMotorPeakReverseVoltage;
     
 
     Slot0Configs slot0 = indexerMotorConfig.Slot0;
-    slot0.kP = Constants.kindexerMotorProportional;
-    slot0.kI = Constants.kindexerMotorIntegral;
-    slot0.kD = Constants.kindexerMotorDerivative;
+    slot0.kP = Constants.kIndexerMotorProportional;
+    slot0.kI = Constants.kIndexerMotorIntegral;
+    slot0.kD = Constants.kIndexerMotorDerivative;
 
     slot0.GravityType = GravityTypeValue.Elevator_Static;
-    slot0.kV = Constants.kindexerMotorVelocityFeedForward;
-    slot0.kG = Constants.kindexerMotorGravityFeedForward;
-    slot0.kS = Constants.kindexerMotorStaticFeedForward;
+    slot0.kV = Constants.kIndexerMotorVelocityFeedForward;
+    slot0.kG = Constants.kIndexerMotorGravityFeedForward;
+    slot0.kS = Constants.kIndexerMotorStaticFeedForward;
  
 
 

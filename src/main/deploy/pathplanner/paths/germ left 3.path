@@ -3,63 +3,56 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.524964285714285,
-        "y": 2.706892857142857
+        "x": 7.525,
+        "y": 5.022982142857143
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.201035714285714,
-        "y": 0.39080357142857114
+        "x": 7.524964285707753,
+        "y": 8.14889285714567
       },
       "isLocked": false,
-      "linkedName": "end of germ 2"
+      "linkedName": "end of germ left 2"
     },
     {
       "anchor": {
-        "x": 3.1033392857142856,
-        "y": 0.7147321428571434
+        "x": 2.585715312258182,
+        "y": 7.079928571431385
       },
       "prevControl": {
-        "x": 4.1884999999999994,
-        "y": 0.4070000000000005
+        "x": 2.8380217163673,
+        "y": 7.633061841978298
       },
       "nextControl": {
-        "x": 2.1694184136074774,
-        "y": 0.9795753752456413
+        "x": 2.1646081694010393,
+        "y": 6.156732142859956
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6138496356861367,
-        "y": 3.752568961789202
+        "x": 2.585715312258182,
+        "y": 4.418736381133009
       },
       "prevControl": {
-        "x": 2.6898878159067183,
-        "y": 3.104126155469175
+        "x": 2.6012499999940646,
+        "y": 5.039178571431556
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "end of germ 3"
+      "linkedName": "end of germ left 3"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.4171122994652407,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": -0.387
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "shoot",
-      "waypointRelativePos": 2.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -73,10 +66,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Right Trench",
+  "folder": "Left Trench",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 91.10170611520634
+    "rotation": -90.00341462972361
   },
   "useDefaultConstraints": true
 }

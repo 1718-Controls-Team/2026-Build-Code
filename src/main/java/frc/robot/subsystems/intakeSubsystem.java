@@ -64,26 +64,26 @@ public class intakeSubsystem extends SubsystemBase {
   public void configureintakeSpinMotor(TalonFX intakeSpinMotor){
     TalonFXConfiguration intakeSpinMotorConfig = new TalonFXConfiguration();
 
-    intakeSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kintakeSpinMotorSupplyCurrentLimit;
+    intakeSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kIntakeSpinMotorSupplyCurrentLimit;
     intakeSpinMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
 
-    intakeSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kintakeSpinMotorClosedLoopRampPeriod;
-    intakeSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.kintakeSpinMotorPeakForwardVoltage;
-    intakeSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kintakeSpinMotorPeakReverseVoltage;
+    intakeSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kIntakeSpinMotorClosedLoopRampPeriod;
+    intakeSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.kIntakeSpinMotorPeakForwardVoltage;
+    intakeSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kIntakeSpinMotorPeakReverseVoltage;
 
-    intakeSpinMotorConfig.MotorOutput.Inverted = Constants.kintakeSpinMotorDirection;
+    intakeSpinMotorConfig.MotorOutput.Inverted = Constants.kIntakeSpinMotorDirection;
     intakeSpinMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
 
     Slot0Configs slot0 = intakeSpinMotorConfig.Slot0;
-    slot0.kP = Constants.kintakeSpinMotorProportional;
-    slot0.kI = Constants.kintakeSpinMotorIntegral;
-    slot0.kD = Constants.kintakeSpinMotorDerivative;
-    slot0.kV = Constants.kintakeSpinMotorVelocityFeedForward;
+    slot0.kP = Constants.kIntakeSpinMotorProportional;
+    slot0.kI = Constants.kIntakeSpinMotorIntegral;
+    slot0.kD = Constants.kIntakeSpinMotorDerivative;
+    slot0.kV = Constants.kIntakeSpinMotorVelocityFeedForward;
     
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.kintakeSpinMotorGravityFeedForward;
-    slot0.kS = Constants.kintakeSpinMotorStaticFeedForward;
+    slot0.kG = Constants.kIntakeSpinMotorGravityFeedForward;
+    slot0.kS = Constants.kIntakeSpinMotorStaticFeedForward;
     
 
     
@@ -101,26 +101,26 @@ public class intakeSubsystem extends SubsystemBase {
   public void configureintakeElectricSlideMotor(TalonFX intakeElectricSlideMotor){
     TalonFXConfiguration intakeElectricSlideMotorConfig = new TalonFXConfiguration();
 
-    intakeElectricSlideMotorConfig.MotorOutput.Inverted = Constants.kintakeElectricSlideMotorDirection;
+    intakeElectricSlideMotorConfig.MotorOutput.Inverted = Constants.kIntakeElectricSlideMotorDirection;
     intakeElectricSlideMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
 
-    intakeElectricSlideMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kintakeElectricSlideMotorSupplyCurrentLimit;
+    intakeElectricSlideMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kIntakeElectricSlideMotorSupplyCurrentLimit;
     intakeElectricSlideMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-    intakeElectricSlideMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kintakeElectricSlideMotorVoltageClosedLoopRampPeriod;
-    intakeElectricSlideMotorConfig.Voltage.PeakForwardVoltage = Constants.kintakeElectricSlideMotorMaxForwardVoltage;
-    intakeElectricSlideMotorConfig.Voltage.PeakReverseVoltage = Constants.kintakeElectricSlideMotorMaxReverseVoltage;
+    intakeElectricSlideMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kIntakeElectricSlideMotorVoltageClosedLoopRampPeriod;
+    intakeElectricSlideMotorConfig.Voltage.PeakForwardVoltage = Constants.kIntakeElectricSlideMotorMaxForwardVoltage;
+    intakeElectricSlideMotorConfig.Voltage.PeakReverseVoltage = Constants.kIntakeElectricSlideMotorMaxReverseVoltage;
     
 
     Slot0Configs slot0 = intakeElectricSlideMotorConfig.Slot0;
-    slot0.kP = Constants.kintakeElectricSlideMotorProportional;
-    slot0.kI = Constants.kintakeElectricSlideMotorIntegral;
-    slot0.kD = Constants.kintakeElectricSlideMotorDerivative;
+    slot0.kP = Constants.kIntakeElectricSlideMotorProportional;
+    slot0.kI = Constants.kIntakeElectricSlideMotorIntegral;
+    slot0.kD = Constants.kIntakeElectricSlideMotorDerivative;
 
     slot0.GravityType = GravityTypeValue.Elevator_Static;
-    slot0.kV = Constants.kintakeElectricSlideMotorVelocityFeedForward;
-    slot0.kG = Constants.kintakeElectricSlideMotorGravityFeedForward;
-    slot0.kS = Constants.kintakeElectricSlideMotorStaticFeedForward;
+    slot0.kV = Constants.kIntakeElectricSlideMotorVelocityFeedForward;
+    slot0.kG = Constants.kIntakeElectricSlideMotorGravityFeedForward;
+    slot0.kS = Constants.kIntakeElectricSlideMotorStaticFeedForward;
  
 
 
