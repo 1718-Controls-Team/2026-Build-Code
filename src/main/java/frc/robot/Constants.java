@@ -11,6 +11,7 @@ import edu.wpi.first.units.measure.Time;
 
 public class Constants {
     public static final double kIntakeSlidePos = 0.5;
+    public static final double[] kBlueHubCoord = {4.627, 4.024};
     public static final double[] kRedHubCoord = {4.627, 4.024};
     public static final double[] kBlueTrenchCoords = {1.905, 6.222, 2.059};
 

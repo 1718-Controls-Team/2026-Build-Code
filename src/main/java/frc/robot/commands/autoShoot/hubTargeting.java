@@ -7,11 +7,15 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Optional;
+
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.LimelightHelpers;
 import frc.robot.RobotContainer;
@@ -32,6 +36,8 @@ public class hubTargeting extends Command {
     private boolean m_isFinished = false;
     public boolean m_autoTarget = true;
     private PoseEstimate m_robotPose;
+    private Optional<Alliance> m_alliance;
+    private boolean m_blue;
     private double m_turretDegrees;
     private double m_turretRadians;
     private double legOne;
@@ -68,9 +74,19 @@ public class hubTargeting extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-    m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-    legTwo = (m_robotPose.pose.getX() - Constants.kRedHubCoord[0]);
-    legOne = (m_robotPose.pose.getY() - Constants.kRedHubCoord[1]);
+    m_alliance = DriverStation.getAlliance();
+    if (m_alliance.get() == Alliance.Red) {
+      m_blue = false;
+      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight");
+      legTwo = (m_robotPose.pose.getX() - Constants.kRedHubCoord[0]);
+      legOne = (m_robotPose.pose.getY() - Constants.kRedHubCoord[1]);
+    } else {
+      m_blue = true;
+      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+      legTwo = (m_robotPose.pose.getX() - Constants.kBlueHubCoord[0]);
+      legOne = (m_robotPose.pose.getY() - Constants.kBlueHubCoord[1]);
+    }
+    
     m_turretRadians = Math.atan2(legOne, legTwo);
     m_turretDegrees = (( m_turretRadians / Math.PI )*180);
     SmartDashboard.putNumber("turretOffset", m_turretDegrees);
@@ -84,8 +100,9 @@ public class hubTargeting extends Command {
   @Override
   public void execute() {
     SmartDashboard.putNumber("robot off", ((m_turretDegrees + 180)));
-    //m_shooterSubsystem.setTurretMotorPos(m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees() + m_turretDegrees);
     m_Drivetrain.setControl(autoAlign.withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
+
+    //m_shooterSubsystem.setTurretMotorPos(m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees() + m_turretDegrees);
   }
 
   // Called once the command ends or is interrupted.
