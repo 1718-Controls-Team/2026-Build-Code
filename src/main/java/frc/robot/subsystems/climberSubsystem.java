@@ -23,11 +23,15 @@ public class climberSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX climberSpinMotor = new TalonFX(0);
+    TalonFX climbRotateMotor = new TalonFX(1);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
+    PositionVoltage climbPosition = new PositionVoltage(0);
 
   public climberSubsystem() {
-    this.configureclimberSpinMotor(climberSpinMotor);
+    //this.configureclimberSpinMotor(climberSpinMotor);
+    //this.configureclimberSpinMotor(climbRotateMotor);
+
   }
 
   
@@ -39,6 +43,10 @@ public class climberSubsystem extends SubsystemBase {
    */
   public void setclimberSpinSpeed(double climberSpeed) {
     climberSpinMotor.setControl(voltageRequest.withVelocity(climberSpeed));
+  }
+
+  public void setclimbRotatePos(double climbPos){
+    climbRotateMotor.setControl(climbPosition.withPosition(climbPos));
   }
 
   
@@ -79,6 +87,42 @@ public class climberSubsystem extends SubsystemBase {
     climberSpinMotor.setPosition(0);
   }
 
+  public void configureclimbRotateMotor(TalonFX climbRotateMotor){
+    TalonFXConfiguration climbRotateMotorConfig = new TalonFXConfiguration();
+
+    climbRotateMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kClimbRotateMotorSupplyCurrentLimit;
+    climbRotateMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
+
+    climbRotateMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kClimbRotateMotorClosedLoopRampPeriod;
+    climbRotateMotorConfig.Voltage.PeakForwardVoltage = Constants.kClimbRotateMotorPeakForwardVoltage;
+    climbRotateMotorConfig.Voltage.PeakReverseVoltage = Constants.kClimbRotateMotorPeakReverseVoltage;
+
+    climbRotateMotorConfig.MotorOutput.Inverted = Constants.kClimbRotateMotorDirection;
+    climbRotateMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+  
+
+    Slot0Configs slot0 = climbRotateMotorConfig.Slot0;
+    slot0.kP = Constants.kClimbRotateMotorProportional;
+    slot0.kI = Constants.kClimbRotateMotorIntegral;
+    slot0.kD = Constants.kClimbRotateMotorDerivative;
+    slot0.kV = Constants.kClimbRotateMotorVelocityFeedForward;
+    
+    slot0.GravityType = GravityTypeValue.Arm_Cosine;
+    slot0.kG = Constants.kClimbRotateMotorGravityFeedForward;
+    slot0.kS = Constants.kClimbRotateMotorStaticFeedForward;
+    
+
+    
+    StatusCode climbRotateMotorStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      climbRotateMotorStatus = climbRotateMotor.getConfigurator().apply(climbRotateMotorConfig);
+      if (climbRotateMotorStatus.isOK()) break;
+    }
+    if (!climbRotateMotorStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + climbRotateMotorStatus.toString());
+    }
+    climbRotateMotor.setPosition(0);
+  }
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

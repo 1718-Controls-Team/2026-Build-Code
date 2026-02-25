@@ -29,15 +29,12 @@ public class hubTargeting extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final shooterSubsystem m_shooterSubsystem;
   private final CommandSwerveDrivetrain m_Drivetrain;
-  private final RobotContainer m_robotContainer;
   
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); 
     private boolean m_isFinished = false;
     public boolean m_autoTarget = true;
     private PoseEstimate m_robotPose;
     private Optional<Alliance> m_alliance;
-    private boolean m_blue;
     private double m_turretDegrees;
     private double m_turretRadians;
     private double legOne;
@@ -52,10 +49,9 @@ public class hubTargeting extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public hubTargeting(shooterSubsystem turretSubsystem, CommandSwerveDrivetrain drive, RobotContainer robotContainer) {
+    public hubTargeting(shooterSubsystem turretSubsystem, CommandSwerveDrivetrain drive) {
       m_shooterSubsystem = turretSubsystem;
       m_Drivetrain = drive;
-      m_robotContainer = robotContainer;
 
 
 
@@ -76,12 +72,10 @@ public class hubTargeting extends Command {
     public void initialize() {
     m_alliance = DriverStation.getAlliance();
     if (m_alliance.get() == Alliance.Red) {
-      m_blue = false;
       m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight");
       legTwo = (m_robotPose.pose.getX() - Constants.kRedHubCoord[0]);
       legOne = (m_robotPose.pose.getY() - Constants.kRedHubCoord[1]);
     } else {
-      m_blue = true;
       m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
       legTwo = (m_robotPose.pose.getX() - Constants.kBlueHubCoord[0]);
       legOne = (m_robotPose.pose.getY() - Constants.kBlueHubCoord[1]);

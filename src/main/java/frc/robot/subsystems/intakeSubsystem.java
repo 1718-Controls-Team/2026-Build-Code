@@ -30,8 +30,8 @@ public class intakeSubsystem extends SubsystemBase {
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
   public intakeSubsystem() {
-    this.configureintakeSpinMotor(intakeSpinMotor);
-    this.configureintakeElectricSlideMotor(intakeEletricSlideMotor);
+    //this.configureintakeSpinMotor(intakeSpinMotor);
+    //this.configureintakeElectricSlideMotor(intakeEletricSlideMotor);
   }
 
   

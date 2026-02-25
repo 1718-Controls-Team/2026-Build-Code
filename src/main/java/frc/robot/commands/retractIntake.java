@@ -4,7 +4,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.intakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 
 
@@ -20,12 +19,12 @@ public class retractIntake extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public retractIntake(intakeSubsystem intakeSubsystem) {
-      m_intakeSubsystem = intakeSubsystem;
+    public retractIntake(intakeSubsystem intake) {
+      m_intakeSubsystem = intake;
   
      
       // Use addRequirements() here to declare subsystem dependencies.
-      addRequirements(intakeSubsystem);
+      addRequirements(intake);
       
           
     }

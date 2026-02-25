@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.shooterSubsystem;
+import frc.robot.subsystems.turretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 
@@ -12,32 +13,48 @@ import frc.robot.Constants;
 /** An example command that uses an example subsystem. */
 public class shoot extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final shoot m_shooterSubsystem;
+  private final shooterSubsystem m_shooterSubsystem;
+  private final turretSubsystem m_turretSubsystem;
 
   private boolean m_isFinished = false;
+  private int shootFlag = 0;
   
     /**
      * Creates a new set-PowerCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public shoot(shoot shooterSubsystem) {
-      m_shooterSubsystem = shooterSubsystem;
+    public shoot(shooterSubsystem shooter, turretSubsystem hood) {
+      m_shooterSubsystem = shooter;
+      m_turretSubsystem = hood;
   
-      // addRequirements(m_shooterSubsystem);
+      addRequirements(shooter);
     }
-   
+  
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      // m_shooterSubsystem.setShooterSpinSpeed(.57);  
+      shootFlag = 1;
+      
     }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
+    switch (shootFlag) {
+        case 1:
+          m_shooterSubsystem.setIndexerSpinMotor(Constants.kIndexerMainSpeed);
+          shootFlag = 2;
+          break;
+        case 2:
+          if (m_shooterSubsystem.getIndexerSpeed() > 9) {
+            m_turretSubsystem.getHoodMotorPos();
+            m_shooterSubsystem.setShooterSpinSpeed(.57);
+            // some sort of regression line equation to come up with the speed
+          }
+          break;
+      }
   }
 
   // Called once the command ends or is interrupted.

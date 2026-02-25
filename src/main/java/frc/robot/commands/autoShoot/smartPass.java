@@ -25,7 +25,6 @@ public class smartPass extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final shooterSubsystem m_shooterSubsystem;
   private final CommandSwerveDrivetrain m_Drivetrain;
-  private final RobotContainer m_robotContainer;
   
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); 
@@ -47,10 +46,9 @@ public class smartPass extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public smartPass(shooterSubsystem turretSubsystem, CommandSwerveDrivetrain drive, RobotContainer robotContainer) {
+    public smartPass(shooterSubsystem turretSubsystem, CommandSwerveDrivetrain drive) {
       m_shooterSubsystem = turretSubsystem;
       m_Drivetrain = drive;
-      m_robotContainer = robotContainer;
 
 
 
@@ -70,9 +68,9 @@ public class smartPass extends Command {
     @Override
     public void initialize() {
     m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-    passX = (m_robotPose.pose.getX() - Constants.kBlueTrenchCoords[0]);
-    passYLeft = (m_robotPose.pose.getY() - Constants.kBlueTrenchCoords[1]);
-    passYRight = (m_robotPose.pose.getY() - Constants.kBlueTrenchCoords[2]);
+    passX = (m_robotPose.pose.getX() - Constants.kBluePassCoords[0]);
+    passYLeft = (m_robotPose.pose.getY() - Constants.kBluePassCoords[1]);
+    passYRight = (m_robotPose.pose.getY() - Constants.kBluePassCoords[2]);
     if ((Math.sqrt(Math.pow(passX, 2) + Math.pow(passYLeft, 2))) > (Math.sqrt(Math.pow(passX, 2) + Math.pow(passYRight, 2)))) {
       m_passRadians = Math.atan2(passYRight, passX);
     } else {
