@@ -19,8 +19,8 @@ import frc.robot.Constants;
 public class turretSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX turretMotor = new TalonFX(0);
-    TalonFX hoodMotor = new TalonFX(0);
+    TalonFX turretMotor = new TalonFX(7);
+    TalonFX hoodMotor = new TalonFX(8);
 
 
     PositionVoltage shooterPosition = new PositionVoltage(0);
@@ -28,8 +28,8 @@ public class turretSubsystem extends SubsystemBase {
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
   public turretSubsystem() {
-    //this.configureturretMotor(turretMotor);
-    //this.configureturretMotor(hoodMotor);
+    this.configureturretMotor(turretMotor);
+    this.configureturretMotor(hoodMotor);
 
 
   }

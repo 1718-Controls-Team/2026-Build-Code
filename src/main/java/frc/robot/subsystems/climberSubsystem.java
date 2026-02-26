@@ -22,15 +22,15 @@ import frc.robot.Constants;
 public class climberSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX climberSpinMotor = new TalonFX(0);
-    TalonFX climbRotateMotor = new TalonFX(1);
+    TalonFX climberSpinMotor = new TalonFX(5);
+    TalonFX climbRotateMotor = new TalonFX(6);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
     PositionVoltage climbPosition = new PositionVoltage(0);
 
   public climberSubsystem() {
-    //this.configureclimberSpinMotor(climberSpinMotor);
-    //this.configureclimberSpinMotor(climbRotateMotor);
+    this.configureclimberSpinMotor(climberSpinMotor);
+    this.configureclimberSpinMotor(climbRotateMotor);
 
   }
 

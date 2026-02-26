@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.LimelightHelpers;
-import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
 import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.Constants;
@@ -27,7 +26,6 @@ public class smartPass extends Command {
   private final CommandSwerveDrivetrain m_Drivetrain;
   
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); 
     private boolean m_isFinished = false;
     public boolean m_autoTarget = true;
     private PoseEstimate m_robotPose;

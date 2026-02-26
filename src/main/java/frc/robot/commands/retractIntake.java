@@ -13,6 +13,7 @@ public class retractIntake extends Command {
   private final intakeSubsystem m_intakeSubsystem;
   
     private boolean m_isFinished = false;  
+    private int m_retract = 0;
   
     /**
      * Creates a new set-PowerCommand.
@@ -32,15 +33,26 @@ public class retractIntake extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_intakeSubsystem.setIntakeElectricSlidePos(1);
-      m_intakeSubsystem.setIntakeSpinSpeed(0);
+      m_retract = 1;
+
     }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
+   switch (m_retract) {
+    case 1:
+      m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeInSpeed);
+      m_retract = 2;
+      break;
+    case 2:
+      if (m_intakeSubsystem.getIntakeSpinSpeed() >= (Constants.kIntakeInSpeed - 1)) {
+        m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideInPos);
+      }
+      m_retract = 0;
+      break;
+   }
   }
 
   // Called once the command ends or is interrupted.

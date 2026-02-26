@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.deployIntake;
 import frc.robot.commands.shoot;
 import frc.robot.commands.autoShoot.hubTargeting;
@@ -104,9 +104,10 @@ public class RobotContainer {
         driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //DRIVER CONTROLS
-        driverController.a().whileTrue(new hubTargeting(m_shooterSubsystem, drivetrain));
+        driverController.a().whileTrue(new hubTargeting(m_shooterSubsystem, drivetrain, driverController));
         driverController.rightBumper().whileTrue(new smartPass(m_shooterSubsystem, drivetrain));
-        driverController.rightTrigger().whileTrue(new shoot(m_shooterSubsystem, m_turretSubsystem));
+        driverController.x().whileTrue(new shoot(m_shooterSubsystem, m_turretSubsystem));
+        
 
         operatorController.a().onTrue(new deployIntake(m_intakeSubsystem));
 

@@ -14,11 +14,12 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.LimelightHelpers;
-import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants;
 import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.Constants;
@@ -31,6 +32,7 @@ public class hubTargeting extends Command {
   private final CommandSwerveDrivetrain m_Drivetrain;
   
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     private boolean m_isFinished = false;
     public boolean m_autoTarget = true;
     private PoseEstimate m_robotPose;
@@ -39,19 +41,26 @@ public class hubTargeting extends Command {
     private double m_turretRadians;
     private double legOne;
     private double legTwo;
+    private final CommandXboxController m_driverController;
 
     private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
     .withDeadband(MaxSpeed*0.05).withHeadingPID(8, 0, 0.01)
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+    .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+    .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+ 
   
     /**
      * Creates a new set-PowerCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public hubTargeting(shooterSubsystem turretSubsystem, CommandSwerveDrivetrain drive) {
+    public hubTargeting(shooterSubsystem turretSubsystem, CommandSwerveDrivetrain drive, CommandXboxController driver) {
       m_shooterSubsystem = turretSubsystem;
       m_Drivetrain = drive;
+      m_driverController = driver;
 
 
 
@@ -70,6 +79,12 @@ public class hubTargeting extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+    
+   }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
     m_alliance = DriverStation.getAlliance();
     if (m_alliance.get() == Alliance.Red) {
       m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight");
@@ -88,13 +103,10 @@ public class hubTargeting extends Command {
     SmartDashboard.putNumber("robot Y", m_robotPose.pose.getY());
     SmartDashboard.putNumber("robot X", m_robotPose.pose.getX());
     SmartDashboard.putNumber("legtwo", legTwo);   
-   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
     SmartDashboard.putNumber("robot off", ((m_turretDegrees + 180)));
-    m_Drivetrain.setControl(autoAlign.withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
+    m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
+        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
+        .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
 
     //m_shooterSubsystem.setTurretMotorPos(m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees() + m_turretDegrees);
   }
@@ -104,7 +116,7 @@ public class hubTargeting extends Command {
   public void end(boolean interrupted) {
   
 }
-  // Returns true when the command should end.
+  // Returns true when the command should end. p
   @Override
   public boolean isFinished() {
     return m_isFinished;

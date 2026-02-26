@@ -22,18 +22,17 @@ import frc.robot.Constants;
 public class shooterSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX shooterSpinMotor = new TalonFX(0);
-    TalonFX indexerSpinMotor = new TalonFX(0);
-    TalonFX hoodMotor = new TalonFX(1);
-    TalonFX turretMotor = new TalonFX(1);
+    TalonFX shooterSpinMotor = new TalonFX(1);
+    TalonFX indexerSpinMotor = new TalonFX(2);
+
 
     PositionVoltage shooterPosition = new PositionVoltage(0);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
   public shooterSubsystem() {
-    //this.configureshooterSpinMotor(shooterSpinMotor);
-    //this.configureindexerSpinMotor(indexerSpinMotor);
+    this.configureshooterSpinMotor(shooterSpinMotor);
+    this.configureindexerSpinMotor(indexerSpinMotor);
   }
 
   /**

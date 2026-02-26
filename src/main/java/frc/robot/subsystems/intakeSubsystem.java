@@ -22,16 +22,16 @@ import frc.robot.Constants;
 public class intakeSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX intakeSpinMotor = new TalonFX(0);
-    TalonFX intakeEletricSlideMotor = new TalonFX(1);
+    TalonFX intakeSpinMotor = new TalonFX(3);
+    TalonFX intakeEletricSlideMotor = new TalonFX(4);
 
     PositionVoltage intakePosition = new PositionVoltage(0);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
   public intakeSubsystem() {
-    //this.configureintakeSpinMotor(intakeSpinMotor);
-    //this.configureintakeElectricSlideMotor(intakeEletricSlideMotor);
+    this.configureintakeSpinMotor(intakeSpinMotor);
+    this.configureintakeElectricSlideMotor(intakeEletricSlideMotor);
   }
 
   
@@ -43,6 +43,10 @@ public class intakeSubsystem extends SubsystemBase {
    */
   public void setIntakeSpinSpeed(double intakeSpeed) {
     intakeSpinMotor.setControl(voltageRequest.withVelocity(intakeSpeed));
+  }
+
+   public double getIntakeSpinSpeed() {
+    return intakeSpinMotor.getVelocity().getValueAsDouble();
   }
 
   public void setIntakeElectricSlidePos(double intakePos){
@@ -120,7 +124,6 @@ public class intakeSubsystem extends SubsystemBase {
     slot0.GravityType = GravityTypeValue.Elevator_Static;
     slot0.kV = Constants.kIntakeElectricSlideMotorVelocityFeedForward;
     slot0.kG = Constants.kIntakeElectricSlideMotorGravityFeedForward;
-    slot0.kS = Constants.kIntakeElectricSlideMotorStaticFeedForward;
  
 
 

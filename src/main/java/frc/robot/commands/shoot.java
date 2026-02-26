@@ -35,7 +35,8 @@ public class shoot extends Command {
     @Override
     public void initialize() {
       shootFlag = 1;
-      
+            m_shooterSubsystem.setShooterSpinSpeed(Constants.kShooterOutSpeed);
+
     }
 
 
@@ -50,7 +51,7 @@ public class shoot extends Command {
         case 2:
           if (m_shooterSubsystem.getIndexerSpeed() > 9) {
             m_turretSubsystem.getHoodMotorPos();
-            m_shooterSubsystem.setShooterSpinSpeed(.57);
+            m_shooterSubsystem.setShooterSpinSpeed(Constants.kShooterOutSpeed);
             // some sort of regression line equation to come up with the speed
           }
           break;
@@ -60,7 +61,7 @@ public class shoot extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  
+  m_shooterSubsystem.setShooterSpinSpeed(0);
 }
   // Returns true when the command should end.
   @Override
