@@ -7,16 +7,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
 public class shooterSubsystem extends SubsystemBase {
@@ -43,8 +40,12 @@ public class shooterSubsystem extends SubsystemBase {
   public void setShooterSpinSpeed(double shooterSpeed) {
     shooterSpinMotor.setControl(voltageRequest.withVelocity(shooterSpeed));
   }
-  
-  public void setIndexerSpinMotor(double indexerSpeed){
+
+   public double getShooterSpeed(){
+    return shooterSpinMotor.getVelocity().getValueAsDouble();
+  }
+
+  public void setIndexerSpinSpeed(double indexerSpeed){
     indexerSpinMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
   }
 

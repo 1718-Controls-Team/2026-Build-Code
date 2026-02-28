@@ -3,9 +3,7 @@ package frc.robot.commands.Auton;
 
 
 import frc.robot.subsystems.climberSubsystem;
-import frc.robot.subsystems.intakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 
 
@@ -35,7 +33,7 @@ public class autonClimb extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_climberSubsystem.setclimberSpinSpeed(1);
+        m_climberSubsystem.setclimberSpinSpeed(Constants.kClimbUpSpeed);
     }
 
 

@@ -33,7 +33,8 @@ public class releaseClimb extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_climberSubsystem.setclimbRotatePos(0);
+      m_climberSubsystem.setclimberSpinSpeed(0);
+      m_climberSubsystem.setclimbRotatePos(Constants.kClimbRotateDownPos);
     }
 
 

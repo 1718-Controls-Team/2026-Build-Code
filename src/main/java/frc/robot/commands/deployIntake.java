@@ -44,13 +44,13 @@ public class deployIntake extends Command {
   public void execute() {
    switch (m_stateMachine) {
     case 1:
-            m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlidePos);
+            m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos);
             m_stateMachine = 2;
         break;
     case 2:
         if (m_intakeSubsystem.getIntakeSlideInPos()) {
-            m_intakeSubsystem.setIntakeSpinSpeed(11);
-            m_stateMachine = 0;
+            m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeInSpeed);
+            
         }
         break; 
     }
@@ -59,7 +59,7 @@ public class deployIntake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  
+  m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeIdleSpeed);
 }
   // Returns true when the command should end.
   @Override

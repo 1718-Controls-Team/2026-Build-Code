@@ -33,7 +33,7 @@ public class climb extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_climberSubsystem.setclimberSpinSpeed(1);
+        m_climberSubsystem.setclimberSpinSpeed(Constants.kClimbUpSpeed);
     }
 
 

@@ -1,19 +1,42 @@
 package frc.robot;
 
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.pathplanner.lib.path.PathConstraints;
+import java.util.Map;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.units.measure.Time;
+import com.ctre.phoenix6.signals.InvertedValue;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 
 public class Constants {
     public static final double[] kBlueHubCoord = {4.627, 4.024};
     public static final double[] kRedHubCoord = {4.627, 4.024};
     public static final double[] kBluePassCoords = {1.905, 6.222, 2.059};
+    
+    // key - distance    value - hood angle
+    public static final InterpolatingDoubleTreeMap kHoodTable = new InterpolatingDoubleTreeMap();
+    static {
+        kHoodTable.put(1.0, 2.0);
+        kHoodTable.put(2.0, 3.0);
+    }
 
+
+    // key - distance    value - speed
+    public static final InterpolatingDoubleTreeMap kSpeedTable = new InterpolatingDoubleTreeMap();
+    static {
+        kSpeedTable.put(1.0, 2.0);
+        kSpeedTable.put(2.0, 3.0);
+    }
+
+    // This is only necessary for shooting on move
+    // The value is the time from shooting to the time that the shot lands
+    // key - distance    value - time till shot lands
+    public static final InterpolatingDoubleTreeMap kShotTimeTable = new InterpolatingDoubleTreeMap();
+    static {
+        kShotTimeTable.put(1.0, 2.0);
+        kShotTimeTable.put(2.0, 3.0);
+    }
+    public static final double kAccelCompFactor = 0.1;
 
 /*
  * ####################################################################################################################################
@@ -21,12 +44,18 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kIntakeSlidePos = 0.5;
     public static final double kIndexerMainSpeed = 20;
     public static final double kIndexerNoSpeed = 0;
     public static final double kShooterOutSpeed = 70;
+
     public static final double kIntakeInSpeed = 20;
+    public static final double kIntakeIdleSpeed = 10;
     public static final double kIntakeSlideInPos = 12;
+    public static final double kIntakeSlideOutPos = 0.5;
+
+    public static final double kClimbRotateOutPos = 13;
+    public static final double kClimbRotateDownPos = 0;
+    public static final double kClimbUpSpeed = 30;
 
 
 
@@ -69,20 +98,43 @@ public class Constants {
 
     public static final double kIntakeElectricSlideMotorMaxForwardVoltage = 11;
     public static final double kIntakeElectricSlideMotorMaxReverseVoltage = -11;
+
     public static final double kIntakeElectricSlideMotorVoltageClosedLoopRampPeriod = 0;
-    public static final double kIntakeElectricSlideMotorSupplyCurrentLimit = 40;
-    
     public static final InvertedValue kIntakeElectricSlideMotorDirection = InvertedValue.Clockwise_Positive;
-
-
+    public static final double kIntakeElectricSlideMotorSupplyCurrentLimit = 10;
     
+
+
+/*
+ * ####################################################################################################################################
+ * ####################################################### Spiral Roller ###############################################################
+ * ####################################################################################################################################
+*/
+    
+    public static final double kSpiralRollerSpinMotorProportional = 0;
+    public static final double kSpiralRollerSpinMotorIntegral = 0;
+    public static final double kSpiralRollerSpinMotorDerivative = 0;
+
+    public static final double kSpiralRollerSpinMotorVelocityFeedForward = 0.122;
+    public static final double kSpiralRollerSpinMotorStaticFeedForward = 0;
+    public static final double kSpiralRollerSpinMotorGravityFeedForward = 0;
+
+    public static final double kSpiralRollerSpinMotorPeakForwardVoltage = 11;
+    public static final double kSpiralRollerSpinMotorPeakReverseVoltage = -11;
+
+    public static final InvertedValue kSpiralRollerSpinMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kSpiralRollerSpinMotorSupplyCurrentLimit = 40;
+
+    public static final double kSpiralRollerSpinMotorClosedLoopRampPeriod = 0;
+    
+  
 /*
  * ####################################################################################################################################
  * ####################################################### Shooter Spin ###############################################################
  * ####################################################################################################################################
 */
 
-    public static final double kShooterSpinMotorProportional = 0;
+    public static final double kShooterSpinMotorProportional = 1;
     public static final double kShooterSpinMotorIntegral = 0;
     public static final double kShooterSpinMotorDerivative = 0;
 
@@ -111,11 +163,11 @@ public class Constants {
     public static final double kIndexerMotorDerivative = 0;
 
     public static final double kIndexerMotorGravityFeedForward = 0;
-    public static final double kIndexerMotorVelocityFeedForward = 0;
+    public static final double kIndexerMotorVelocityFeedForward = 0.112;
     public static final double kIndexerMotorStaticFeedForward = 0;
 
-    public static final double kIndexerMotorPeakForwardVoltage = 0;
-    public static final double kIndexerMotorPeakReverseVoltage = 0;
+    public static final double kIndexerMotorPeakForwardVoltage = 11;
+    public static final double kIndexerMotorPeakReverseVoltage = -11;
 
     public static final InvertedValue kIndexerMotorDirection = InvertedValue.Clockwise_Positive;
     public static final double kIndexerMotorSupplyCurrentLimit = 40;
@@ -133,16 +185,17 @@ public class Constants {
     public static final double kHoodMotorIntegral = 0;
     public static final double kHoodMotorDerivative = 0;
 
+    public static final double kHoodMotorVelocityFeedForward = 0.2;
     public static final double kHoodMotorGravityFeedForward = 0;
-    public static final double kHoodMotorVelocityFeedForward = 0;
-    public static final double kHoodMotorStaticFeedForward = 0; 
 
     public static final double kHoodMotorPeakForwardVoltage = 11;
     public static final double kHoodMotorPeakReverseVoltage = -11;
-    public static final double kHoodMotorSupplyCurrentLimit = 40;
-    public static final double kHoodMotorClosedLoopRampPeriod = 0;
 
     public static final InvertedValue kHoodMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kHoodMotorSupplyCurrentLimit = 40;
+
+    public static final double kHoodMotorClosedLoopRampPeriod = 0;
+
 
     
 
@@ -152,17 +205,21 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kTurretMotorSupplyCurrentLimit = 0;
-    public static final double kTurretMotorClosedLoopRampPeriod = 0;
-    public static final double kTurretMotorPeakForwardVoltage = 0;
-    public static final double kTurretMotorPeakReverseVoltage = 0;
-    public static final InvertedValue kTurretMotorDirection = InvertedValue.Clockwise_Positive;
     public static final double kTurretMotorProportional = 0;
     public static final double kTurretMotorIntegral = 0;
     public static final double kTurretMotorDerivative = 0;
+
     public static final double kTurretMotorGravityFeedForward = 0;
-    public static final double kTurretMotorVelocityFeedForward = 0;
-    public static final double kTurretMotorStaticFeedForward = 0;
+    public static final double kTurretMotorVelocityFeedForward = 0.2;
+    
+    public static final double kTurretMotorPeakForwardVoltage = 11;
+    public static final double kTurretMotorPeakReverseVoltage = -11;
+
+    public static final InvertedValue kTurretMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kTurretMotorSupplyCurrentLimit = 40;
+
+    public static final double kTurretMotorClosedLoopRampPeriod = 0;
+    
 
 /*
  * ####################################################################################################################################
@@ -170,32 +227,45 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kClimberSpinMotorSupplyCurrentLimit = 0;
-    public static final double kClimberSpinMotorClosedLoopRampPeriod = 0;
-    public static final double kClimberSpinMotorPeakForwardVoltage = 0;
-    public static final double kClimberSpinMotorPeakReverseVoltage = 0;
-    public static final InvertedValue kClimberSpinMotorDirection = InvertedValue.Clockwise_Positive;
     public static final double kClimberSpinMotorProportional = 0;
     public static final double kClimberSpinMotorIntegral = 0;
     public static final double kClimberSpinMotorDerivative = 0;
+    
     public static final double kClimberSpinMotorGravityFeedForward = 0;
-    public static final double kClimberSpinMotorVelocityFeedForward = 0;
+    public static final double kClimberSpinMotorVelocityFeedForward = 0.112;
     public static final double kClimberSpinMotorStaticFeedForward = 0;
+
+    public static final double kClimberSpinMotorPeakForwardVoltage = 11;
+    public static final double kClimberSpinMotorPeakReverseVoltage = -11;
+
+    public static final InvertedValue kClimberSpinMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kClimberSpinMotorSupplyCurrentLimit = 40;
+
+    public static final double kClimberSpinMotorClosedLoopRampPeriod = 0;
+    
+    
+    
 /*
  * ####################################################################################################################################
  * ####################################################### Climb Rotate ###############################################################
  * ####################################################################################################################################
 */
 
-    public static final double kClimbRotateMotorSupplyCurrentLimit = 0;
-    public static final double kClimbRotateMotorClosedLoopRampPeriod = 0;
-    public static final double kClimbRotateMotorPeakForwardVoltage = 0;
-    public static final double kClimbRotateMotorPeakReverseVoltage = 0;
-    public static final InvertedValue kClimbRotateMotorDirection = InvertedValue.Clockwise_Positive;
     public static final double kClimbRotateMotorProportional = 0;
     public static final double kClimbRotateMotorIntegral = 0;
     public static final double kClimbRotateMotorDerivative = 0;
+
     public static final double kClimbRotateMotorGravityFeedForward = 0;
-    public static final double kClimbRotateMotorVelocityFeedForward = 0;
-    public static final double kClimbRotateMotorStaticFeedForward = 0;
+    public static final double kClimbRotateMotorVelocityFeedForward = 0.2;
+
+    public static final double kClimbRotateMotorPeakForwardVoltage = 11;
+    public static final double kClimbRotateMotorPeakReverseVoltage = -11;
+
+    public static final InvertedValue kClimbRotateMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kClimbRotateMotorSupplyCurrentLimit = 40;
+
+    public static final double kClimbRotateMotorClosedLoopRampPeriod = 0;
+    
+    
+    
 }

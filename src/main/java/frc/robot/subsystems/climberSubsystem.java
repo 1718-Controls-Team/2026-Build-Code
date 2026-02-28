@@ -108,9 +108,7 @@ public class climberSubsystem extends SubsystemBase {
     slot0.kV = Constants.kClimbRotateMotorVelocityFeedForward;
     
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.kClimbRotateMotorGravityFeedForward;
-    slot0.kS = Constants.kClimbRotateMotorStaticFeedForward;
-    
+    slot0.kG = Constants.kClimbRotateMotorGravityFeedForward;    
 
     
     StatusCode climbRotateMotorStatus = StatusCode.StatusCodeNotInitialized;

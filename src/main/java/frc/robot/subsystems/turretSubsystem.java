@@ -89,7 +89,6 @@ public void setHoodMotor(double hoodPos){
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
     slot0.kG = Constants.kHoodMotorGravityFeedForward;
     slot0.kV = Constants.kHoodMotorVelocityFeedForward;
-    slot0.kS = Constants.kHoodMotorStaticFeedForward;
     
 
     
@@ -126,8 +125,6 @@ public void setHoodMotor(double hoodPos){
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
     slot0.kG = Constants.kTurretMotorGravityFeedForward;
     slot0.kV = Constants.kTurretMotorVelocityFeedForward;
-    slot0.kS = Constants.kTurretMotorStaticFeedForward;
-    
 
     
     StatusCode turretMotorStatus = StatusCode.StatusCodeNotInitialized;

@@ -22,7 +22,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.climb;
 import frc.robot.commands.deployIntake;
+import frc.robot.commands.releaseClimb;
+import frc.robot.commands.retractIntake;
 import frc.robot.commands.shoot;
 import frc.robot.commands.autoShoot.hubTargeting;
 import frc.robot.commands.autoShoot.smartPass;
@@ -33,6 +36,8 @@ import frc.robot.subsystems.shooterSubsystem;
 import frc.robot.subsystems.intakeSubsystem;
 import frc.robot.subsystems.turretSubsystem;
 import frc.robot.subsystems.climberSubsystem;
+import frc.robot.subsystems.spiralRollerSubsystem;
+
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -50,6 +55,7 @@ public class RobotContainer {
     private final intakeSubsystem m_intakeSubsystem = new intakeSubsystem();
     private final turretSubsystem m_turretSubsystem = new turretSubsystem();
     private final climberSubsystem m_climberSubsystem = new climberSubsystem();
+    private final spiralRollerSubsystem m_spiralRollerSubsystem = new spiralRollerSubsystem();
     private boolean limeLightActive = true;
 
     private final CommandXboxController driverController = new CommandXboxController(0);
@@ -106,10 +112,13 @@ public class RobotContainer {
         //DRIVER CONTROLS
         driverController.a().whileTrue(new hubTargeting(m_shooterSubsystem, drivetrain, driverController));
         driverController.rightBumper().whileTrue(new smartPass(m_shooterSubsystem, drivetrain));
-        driverController.x().whileTrue(new shoot(m_shooterSubsystem, m_turretSubsystem));
+        driverController.x().whileTrue(new shoot(m_shooterSubsystem, m_turretSubsystem, m_spiralRollerSubsystem));
+        driverController.povDown().onTrue(new releaseClimb(m_climberSubsystem));
+        driverController.povUp().onTrue(new climb(m_climberSubsystem));
         
 
         operatorController.a().onTrue(new deployIntake(m_intakeSubsystem));
+        operatorController.y().onTrue(new retractIntake(m_intakeSubsystem));
 
 
         drivetrain.registerTelemetry(logger::telemeterize);
