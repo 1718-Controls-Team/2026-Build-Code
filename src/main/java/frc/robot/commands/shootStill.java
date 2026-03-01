@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.shooterIndexer;
-import frc.robot.subsystems.turretHood;
 import frc.robot.subsystems.intakeFuel;
 import frc.robot.subsystems.spiralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,7 +17,6 @@ import frc.robot.Constants;
 public class shootStill extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final shooterIndexer m_shooterSubsystem;
-  private final turretHood m_turretSubsystem;
   private final spiralRoller m_spiralRollerSubsystem;
   private final intakeFuel m_intakeSubsystem;
   
@@ -33,9 +31,8 @@ public class shootStill extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootStill(shooterIndexer shooter, turretHood hood, spiralRoller spirals, intakeFuel intake) {
+      public shootStill(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake) {
         m_shooterSubsystem = shooter;
-        m_turretSubsystem = hood;
         m_spiralRollerSubsystem = spirals;
         m_intakeSubsystem = intake;
     

@@ -18,19 +18,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.climb;
 import frc.robot.commands.deployIntake;
 import frc.robot.commands.hoodDown;
-import frc.robot.commands.releaseClimb;
 import frc.robot.commands.retractIntake;
-import frc.robot.commands.Auton.autonClimb;
 import frc.robot.commands.autoShoot.shootTargetMove;
 import frc.robot.commands.autoShoot.smartPass;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.intakeFuel;
-import frc.robot.subsystems.turretHood;
 import frc.robot.subsystems.hoodServo;
 import frc.robot.subsystems.spiralRoller;
 
@@ -49,7 +45,6 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
     private final shooterIndexer m_shooterSubsystem = new shooterIndexer();
     private final intakeFuel m_intakeSubsystem = new intakeFuel();
-    private final turretHood m_turretSubsystem = new turretHood();
     private final spiralRoller m_spiralRollerSubsystem = new spiralRoller();
     private final hoodServo m_hoodServoSubsystem = new hoodServo();
 

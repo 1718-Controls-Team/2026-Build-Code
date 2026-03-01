@@ -5,7 +5,6 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -86,7 +85,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double headingDeg = m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees();
-
+    LimelightHelpers.setCameraPose_RobotSpace("limelight", Constants.kLLForwardPos.get(m_intakeSubsystem.getIntakeElectricSlidePos()), 0, 0, 0, 0, 0);
+   
     if (kUseLimelight) {
      LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0,0,0,0,0);
     llMeasurementTurret = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");

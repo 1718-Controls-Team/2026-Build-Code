@@ -4,7 +4,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.hoodServo;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
@@ -24,7 +23,7 @@ public class hoodDown extends Command {
       m_hoodServo = servo;
      
       // Use addRequirements() here to declare subsystem dependencies.
-      addRequirements();
+      addRequirements(servo);
       
           
     }
@@ -32,7 +31,7 @@ public class hoodDown extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_hoodServo.setPos(1);
+        m_hoodServo.setPos(0.2);
     }
 
 
