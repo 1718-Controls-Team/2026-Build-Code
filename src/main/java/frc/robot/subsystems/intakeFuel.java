@@ -16,7 +16,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class intakeSubsystem extends SubsystemBase {
+public class intakeFuel extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX intakeSpinMotor = new TalonFX(3);
@@ -26,7 +26,7 @@ public class intakeSubsystem extends SubsystemBase {
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
-  public intakeSubsystem() {
+  public intakeFuel() {
     this.configureintakeSpinMotor(intakeSpinMotor);
     this.configureintakeElectricSlideMotor(intakeEletricSlideMotor);
   }

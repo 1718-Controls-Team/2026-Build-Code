@@ -2,7 +2,7 @@ package frc.robot.commands.Auton;
 
 
 
-import frc.robot.subsystems.climberSubsystem;
+import frc.robot.subsystems.climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 
@@ -10,7 +10,7 @@ import frc.robot.Constants;
 /** An example command that uses an example subsystem. */
 public class autonClimb extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final climberSubsystem m_climberSubsystem;
+  private final climber m_climberSubsystem;
   
     private boolean m_isFinished = false;
   
@@ -20,7 +20,7 @@ public class autonClimb extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public autonClimb(climberSubsystem climberSubsystem) {
+    public autonClimb(climber climberSubsystem) {
       m_climberSubsystem = climberSubsystem;
   
      

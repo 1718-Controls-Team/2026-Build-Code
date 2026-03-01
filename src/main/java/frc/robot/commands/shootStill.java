@@ -4,37 +4,27 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.shooterSubsystem;
-import frc.robot.subsystems.turretSubsystem;
-import frc.robot.subsystems.spiralRollerSubsystem;
+import frc.robot.subsystems.shooterIndexer;
+import frc.robot.subsystems.turretHood;
+import frc.robot.subsystems.intakeFuel;
+import frc.robot.subsystems.spiralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import java.util.Optional;
-
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
-import frc.robot.LimelightHelpers.PoseEstimate;
 
 
 /** An example command that uses an example subsystem. */
-public class shoot extends Command {
+public class shootStill extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final shooterSubsystem m_shooterSubsystem;
-  private final turretSubsystem m_turretSubsystem;
-  private final spiralRollerSubsystem m_spiralRollerSubsystem;
+  private final shooterIndexer m_shooterSubsystem;
+  private final turretHood m_turretSubsystem;
+  private final spiralRoller m_spiralRollerSubsystem;
+  private final intakeFuel m_intakeSubsystem;
   
   
     private boolean m_isFinished = false;
     private int shootFlag = 0;
-    private PoseEstimate m_robotPose;
-    private Optional<Alliance> m_alliance;
-    private double legOne;
-    private double legTwo;
-    private double hypotenuse;
     Timer spiralTimer = new Timer();
   
     
@@ -43,10 +33,11 @@ public class shoot extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shoot(shooterSubsystem shooter, turretSubsystem hood, spiralRollerSubsystem spirals) {
+      public shootStill(shooterIndexer shooter, turretHood hood, spiralRoller spirals, intakeFuel intake) {
         m_shooterSubsystem = shooter;
         m_turretSubsystem = hood;
         m_spiralRollerSubsystem = spirals;
+        m_intakeSubsystem = intake;
     
       addRequirements(shooter);
     }
@@ -56,8 +47,7 @@ public class shoot extends Command {
     public void initialize() {
       shootFlag = 1;
 
-      spiralTimer.reset();
-      spiralTimer.start();
+      
       
     }
 
@@ -65,34 +55,25 @@ public class shoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        m_alliance = DriverStation.getAlliance();
-    if (m_alliance.get() == Alliance.Red) {
-      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight");
-      legTwo = (m_robotPose.pose.getX() - Constants.kRedHubCoord[0]);
-      legOne = (m_robotPose.pose.getY() - Constants.kRedHubCoord[1]);
-    } else {
-      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-      legTwo = (m_robotPose.pose.getX() - Constants.kBlueHubCoord[0]);
-      legOne = (m_robotPose.pose.getY() - Constants.kBlueHubCoord[1]);
-    }
-
-    hypotenuse = Math.pow(legTwo, 2) + Math.pow(legOne, 2);
-
     switch (shootFlag) {
         case 1:
             m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kIndexerMainSpeed);
-            m_turretSubsystem.setHoodMotor(Constants.kHoodTable.get(Math.sqrt(hypotenuse)));
+            m_shooterSubsystem.setShooterSpinSpeed(Constants.kShooterOutSpeed);
             shootFlag = 2;
           break;
         case 2:
-          if (spiralTimer.get() >= .05) {
-            m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(Math.sqrt(hypotenuse)));
-          shootFlag = 3;
-          }
-          break;
-        case 3:
           if (m_shooterSubsystem.getShooterSpeed() > 5) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
+            spiralTimer.reset();
+            spiralTimer.start();
+            shootFlag = 3;
+          }
+          break; 
+        case 3:
+          if (spiralTimer.get() >= 2) {
+            if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
+              m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
+            }
           }
           break;
       }

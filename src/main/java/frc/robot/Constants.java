@@ -1,10 +1,7 @@
 package frc.robot;
 
-import java.util.Map;
-
 import com.ctre.phoenix6.signals.InvertedValue;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 
@@ -36,6 +33,12 @@ public class Constants {
         kShotTimeTable.put(1.0, 2.0);
         kShotTimeTable.put(2.0, 3.0);
     }
+
+    // limelight forward pos according to intake position
+    public static final InterpolatingDoubleTreeMap kLLForwardPos = new InterpolatingDoubleTreeMap();
+    static {
+        kLLForwardPos.put(2.0, 0.4);
+    }
     public static final double kAccelCompFactor = 0.1;
 
 /*
@@ -57,6 +60,7 @@ public class Constants {
     public static final double kClimbRotateDownPos = 0;
     public static final double kClimbUpSpeed = 30;
 
+    public static final double kHoodServoDownPos = 0;
 
 
 
@@ -173,30 +177,6 @@ public class Constants {
     public static final double kIndexerMotorSupplyCurrentLimit = 40;
 
     public static final double kIndexerMotorClosedLoopRampPeriod = 0;
-    
-
-/*
- * ####################################################################################################################################
- * ####################################################### Hood ###############################################################
- * ####################################################################################################################################
-*/
-
-    public static final double kHoodMotorProportional = 0;
-    public static final double kHoodMotorIntegral = 0;
-    public static final double kHoodMotorDerivative = 0;
-
-    public static final double kHoodMotorVelocityFeedForward = 0.2;
-    public static final double kHoodMotorGravityFeedForward = 0;
-
-    public static final double kHoodMotorPeakForwardVoltage = 11;
-    public static final double kHoodMotorPeakReverseVoltage = -11;
-
-    public static final InvertedValue kHoodMotorDirection = InvertedValue.Clockwise_Positive;
-    public static final double kHoodMotorSupplyCurrentLimit = 40;
-
-    public static final double kHoodMotorClosedLoopRampPeriod = 0;
-
-
     
 
 /*

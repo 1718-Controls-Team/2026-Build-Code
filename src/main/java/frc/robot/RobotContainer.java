@@ -6,8 +6,6 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
-import java.io.File;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
@@ -15,28 +13,26 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.climb;
 import frc.robot.commands.deployIntake;
+import frc.robot.commands.hoodDown;
 import frc.robot.commands.releaseClimb;
 import frc.robot.commands.retractIntake;
-import frc.robot.commands.shoot;
-import frc.robot.commands.autoShoot.hubTargeting;
+import frc.robot.commands.Auton.autonClimb;
+import frc.robot.commands.autoShoot.shootTargetMove;
 import frc.robot.commands.autoShoot.smartPass;
 import frc.robot.generated.TunerConstants;
-import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.shooterSubsystem;
-import frc.robot.subsystems.intakeSubsystem;
-import frc.robot.subsystems.turretSubsystem;
-import frc.robot.subsystems.climberSubsystem;
-import frc.robot.subsystems.spiralRollerSubsystem;
+import frc.robot.subsystems.shooterIndexer;
+import frc.robot.subsystems.intakeFuel;
+import frc.robot.subsystems.turretHood;
+import frc.robot.subsystems.hoodServo;
+import frc.robot.subsystems.spiralRoller;
 
 
 public class RobotContainer {
@@ -51,12 +47,11 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
-    private final shooterSubsystem m_shooterSubsystem = new shooterSubsystem();
-    private final intakeSubsystem m_intakeSubsystem = new intakeSubsystem();
-    private final turretSubsystem m_turretSubsystem = new turretSubsystem();
-    private final climberSubsystem m_climberSubsystem = new climberSubsystem();
-    private final spiralRollerSubsystem m_spiralRollerSubsystem = new spiralRollerSubsystem();
-    private boolean limeLightActive = true;
+    private final shooterIndexer m_shooterSubsystem = new shooterIndexer();
+    private final intakeFuel m_intakeSubsystem = new intakeFuel();
+    private final turretHood m_turretSubsystem = new turretHood();
+    private final spiralRoller m_spiralRollerSubsystem = new spiralRoller();
+    private final hoodServo m_hoodServoSubsystem = new hoodServo();
 
     private final CommandXboxController driverController = new CommandXboxController(0);
     private final CommandXboxController operatorController = new CommandXboxController(1);
@@ -72,6 +67,7 @@ public class RobotContainer {
 
 
     public RobotContainer() {
+        regisiterAutonCommands();
        autoChooser = AutoBuilder.buildAutoChooser("Test Auto");
         SmartDashboard.putData("PLEAAAASE", autoChooser);
 
@@ -110,20 +106,24 @@ public class RobotContainer {
         driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //DRIVER CONTROLS
-        driverController.a().whileTrue(new hubTargeting(m_shooterSubsystem, drivetrain, driverController));
-        driverController.rightBumper().whileTrue(new smartPass(m_shooterSubsystem, drivetrain));
-        driverController.x().whileTrue(new shoot(m_shooterSubsystem, m_turretSubsystem, m_spiralRollerSubsystem));
-        driverController.povDown().onTrue(new releaseClimb(m_climberSubsystem));
-        driverController.povUp().onTrue(new climb(m_climberSubsystem));
+        driverController.a().whileTrue(new shootTargetMove(m_shooterSubsystem, m_hoodServoSubsystem, m_spiralRollerSubsystem, drivetrain, driverController));
+        driverController.rightBumper().whileTrue(new smartPass(drivetrain));
+        //driverController.x().whileTrue(new shootStill(m_shooterSubsystem, m_turretSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+
+        
         
 
         operatorController.a().onTrue(new deployIntake(m_intakeSubsystem));
         operatorController.y().onTrue(new retractIntake(m_intakeSubsystem));
-
+        operatorController.b().onTrue(new hoodDown(m_hoodServoSubsystem));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
+    private void regisiterAutonCommands(){
+        NamedCommands.registerCommand("intakeDeploy", new deployIntake(m_intakeSubsystem));
+        NamedCommands.registerCommand("retractIntake", new retractIntake(m_intakeSubsystem));
+    }
     public Command getAutonomousCommand() {
       
         return autoChooser.getSelected();

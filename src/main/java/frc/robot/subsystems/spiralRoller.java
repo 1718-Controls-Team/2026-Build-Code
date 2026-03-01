@@ -16,7 +16,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class spiralRollerSubsystem extends SubsystemBase {
+public class spiralRoller extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX spiralRollerSpinMotor = new TalonFX(9);
@@ -25,7 +25,7 @@ public class spiralRollerSubsystem extends SubsystemBase {
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
-  public spiralRollerSubsystem() {
+  public spiralRoller() {
     this.configureSpiralRollerSpinMotor(spiralRollerSpinMotor);
   }
 

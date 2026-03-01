@@ -16,20 +16,18 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class turretSubsystem extends SubsystemBase {
+public class turretHood extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX turretMotor = new TalonFX(7);
-    TalonFX hoodMotor = new TalonFX(8);
 
 
     PositionVoltage shooterPosition = new PositionVoltage(0);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
-  public turretSubsystem() {
+  public turretHood() {
     this.configureturretMotor(turretMotor);
-    this.configureturretMotor(hoodMotor);
 
 
   }
@@ -41,17 +39,10 @@ public class turretSubsystem extends SubsystemBase {
    */
  
 
-public void setHoodMotor(double hoodPos){
-    hoodMotor.setControl(shooterPosition.withVelocity(hoodPos));
-  }
 
   public void setTurretMotorPos(double indexerSpeed){
     turretMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
   } 
-
-  public double getHoodMotorPos(){
-    return hoodMotor.getPosition().getValueAsDouble();
-  }
 
   public double getTurretMotorPos(){
     return turretMotor.getPosition().getValueAsDouble();
@@ -65,43 +56,6 @@ public void setHoodMotor(double hoodPos){
 //######################################### Start OF SHOOTER CONFIGURATION ######################################################
 //######################################### Start OF SHOOTER CONFIGURATION ######################################################
 //######################################### Start OF SHOOTER CONFIGURATION ###################################################### 
-   //######################################### HOOD SPIN CONFIGURATION ###################################################### 
-
-  public void configurehoodMotor(TalonFX hoodMotor){
-    TalonFXConfiguration hoodMotorConfig = new TalonFXConfiguration();
-
-    hoodMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kHoodMotorSupplyCurrentLimit;
-    hoodMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
-
-    hoodMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kHoodMotorClosedLoopRampPeriod;
-    hoodMotorConfig.Voltage.PeakForwardVoltage = Constants.kHoodMotorPeakForwardVoltage;
-    hoodMotorConfig.Voltage.PeakReverseVoltage = Constants.kHoodMotorPeakReverseVoltage;
-
-    hoodMotorConfig.MotorOutput.Inverted = Constants.kHoodMotorDirection;
-    hoodMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-  
-
-    Slot0Configs slot0 = hoodMotorConfig.Slot0;
-    slot0.kP = Constants.kHoodMotorProportional;
-    slot0.kI = Constants.kHoodMotorIntegral;
-    slot0.kD = Constants.kHoodMotorDerivative;
-    
-    slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.kHoodMotorGravityFeedForward;
-    slot0.kV = Constants.kHoodMotorVelocityFeedForward;
-    
-
-    
-    StatusCode hoodMotorStatus = StatusCode.StatusCodeNotInitialized;
-    for(int i = 0; i < 5; ++i) {
-      hoodMotorStatus = hoodMotor.getConfigurator().apply(hoodMotorConfig);
-      if (hoodMotorStatus.isOK()) break;
-    }
-    if (!hoodMotorStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + hoodMotorStatus.toString());
-    }
-    hoodMotor.setPosition(0);
-  }
 
   public void configureturretMotor(TalonFX turretMotor){
     TalonFXConfiguration turretMotorConfig = new TalonFXConfiguration();

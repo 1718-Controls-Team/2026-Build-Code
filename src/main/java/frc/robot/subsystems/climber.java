@@ -7,19 +7,16 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
-public class climberSubsystem extends SubsystemBase {
+public class climber extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX climberSpinMotor = new TalonFX(5);
@@ -28,7 +25,7 @@ public class climberSubsystem extends SubsystemBase {
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
     PositionVoltage climbPosition = new PositionVoltage(0);
 
-  public climberSubsystem() {
+  public climber() {
     this.configureclimberSpinMotor(climberSpinMotor);
     this.configureclimberSpinMotor(climbRotateMotor);
 

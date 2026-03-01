@@ -4,60 +4,76 @@
 
 package frc.robot.commands.autoShoot;
 
-import frc.robot.subsystems.shooterSubsystem;
-import frc.robot.subsystems.turretSubsystem;
+import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.spiralRollerSubsystem;
+import frc.robot.subsystems.spiralRoller;
+import frc.robot.subsystems.hoodServo;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import java.util.Optional;
 
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.generated.TunerConstants;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.PoseEstimate;
+import static edu.wpi.first.units.Units.*;
+
 
 
 /** An example command that uses an example subsystem. */
-public class onthemove extends Command {
+public class shootTargetMove extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final shooterSubsystem m_shooterSubsystem;
-  private final turretSubsystem m_turretSubsystem;
-  private final spiralRollerSubsystem m_spiralRollerSubsystem;
+  private final shooterIndexer m_shooterSubsystem;
+  private final hoodServo m_hoodSubsystem;
+  private final spiralRoller m_spiralRollerSubsystem;
   private final CommandSwerveDrivetrain m_Drivetrain;
   
   
-    private boolean m_isFinished = false;
-    private int shootFlag = 0;
-    private PoseEstimate m_robotPose;
-    private Optional<Alliance> m_alliance;
+    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     private double legOne;
     private double legTwo;
     private double dist;
     private double currentTime;
+    public boolean m_autoTarget = true;
+    private double m_turretDegrees;
+    private double m_turretRadians;
+    private boolean m_isFinished = false;
+    private int shootFlag = 0;
+    private PoseEstimate m_robotPose;
+    private Optional<Alliance> m_alliance;
     private double prevTime;
     private double[] acceleration;
     private ChassisSpeeds velocity;
     private ChassisSpeeds previousLoopVelocity;
+    private final CommandXboxController m_driverController;
 
     Timer loopTimer = new Timer();
-  
     
+    private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
+    .withDeadband(MaxSpeed*0.05).withHeadingPID(8, 0, 0.01)
+    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
       /**
        * Creates a new set-PowerCommand.
        *
        * @param subsystem The subsystem used by this command.
        */
-      public onthemove(shooterSubsystem shooter, turretSubsystem hood, spiralRollerSubsystem spirals, CommandSwerveDrivetrain drivetrain) {
+      public shootTargetMove(shooterIndexer shooter, hoodServo hood, spiralRoller spirals, CommandSwerveDrivetrain drivetrain, CommandXboxController driverController) {
         m_shooterSubsystem = shooter;
-        m_turretSubsystem = hood;
+        m_hoodSubsystem = hood;
         m_spiralRollerSubsystem = spirals;
         m_Drivetrain = drivetrain;
+        m_driverController = driverController;
     
       addRequirements(shooter);
     }
@@ -105,10 +121,22 @@ public class onthemove extends Command {
    
     dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
+    m_turretRadians = Math.atan2(legOne, legTwo);
+    m_turretDegrees = (( m_turretRadians / Math.PI )*180);
+    SmartDashboard.putNumber("turretOffset", m_turretDegrees);
+    SmartDashboard.putNumber("legone", legOne);
+    SmartDashboard.putNumber("robot Y", m_robotPose.pose.getY());
+    SmartDashboard.putNumber("robot X", m_robotPose.pose.getX());
+    SmartDashboard.putNumber("legtwo", legTwo);   
+    SmartDashboard.putNumber("robot off", ((m_turretDegrees + 180)));
+    m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
+        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
+        .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
+
     switch (shootFlag) {
         case 1:
             m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kIndexerMainSpeed);
-            m_turretSubsystem.setHoodMotor(Constants.kHoodTable.get(dist));
+            m_hoodSubsystem.setPos(Constants.kHoodTable.get(dist));
             shootFlag = 2;
           break;
         case 2:

@@ -16,7 +16,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class shooterSubsystem extends SubsystemBase {
+public class shooterIndexer extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX shooterSpinMotor = new TalonFX(1);
@@ -27,7 +27,7 @@ public class shooterSubsystem extends SubsystemBase {
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
-  public shooterSubsystem() {
+  public shooterIndexer() {
     this.configureshooterSpinMotor(shooterSpinMotor);
     this.configureindexerSpinMotor(indexerSpinMotor);
   }

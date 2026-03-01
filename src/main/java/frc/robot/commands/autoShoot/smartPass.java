@@ -1,7 +1,6 @@
 package frc.robot.commands.autoShoot;
 
 
-import frc.robot.subsystems.shooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -10,7 +9,6 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.LimelightHelpers;
@@ -22,7 +20,6 @@ import frc.robot.Constants;
 /** An example command that uses an example subsystem. */
 public class smartPass extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final shooterSubsystem m_shooterSubsystem;
   private final CommandSwerveDrivetrain m_Drivetrain;
   
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
@@ -44,8 +41,7 @@ public class smartPass extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public smartPass(shooterSubsystem turretSubsystem, CommandSwerveDrivetrain drive) {
-      m_shooterSubsystem = turretSubsystem;
+    public smartPass(CommandSwerveDrivetrain drive) {
       m_Drivetrain = drive;
 
 
@@ -57,7 +53,6 @@ public class smartPass extends Command {
       } */
      
       // Use addRequirements() here to declare subsystem dependencies.
-      addRequirements(turretSubsystem);
       
           
     }

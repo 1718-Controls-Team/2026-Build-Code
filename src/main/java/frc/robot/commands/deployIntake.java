@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 
 
-import frc.robot.subsystems.intakeSubsystem;
+import frc.robot.subsystems.intakeFuel;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 
@@ -10,7 +10,7 @@ import frc.robot.Constants;
 /** An example command that uses an example subsystem. */
 public class deployIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final intakeSubsystem m_intakeSubsystem;
+  private final intakeFuel m_intakeSubsystem;
   
     private boolean m_isFinished = false;
     private int m_stateMachine = 1;
@@ -21,7 +21,7 @@ public class deployIntake extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public deployIntake(intakeSubsystem intakeSubsystem) {
+    public deployIntake(intakeFuel intakeSubsystem) {
       m_intakeSubsystem = intakeSubsystem;
   
      
