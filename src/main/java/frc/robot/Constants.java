@@ -47,18 +47,26 @@ public class Constants {
  * ####################################################################################################################################
 */
 
+// Velocity Controls
     public static final double kIndexerMainSpeed = 20;
     public static final double kIndexerNoSpeed = 0;
+
     public static final double kShooterOutSpeed = 70;
+
+    public static final double kRollerMainSpeed = 20;
 
     public static final double kIntakeInSpeed = 20;
     public static final double kIntakeIdleSpeed = 10;
-    public static final double kIntakeSlideInPos = 12;
-    public static final double kIntakeSlideOutPos = 0.5;
 
+    public static final double kClimbUpSpeed = 30;
+
+
+// Position Controls
     public static final double kClimbRotateOutPos = 13;
     public static final double kClimbRotateDownPos = 0;
-    public static final double kClimbUpSpeed = 30;
+
+    public static final double kIntakeSlideOutPos = 5;
+    public static final double kIntakeSlideInPos = 0.5;
 
     public static final double kHoodServoDownPos = 0;
 
@@ -93,7 +101,7 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kIntakeElectricSlideMotorProportional = 0;
+    public static final double kIntakeElectricSlideMotorProportional = 2;
     public static final double kIntakeElectricSlideMotorIntegral = 0;
     public static final double kIntakeElectricSlideMotorDerivative = 0;    
 
@@ -104,101 +112,188 @@ public class Constants {
     public static final double kIntakeElectricSlideMotorMaxReverseVoltage = -11;
 
     public static final double kIntakeElectricSlideMotorVoltageClosedLoopRampPeriod = 0;
-    public static final InvertedValue kIntakeElectricSlideMotorDirection = InvertedValue.Clockwise_Positive;
-    public static final double kIntakeElectricSlideMotorSupplyCurrentLimit = 10;
+    public static final InvertedValue kIntakeElectricSlideMotorDirection = InvertedValue.CounterClockwise_Positive;
+    public static final double kIntakeElectricSlideMotorSupplyCurrentLimit = 40;
     
 
 
 /*
  * ####################################################################################################################################
- * ####################################################### Spiral Roller ###############################################################
+ * ####################################################### Right Roller ###############################################################
  * ####################################################################################################################################
 */
     
-    public static final double kSpiralRollerSpinMotorProportional = 0;
-    public static final double kSpiralRollerSpinMotorIntegral = 0;
-    public static final double kSpiralRollerSpinMotorDerivative = 0;
+    public static final double kRightRollerSpinMotorProportional = 0;
+    public static final double kRightRollerSpinMotorIntegral = 0;
+    public static final double kRightRollerSpinMotorDerivative = 0;
 
-    public static final double kSpiralRollerSpinMotorVelocityFeedForward = 0.122;
-    public static final double kSpiralRollerSpinMotorStaticFeedForward = 0;
-    public static final double kSpiralRollerSpinMotorGravityFeedForward = 0;
+    public static final double kRightRollerSpinMotorVelocityFeedForward = 0.122;
+    public static final double kRightRollerSpinMotorStaticFeedForward = 0;
+    public static final double kRightRollerSpinMotorGravityFeedForward = 0;
 
-    public static final double kSpiralRollerSpinMotorPeakForwardVoltage = 11;
-    public static final double kSpiralRollerSpinMotorPeakReverseVoltage = -11;
+    public static final double kRightRollerSpinMotorPeakForwardVoltage = 11;
+    public static final double kRightRollerSpinMotorPeakReverseVoltage = -11;
 
-    public static final InvertedValue kSpiralRollerSpinMotorDirection = InvertedValue.Clockwise_Positive;
-    public static final double kSpiralRollerSpinMotorSupplyCurrentLimit = 40;
+    public static final InvertedValue kRightRollerSpinMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kRightRollerSpinMotorSupplyCurrentLimit = 40;
 
-    public static final double kSpiralRollerSpinMotorClosedLoopRampPeriod = 0;
+    public static final double kRightRollerSpinMotorClosedLoopRampPeriod = 0;
+/*
+ * ####################################################################################################################################
+ * ####################################################### Left Roller ###############################################################
+ * ####################################################################################################################################
+*/
     
+    public static final double kLeftRollerSpinMotorProportional = 0;
+    public static final double kLeftRollerSpinMotorIntegral = 0;
+    public static final double kLeftRollerSpinMotorDerivative = 0;
+
+    public static final double kLeftRollerSpinMotorVelocityFeedForward = 0.122;
+    public static final double kLeftRollerSpinMotorStaticFeedForward = 0;
+    public static final double kLeftRollerSpinMotorGravityFeedForward = 0;
+
+    public static final double kLeftRollerSpinMotorPeakForwardVoltage = 11;
+    public static final double kLeftRollerSpinMotorPeakReverseVoltage = -11;
+
+    public static final InvertedValue kLeftRollerSpinMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kLeftRollerSpinMotorSupplyCurrentLimit = 40;
+
+    public static final double kLeftRollerSpinMotorClosedLoopRampPeriod = 0;
+    
+      
   
 /*
  * ####################################################################################################################################
- * ####################################################### Shooter Spin ###############################################################
+ * ####################################################### Shooter Left ###############################################################
  * ####################################################################################################################################
 */
 
-    public static final double kShooterSpinMotorProportional = 1;
-    public static final double kShooterSpinMotorIntegral = 0;
-    public static final double kShooterSpinMotorDerivative = 0;
+    public static final double kLeftShooterMotorProportional = 1;
+    public static final double kLeftShooterMotorIntegral = 0;
+    public static final double kLeftShooterMotorDerivative = 0;
 
-    public static final double kShooterSpinMotorGravityFeedForward = 0;
-    public static final double kShooterSpinMotorVelocityFeedForward = 0.112;
-    public static final double kShooterSpinMotorStaticFeedForward = 0;
+    public static final double kLeftShooterMotorGravityFeedForward = 0;
+    public static final double kLeftShooterMotorVelocityFeedForward = 0.112;
+    public static final double kLeftShooterMotorStaticFeedForward = 0;
 
-    public static final double kShooterSpinMotorPeakForwardVoltage = 11;
-    public static final double kShooterSpinMotorPeakReverseVoltage = -11;
+    public static final double kLeftShooterMotorPeakForwardVoltage = 11;
+    public static final double kLeftShooterMotorPeakReverseVoltage = -11;
 
-    public static final InvertedValue kShooterSpinMotorDirection = InvertedValue.Clockwise_Positive;
-    public static final double kShooterSpinMotorSupplyCurrentLimit = 40;
+    public static final InvertedValue kLeftShooterMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kLeftShooterMotorSupplyCurrentLimit = 40;
 
-    public static final double kShooterSpinMotorClosedLoopRampPeriod = 0;
+    public static final double kLeftShooterMotorClosedLoopRampPeriod = 0;
     
+    
+/*
+ * ####################################################################################################################################
+ * ####################################################### Shooter Right ###############################################################
+ * ####################################################################################################################################
+*/
+
+    public static final double kRightShooterMotorProportional = 1;
+    public static final double kRightShooterMotorIntegral = 0;
+    public static final double kRightShooterMotorDerivative = 0;
+
+    public static final double kRightShooterMotorGravityFeedForward = 0;
+    public static final double kRightShooterMotorVelocityFeedForward = 0.112;
+    public static final double kRightShooterMotorStaticFeedForward = 0;
+
+    public static final double kRightShooterMotorPeakForwardVoltage = 11;
+    public static final double kRightShooterMotorPeakReverseVoltage = -11;
+
+    public static final InvertedValue kRightShooterMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kRightShooterMotorSupplyCurrentLimit = 40;
+
+    public static final double kRightShooterMotorClosedLoopRampPeriod = 0;
+    
+    
+/*
+ * ####################################################################################################################################
+ * ####################################################### Indexer Left ###############################################################
+ * ####################################################################################################################################
+*/
+
+    public static final double kLeftIndexerMotorProportional = 0;
+    public static final double kLeftIndexerMotorIntegral = 0;
+    public static final double kLeftIndexerMotorDerivative = 0;
+
+    public static final double kLeftIndexerMotorGravityFeedForward = 0;
+    public static final double kLeftIndexerMotorVelocityFeedForward = 0.112;
+    public static final double kLeftIndexerMotorStaticFeedForward = 0;
+
+    public static final double kLeftIndexerMotorPeakForwardVoltage = 11;
+    public static final double kLeftIndexerMotorPeakReverseVoltage = -11;
+
+    public static final InvertedValue kLeftIndexerMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kLeftIndexerMotorSupplyCurrentLimit = 40;
+
+    public static final double kLeftIndexerMotorClosedLoopRampPeriod = 0;
+    
+/*
+ * ####################################################################################################################################
+ * ####################################################### Indexer Right ###############################################################
+ * ####################################################################################################################################
+*/
+
+    public static final double kRightIndexerMotorProportional = 0;
+    public static final double kRightIndexerMotorIntegral = 0;
+    public static final double kRightIndexerMotorDerivative = 0;
+
+    public static final double kRightIndexerMotorGravityFeedForward = 0;
+    public static final double kRightIndexerMotorVelocityFeedForward = 0.112;
+    public static final double kRightIndexerMotorStaticFeedForward = 0;
+
+    public static final double kRightIndexerMotorPeakForwardVoltage = 11;
+    public static final double kRightIndexerMotorPeakReverseVoltage = -11;
+
+    public static final InvertedValue kRightIndexerMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kRightIndexerMotorSupplyCurrentLimit = 40;
+
+    public static final double kRightIndexerMotorClosedLoopRampPeriod = 0;
     
 
 /*
  * ####################################################################################################################################
- * ####################################################### Indexer ###############################################################
+ * ####################################################### Turret Left ###############################################################
  * ####################################################################################################################################
 */
 
-    public static final double kIndexerMotorProportional = 0;
-    public static final double kIndexerMotorIntegral = 0;
-    public static final double kIndexerMotorDerivative = 0;
+    public static final double kLeftTurretMotorProportional = 0;
+    public static final double kLeftTurretMotorIntegral = 0;
+    public static final double kLeftTurretMotorDerivative = 0;
 
-    public static final double kIndexerMotorGravityFeedForward = 0;
-    public static final double kIndexerMotorVelocityFeedForward = 0.112;
-    public static final double kIndexerMotorStaticFeedForward = 0;
-
-    public static final double kIndexerMotorPeakForwardVoltage = 11;
-    public static final double kIndexerMotorPeakReverseVoltage = -11;
-
-    public static final InvertedValue kIndexerMotorDirection = InvertedValue.Clockwise_Positive;
-    public static final double kIndexerMotorSupplyCurrentLimit = 40;
-
-    public static final double kIndexerMotorClosedLoopRampPeriod = 0;
+    public static final double kLeftTurretMotorGravityFeedForward = 0;
+    public static final double kLeftTurretMotorVelocityFeedForward = 0.2;
     
+    public static final double kLeftTurretMotorPeakForwardVoltage = 11;
+    public static final double kLeftTurretMotorPeakReverseVoltage = -11;
 
+    public static final InvertedValue kLeftTurretMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kLeftTurretMotorSupplyCurrentLimit = 40;
+
+    public static final double kLeftTurretMotorClosedLoopRampPeriod = 0;
+    
 /*
  * ####################################################################################################################################
- * ####################################################### Turret ###############################################################
+ * ####################################################### Turret Left ###############################################################
  * ####################################################################################################################################
 */
 
-    public static final double kTurretMotorProportional = 0;
-    public static final double kTurretMotorIntegral = 0;
-    public static final double kTurretMotorDerivative = 0;
+    public static final double kRightTurretMotorProportional = 0;
+    public static final double kRightTurretMotorIntegral = 0;
+    public static final double kRightTurretMotorDerivative = 0;
 
-    public static final double kTurretMotorGravityFeedForward = 0;
-    public static final double kTurretMotorVelocityFeedForward = 0.2;
+    public static final double kRightTurretMotorGravityFeedForward = 0;
+    public static final double kRightTurretMotorVelocityFeedForward = 0.2;
     
-    public static final double kTurretMotorPeakForwardVoltage = 11;
-    public static final double kTurretMotorPeakReverseVoltage = -11;
+    public static final double kRightTurretMotorPeakForwardVoltage = 11;
+    public static final double kRightTurretMotorPeakReverseVoltage = -11;
 
-    public static final InvertedValue kTurretMotorDirection = InvertedValue.Clockwise_Positive;
-    public static final double kTurretMotorSupplyCurrentLimit = 40;
+    public static final InvertedValue kRightTurretMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kRightTurretMotorSupplyCurrentLimit = 40;
 
-    public static final double kTurretMotorClosedLoopRampPeriod = 0;
+    public static final double kRightTurretMotorClosedLoopRampPeriod = 0;
     
 
 /*

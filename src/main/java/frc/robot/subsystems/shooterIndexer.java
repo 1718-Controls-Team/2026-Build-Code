@@ -19,17 +19,21 @@ import frc.robot.Constants;
 public class shooterIndexer extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX shooterSpinMotor = new TalonFX(1);
-    TalonFX indexerSpinMotor = new TalonFX(2);
-
+    TalonFX leftShooterMotor = new TalonFX(20);
+    TalonFX leftIndexerMotor = new TalonFX(19);
+    TalonFX rightShooterMotor = new TalonFX(17);
+    TalonFX rightIndexerMotor = new TalonFX(16);
 
     PositionVoltage shooterPosition = new PositionVoltage(0);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
   public shooterIndexer() {
-    this.configureshooterSpinMotor(shooterSpinMotor);
-    this.configureindexerSpinMotor(indexerSpinMotor);
+    this.configureleftShooterMotor(leftShooterMotor);
+    this.configurerightShooterMotor(rightShooterMotor);
+    this.configureleftIndexerMotor(leftIndexerMotor);
+    this.configurerightIndexerMotor(rightIndexerMotor);
+
   }
 
   /**
@@ -38,19 +42,23 @@ public class shooterIndexer extends SubsystemBase {
    * @return a command
    */
   public void setShooterSpinSpeed(double shooterSpeed) {
-    shooterSpinMotor.setControl(voltageRequest.withVelocity(shooterSpeed));
+    leftShooterMotor.setControl(voltageRequest.withVelocity(shooterSpeed));
+    rightShooterMotor.setControl(voltageRequest.withVelocity(shooterSpeed));
+
   }
 
    public double getShooterSpeed(){
-    return shooterSpinMotor.getVelocity().getValueAsDouble();
+    return leftShooterMotor.getVelocity().getValueAsDouble();
   }
 
   public void setIndexerSpinSpeed(double indexerSpeed){
-    indexerSpinMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
+    leftIndexerMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
+    rightIndexerMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
+
   }
 
   public double getIndexerSpeed(){
-    return indexerSpinMotor.getVelocity().getValueAsDouble();
+    return leftIndexerMotor.getVelocity().getValueAsDouble();
   }
 
   
@@ -58,82 +66,160 @@ public class shooterIndexer extends SubsystemBase {
 //######################################### Start OF SHOOTER CONFIGURATION ######################################################
 //######################################### Start OF SHOOTER CONFIGURATION ###################################################### 
 
-//######################################### SHOOTER SPIN CONFIGURATION ###################################################### 
+//######################################### SHOOTER LEFT CONFIGURATION ###################################################### 
 
 
-  public void configureshooterSpinMotor(TalonFX shooterSpinMotor){
-    TalonFXConfiguration shooterSpinMotorConfig = new TalonFXConfiguration();
+  public void configureleftShooterMotor(TalonFX leftShooterMotor){
+    TalonFXConfiguration leftShooterMotorConfig = new TalonFXConfiguration();
 
-    shooterSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterSpinMotorSupplyCurrentLimit;
-    shooterSpinMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
+    leftShooterMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftShooterMotorSupplyCurrentLimit;
+    leftShooterMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
 
-    shooterSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterSpinMotorClosedLoopRampPeriod;
-    shooterSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.kShooterSpinMotorPeakForwardVoltage;
-    shooterSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kShooterSpinMotorPeakReverseVoltage;
+    leftShooterMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftShooterMotorClosedLoopRampPeriod;
+    leftShooterMotorConfig.Voltage.PeakForwardVoltage = Constants.kLeftShooterMotorPeakForwardVoltage;
+    leftShooterMotorConfig.Voltage.PeakReverseVoltage = Constants.kLeftShooterMotorPeakReverseVoltage;
 
-    shooterSpinMotorConfig.MotorOutput.Inverted = Constants.kShooterSpinMotorDirection;
-    shooterSpinMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    leftShooterMotorConfig.MotorOutput.Inverted = Constants.kLeftShooterMotorDirection;
+    leftShooterMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
 
-    Slot0Configs slot0 = shooterSpinMotorConfig.Slot0;
-    slot0.kP = Constants.kShooterSpinMotorProportional;
-    slot0.kI = Constants.kShooterSpinMotorIntegral;
-    slot0.kD = Constants.kShooterSpinMotorDerivative;
-    slot0.kV = Constants.kShooterSpinMotorVelocityFeedForward;
+    Slot0Configs slot0 = leftShooterMotorConfig.Slot0;
+    slot0.kP = Constants.kLeftShooterMotorProportional;
+    slot0.kI = Constants.kLeftShooterMotorIntegral;
+    slot0.kD = Constants.kLeftShooterMotorDerivative;
+    slot0.kV = Constants.kLeftShooterMotorVelocityFeedForward;
     
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.kShooterSpinMotorGravityFeedForward;
-    slot0.kS = Constants.kShooterSpinMotorStaticFeedForward;
+    slot0.kG = Constants.kLeftShooterMotorGravityFeedForward;
+    slot0.kS = Constants.kLeftShooterMotorStaticFeedForward;
     
 
     
-    StatusCode shooterSpinMotorStatus = StatusCode.StatusCodeNotInitialized;
+    StatusCode leftShooterMotorStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
-      shooterSpinMotorStatus = shooterSpinMotor.getConfigurator().apply(shooterSpinMotorConfig);
-      if (shooterSpinMotorStatus.isOK()) break;
+      leftShooterMotorStatus = leftShooterMotor.getConfigurator().apply(leftShooterMotorConfig);
+      if (leftShooterMotorStatus.isOK()) break;
     }
-    if (!shooterSpinMotorStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + shooterSpinMotorStatus.toString());
+    if (!leftShooterMotorStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + leftShooterMotorStatus.toString());
     }
   }
-//######################################### INDEXER SPIN CONFIGURATION ###################################################### 
-
-  public void configureindexerSpinMotor(TalonFX indexerMotor){
-    TalonFXConfiguration indexerMotorConfig = new TalonFXConfiguration();
-
-    indexerMotorConfig.MotorOutput.Inverted = Constants.kIndexerMotorDirection;
-    indexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+  //######################################### SHOOTER RIGHT CONFIGURATION ###################################################### 
 
 
-    indexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kIndexerMotorSupplyCurrentLimit;
-    indexerMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-    indexerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kIndexerMotorClosedLoopRampPeriod;
-    indexerMotorConfig.Voltage.PeakForwardVoltage = Constants.kIndexerMotorPeakForwardVoltage;
-    indexerMotorConfig.Voltage.PeakReverseVoltage = Constants.kIndexerMotorPeakReverseVoltage;
+  public void configurerightShooterMotor(TalonFX rightShooterMotor){
+    TalonFXConfiguration rightShooterMotorConfig = new TalonFXConfiguration();
+
+    rightShooterMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightShooterMotorSupplyCurrentLimit;
+    rightShooterMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
+
+    rightShooterMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kRightShooterMotorClosedLoopRampPeriod;
+    rightShooterMotorConfig.Voltage.PeakForwardVoltage = Constants.kRightShooterMotorPeakForwardVoltage;
+    rightShooterMotorConfig.Voltage.PeakReverseVoltage = Constants.kRightShooterMotorPeakReverseVoltage;
+
+    rightShooterMotorConfig.MotorOutput.Inverted = Constants.kRightShooterMotorDirection;
+    rightShooterMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+  
+
+    Slot0Configs slot0 = rightShooterMotorConfig.Slot0;
+    slot0.kP = Constants.kRightShooterMotorProportional;
+    slot0.kI = Constants.kRightShooterMotorIntegral;
+    slot0.kD = Constants.kRightShooterMotorDerivative;
+    slot0.kV = Constants.kRightShooterMotorVelocityFeedForward;
+    
+    slot0.GravityType = GravityTypeValue.Arm_Cosine;
+    slot0.kG = Constants.kRightShooterMotorGravityFeedForward;
+    slot0.kS = Constants.kRightShooterMotorStaticFeedForward;
     
 
-    Slot0Configs slot0 = indexerMotorConfig.Slot0;
-    slot0.kP = Constants.kIndexerMotorProportional;
-    slot0.kI = Constants.kIndexerMotorIntegral;
-    slot0.kD = Constants.kIndexerMotorDerivative;
+    
+    StatusCode rightShooterMotorStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      rightShooterMotorStatus = rightShooterMotor.getConfigurator().apply(rightShooterMotorConfig);
+      if (rightShooterMotorStatus.isOK()) break;
+    }
+    if (!rightShooterMotorStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + rightShooterMotorStatus.toString());
+    }
+  }
+//######################################### Start OF INDEXER CONFIGURATION ######################################################
+//######################################### Start OF INDEXER CONFIGURATION ######################################################
+//######################################### Start OF INDEXER CONFIGURATION ###################################################### 
+
+//######################################### INDEXER LEFT CONFIGURATION ###################################################### 
+
+  public void configureleftIndexerMotor(TalonFX leftIndexerMotor){
+    TalonFXConfiguration leftIndexerMotorConfig = new TalonFXConfiguration();
+
+    leftIndexerMotorConfig.MotorOutput.Inverted = Constants.kLeftIndexerMotorDirection;
+    leftIndexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+
+    leftIndexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftIndexerMotorSupplyCurrentLimit;
+    leftIndexerMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    leftIndexerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftIndexerMotorClosedLoopRampPeriod;
+    leftIndexerMotorConfig.Voltage.PeakForwardVoltage = Constants.kLeftIndexerMotorPeakForwardVoltage;
+    leftIndexerMotorConfig.Voltage.PeakReverseVoltage = Constants.kLeftIndexerMotorPeakReverseVoltage;
+    
+
+    Slot0Configs slot0 = leftIndexerMotorConfig.Slot0;
+    slot0.kP = Constants.kLeftIndexerMotorProportional;
+    slot0.kI = Constants.kLeftIndexerMotorIntegral;
+    slot0.kD = Constants.kLeftIndexerMotorDerivative;
 
     slot0.GravityType = GravityTypeValue.Elevator_Static;
-    slot0.kV = Constants.kIndexerMotorVelocityFeedForward;
-    slot0.kG = Constants.kIndexerMotorGravityFeedForward;
-    slot0.kS = Constants.kIndexerMotorStaticFeedForward;
+    slot0.kV = Constants.kLeftIndexerMotorVelocityFeedForward;
+    slot0.kG = Constants.kLeftIndexerMotorGravityFeedForward;
+    slot0.kS = Constants.kLeftIndexerMotorStaticFeedForward;
  
 
 
-    StatusCode indexerMotorStatus = StatusCode.StatusCodeNotInitialized;
+    StatusCode leftIndexerMotorStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
-      indexerMotorStatus = indexerMotor.getConfigurator().apply(indexerMotorConfig);
-      if (indexerMotorStatus.isOK()) break;
+      leftIndexerMotorStatus = leftIndexerMotor.getConfigurator().apply(leftIndexerMotorConfig);
+      if (leftIndexerMotorStatus.isOK()) break;
     }
-    if (!indexerMotorStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + indexerMotorStatus.toString());
+    if (!leftIndexerMotorStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + leftIndexerMotorStatus.toString());
     }
   }
+ //######################################### INDEXER LEFT CONFIGURATION ###################################################### 
+
+  public void configurerightIndexerMotor(TalonFX rightIndexerMotor){
+    TalonFXConfiguration rightIndexerMotorConfig = new TalonFXConfiguration();
+
+    rightIndexerMotorConfig.MotorOutput.Inverted = Constants.kRightIndexerMotorDirection;
+    rightIndexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+
+    rightIndexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightIndexerMotorSupplyCurrentLimit;
+    rightIndexerMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    rightIndexerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kRightIndexerMotorClosedLoopRampPeriod;
+    rightIndexerMotorConfig.Voltage.PeakForwardVoltage = Constants.kRightIndexerMotorPeakForwardVoltage;
+    rightIndexerMotorConfig.Voltage.PeakReverseVoltage = Constants.kRightIndexerMotorPeakReverseVoltage;
+    
+
+    Slot0Configs slot0 = rightIndexerMotorConfig.Slot0;
+    slot0.kP = Constants.kRightIndexerMotorProportional;
+    slot0.kI = Constants.kRightIndexerMotorIntegral;
+    slot0.kD = Constants.kRightIndexerMotorDerivative;
+
+    slot0.GravityType = GravityTypeValue.Elevator_Static;
+    slot0.kV = Constants.kRightIndexerMotorVelocityFeedForward;
+    slot0.kG = Constants.kRightIndexerMotorGravityFeedForward;
+    slot0.kS = Constants.kRightIndexerMotorStaticFeedForward;
  
+
+
+    StatusCode rightIndexerMotorStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      rightIndexerMotorStatus = rightIndexerMotor.getConfigurator().apply(rightIndexerMotorConfig);
+      if (rightIndexerMotorStatus.isOK()) break;
+    }
+    if (!rightIndexerMotorStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + rightIndexerMotorStatus.toString());
+    }
+  }
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

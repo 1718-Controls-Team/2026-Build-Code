@@ -8,6 +8,7 @@ import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.spiralRoller;
 import frc.robot.subsystems.hoodServo;
+import frc.robot.subsystems.intakeFuel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -37,6 +38,7 @@ public class shootTargetMove extends Command {
   private final hoodServo m_hoodSubsystem;
   private final spiralRoller m_spiralRollerSubsystem;
   private final CommandSwerveDrivetrain m_Drivetrain;
+  private final intakeFuel m_intakeSubsystem;
   
   
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
@@ -56,6 +58,7 @@ public class shootTargetMove extends Command {
     private ChassisSpeeds velocity;
     private ChassisSpeeds previousLoopVelocity;
     private final CommandXboxController m_driverController;
+    private Timer spiralTimer;
 
     Timer loopTimer = new Timer();
     
@@ -68,12 +71,13 @@ public class shootTargetMove extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootTargetMove(shooterIndexer shooter, hoodServo hood, spiralRoller spirals, CommandSwerveDrivetrain drivetrain, CommandXboxController driverController) {
+      public shootTargetMove(shooterIndexer shooter, hoodServo hood, spiralRoller spirals, CommandSwerveDrivetrain drivetrain, CommandXboxController driverController, intakeFuel intake) {
         m_shooterSubsystem = shooter;
         m_hoodSubsystem = hood;
         m_spiralRollerSubsystem = spirals;
         m_Drivetrain = drivetrain;
         m_driverController = driverController;
+        m_intakeSubsystem = intake;
     
       addRequirements(shooter);
     }
@@ -133,19 +137,26 @@ public class shootTargetMove extends Command {
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
         .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
 
-    switch (shootFlag) {
+      switch (shootFlag) {
         case 1:
-            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kIndexerMainSpeed);
+            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
             m_hoodSubsystem.setPos(Constants.kHoodTable.get(dist));
+            m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
             shootFlag = 2;
           break;
         case 2:
-            m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
-            shootFlag = 3;
-          break;
-        case 3:
           if (m_shooterSubsystem.getShooterSpeed() > 5) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
+            spiralTimer.reset();
+            spiralTimer.start();
+            shootFlag = 3;
+          }
+          break; 
+        case 3:
+          if (spiralTimer.get() >= 2) {
+            if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
+              m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
+            }
           }
           break;
       }

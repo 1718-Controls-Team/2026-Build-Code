@@ -19,8 +19,8 @@ import frc.robot.Constants;
 public class intakeFuel extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX intakeSpinMotor = new TalonFX(3);
-    TalonFX intakeEletricSlideMotor = new TalonFX(4);
+    TalonFX intakeSpinMotor = new TalonFX(14);
+    TalonFX intakeEletricSlideMotor = new TalonFX(13);
 
     PositionVoltage intakePosition = new PositionVoltage(0);
 

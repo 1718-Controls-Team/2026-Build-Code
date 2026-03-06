@@ -18,17 +18,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.deployIntake;
 import frc.robot.commands.hoodDown;
-import frc.robot.commands.retractIntake;
+import frc.robot.commands.shootStill;
+import frc.robot.commands.Climb.climbRotate;
+import frc.robot.commands.Climb.climbSpeed;
+import frc.robot.commands.Intake.deployIntake;
+import frc.robot.commands.Intake.retractIntake;
 import frc.robot.commands.autoShoot.shootTargetMove;
 import frc.robot.commands.autoShoot.smartPass;
+import frc.robot.commands.manualControls.IntakeSpin;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.intakeFuel;
 import frc.robot.subsystems.hoodServo;
 import frc.robot.subsystems.spiralRoller;
+import frc.robot.subsystems.climber;;
 
 
 public class RobotContainer {
@@ -47,6 +52,7 @@ public class RobotContainer {
     private final intakeFuel m_intakeSubsystem = new intakeFuel();
     private final spiralRoller m_spiralRollerSubsystem = new spiralRoller();
     private final hoodServo m_hoodServoSubsystem = new hoodServo();
+    private final climber m_climberSubsystem = new climber();
 
     private final CommandXboxController driverController = new CommandXboxController(0);
     private final CommandXboxController operatorController = new CommandXboxController(1);
@@ -96,21 +102,25 @@ public class RobotContainer {
         driverController.back().and(driverController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         driverController.start().and(driverController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         driverController.start().and(driverController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
+        
+        
         // reset the field-centric heading on left bumper press
         driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-        //DRIVER CONTROLS
-        driverController.a().whileTrue(new shootTargetMove(m_shooterSubsystem, m_hoodServoSubsystem, m_spiralRollerSubsystem, drivetrain, driverController));
-        driverController.rightBumper().whileTrue(new smartPass(drivetrain));
-        //driverController.x().whileTrue(new shootStill(m_shooterSubsystem, m_turretSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        // DRIVER CONTROLS commented out bc testing
+        //driverController.rightTrigger().whileTrue(new shootTargetMove(m_shooterSubsystem, m_hoodServoSubsystem, m_spiralRollerSubsystem, drivetrain, driverController, m_intakeSubsystem));
+        //driverController.rightBumper().whileTrue(new smartPass(drivetrain));
+        //driverController.y().whileTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        //driverController.a().onTrue(new hoodDown(m_hoodServoSubsystem));
+        //driverController.b().onTrue(new climbSpeed(m_climberSubsystem));
 
         
-        
+        // OPERATOR CONTROLS
+        driverController.rightBumper().whileTrue(new deployIntake(m_intakeSubsystem));
+        driverController.a().onTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        // driverController.leftBumper().onTrue(new retractIntake(m_intakeSubsystem));
+        operatorController.y().onTrue(new climbRotate(m_climberSubsystem));
 
-        operatorController.a().onTrue(new deployIntake(m_intakeSubsystem));
-        operatorController.y().onTrue(new retractIntake(m_intakeSubsystem));
-        operatorController.b().onTrue(new hoodDown(m_hoodServoSubsystem));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

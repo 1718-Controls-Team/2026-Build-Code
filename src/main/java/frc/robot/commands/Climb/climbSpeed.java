@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Climb;
 
 
 
@@ -8,7 +8,7 @@ import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class releaseClimb extends Command {
+public class climbSpeed extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final climber m_climberSubsystem;
   
@@ -20,7 +20,7 @@ public class releaseClimb extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public releaseClimb(climber climberSubsystem) {
+    public climbSpeed(climber climberSubsystem) {
       m_climberSubsystem = climberSubsystem;
   
      
@@ -33,16 +33,16 @@ public class releaseClimb extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_climberSubsystem.setclimberSpinSpeed(0);
-      m_climberSubsystem.setclimbRotatePos(Constants.kClimbRotateDownPos);
+        m_climberSubsystem.setclimberSpinSpeed(Constants.kClimbUpSpeed);
     }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
+
   }
+  
 
   // Called once the command ends or is interrupted.
   @Override

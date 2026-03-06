@@ -12,7 +12,6 @@ public class hoodServo extends SubsystemBase {
 
     private static Servo hoodServo1;
     private static Servo hoodServo2;
-
     
     //SERVO Parameters from https://s3.amazonaws.com/actuonix/Actuonix+L16+Datasheet.pdf
     
@@ -50,12 +49,9 @@ public class hoodServo extends SubsystemBase {
      * @return the estimated current angle of the servo in degrees
      */
     public double getPos(){
-		
 	return hoodServo1.getAngle();
-		
-	
-//	return currentAngle;
-    }
+    
+	}
 	
     /**
      * Sets the default command of the subsystem

@@ -19,16 +19,17 @@ import frc.robot.Constants;
 public class turretHood extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX turretMotor = new TalonFX(7);
+    TalonFX leftTurretMotor = new TalonFX(21);
+    TalonFX rightTurretMotor = new TalonFX(18);
 
 
-    PositionVoltage shooterPosition = new PositionVoltage(0);
+    PositionVoltage turretPosition = new PositionVoltage(0);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
   public turretHood() {
-    this.configureturretMotor(turretMotor);
-
+    this.configureLeftTurretMotor(leftTurretMotor);
+    this.configureRightTurretMotor(rightTurretMotor);
 
   }
 
@@ -40,12 +41,15 @@ public class turretHood extends SubsystemBase {
  
 
 
-  public void setTurretMotorPos(double indexerSpeed){
-    turretMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
+  public void setTurretMotorPos(double turretPos){
+    if (turretPos > 0.1 && turretPos < 1.6) {
+    leftTurretMotor.setControl(turretPosition.withPosition(turretPos));
+    rightTurretMotor.setControl(turretPosition.withPosition(turretPos));
+     }
   } 
 
   public double getTurretMotorPos(){
-    return turretMotor.getPosition().getValueAsDouble();
+    return leftTurretMotor.getPosition().getValueAsDouble();
   }
 
 
@@ -53,46 +57,84 @@ public class turretHood extends SubsystemBase {
     indexerSpinMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
   } this wont be used bc the turret will auto adjust with april tags */
 
-//######################################### Start OF SHOOTER CONFIGURATION ######################################################
-//######################################### Start OF SHOOTER CONFIGURATION ######################################################
-//######################################### Start OF SHOOTER CONFIGURATION ###################################################### 
+//######################################### Start OF TURRET CONFIGURATION ######################################################
+//######################################### Start OF TURRET CONFIGURATION ######################################################
+//######################################### Start OF TURRET CONFIGURATION ###################################################### 
 
-  public void configureturretMotor(TalonFX turretMotor){
-    TalonFXConfiguration turretMotorConfig = new TalonFXConfiguration();
+//######################################### TURRET LEFT CONFIGURATION #######################################################
 
-    turretMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kTurretMotorSupplyCurrentLimit;
-    turretMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
+  public void configureLeftTurretMotor(TalonFX leftTurretMotor){
+    TalonFXConfiguration leftTurretMotorConfig = new TalonFXConfiguration();
 
-    turretMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kTurretMotorClosedLoopRampPeriod;
-    turretMotorConfig.Voltage.PeakForwardVoltage = Constants.kTurretMotorPeakForwardVoltage;
-    turretMotorConfig.Voltage.PeakReverseVoltage = Constants.kTurretMotorPeakReverseVoltage;
+    leftTurretMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftTurretMotorSupplyCurrentLimit;
+    leftTurretMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
 
-    turretMotorConfig.MotorOutput.Inverted = Constants.kTurretMotorDirection;
-    turretMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    leftTurretMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftTurretMotorClosedLoopRampPeriod;
+    leftTurretMotorConfig.Voltage.PeakForwardVoltage = Constants.kLeftTurretMotorPeakForwardVoltage;
+    leftTurretMotorConfig.Voltage.PeakReverseVoltage = Constants.kLeftTurretMotorPeakReverseVoltage;
+
+    leftTurretMotorConfig.MotorOutput.Inverted = Constants.kLeftTurretMotorDirection;
+    leftTurretMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
   
 
-    Slot0Configs slot0 = turretMotorConfig.Slot0;
-    slot0.kP = Constants.kTurretMotorProportional;
-    slot0.kI = Constants.kTurretMotorIntegral;
-    slot0.kD = Constants.kTurretMotorDerivative;
+    Slot0Configs slot0 = leftTurretMotorConfig.Slot0;
+    slot0.kP = Constants.kLeftTurretMotorProportional;
+    slot0.kI = Constants.kLeftTurretMotorIntegral;
+    slot0.kD = Constants.kLeftTurretMotorDerivative;
     
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.kTurretMotorGravityFeedForward;
-    slot0.kV = Constants.kTurretMotorVelocityFeedForward;
+    slot0.kG = Constants.kLeftTurretMotorGravityFeedForward;
+    slot0.kV = Constants.kLeftTurretMotorVelocityFeedForward;
 
     
-    StatusCode turretMotorStatus = StatusCode.StatusCodeNotInitialized;
+    StatusCode leftTurretMotorStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
-      turretMotorStatus = turretMotor.getConfigurator().apply(turretMotorConfig);
-      if (turretMotorStatus.isOK()) break;
+      leftTurretMotorStatus = leftTurretMotor.getConfigurator().apply(leftTurretMotorConfig);
+      if (leftTurretMotorStatus.isOK()) break;
     }
-    if (!turretMotorStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + turretMotorStatus.toString());
+    if (!leftTurretMotorStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + leftTurretMotorStatus.toString());
     }
-    turretMotor.setPosition(0);
+    leftTurretMotor.setPosition(0);
   }
   
+//######################################### TURRET LEFT CONFIGURATION #######################################################
 
+  public void configureRightTurretMotor(TalonFX rightTurretMotor){
+    TalonFXConfiguration rightTurretMotorConfig = new TalonFXConfiguration();
+
+    rightTurretMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightTurretMotorSupplyCurrentLimit;
+    rightTurretMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
+
+    rightTurretMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kRightTurretMotorClosedLoopRampPeriod;
+    rightTurretMotorConfig.Voltage.PeakForwardVoltage = Constants.kRightTurretMotorPeakForwardVoltage;
+    rightTurretMotorConfig.Voltage.PeakReverseVoltage = Constants.kRightTurretMotorPeakReverseVoltage;
+
+    rightTurretMotorConfig.MotorOutput.Inverted = Constants.kRightTurretMotorDirection;
+    rightTurretMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+  
+
+    Slot0Configs slot0 = rightTurretMotorConfig.Slot0;
+    slot0.kP = Constants.kRightTurretMotorProportional;
+    slot0.kI = Constants.kRightTurretMotorIntegral;
+    slot0.kD = Constants.kRightTurretMotorDerivative;
+    
+    slot0.GravityType = GravityTypeValue.Arm_Cosine;
+    slot0.kG = Constants.kRightTurretMotorGravityFeedForward;
+    slot0.kV = Constants.kRightTurretMotorVelocityFeedForward;
+
+    
+    StatusCode rightTurretMotorStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      rightTurretMotorStatus = rightTurretMotor.getConfigurator().apply(rightTurretMotorConfig);
+      if (rightTurretMotorStatus.isOK()) break;
+    }
+    if (!rightTurretMotorStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + rightTurretMotorStatus.toString());
+    }
+    rightTurretMotor.setPosition(0);
+  }
+  
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

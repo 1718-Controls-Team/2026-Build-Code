@@ -1,31 +1,33 @@
-package frc.robot.commands;
+package frc.robot.commands.Climb;
 
 
 
-import frc.robot.subsystems.intakeFuel;
+import frc.robot.subsystems.climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Timer;
 
 
 /** An example command that uses an example subsystem. */
-public class retractIntake extends Command {
+public class releaseClimb extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final intakeFuel m_intakeSubsystem;
+  private final climber m_climberSubsystem;
   
-    private boolean m_isFinished = false;  
-    private int m_retract = 0;
+    private boolean m_isFinished = false;
+    private Timer climbTime;
+  
   
     /**
      * Creates a new set-PowerCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public retractIntake(intakeFuel intake) {
-      m_intakeSubsystem = intake;
+    public releaseClimb(climber climberSubsystem) {
+      m_climberSubsystem = climberSubsystem;
   
      
       // Use addRequirements() here to declare subsystem dependencies.
-      addRequirements(intake);
+      addRequirements(climberSubsystem);
       
           
     }
@@ -33,26 +35,18 @@ public class retractIntake extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_retract = 1;
-
+      m_climberSubsystem.setclimberSpinSpeed(0);
+      climbTime.reset();
+      climbTime.start();
     }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   switch (m_retract) {
-    case 1:
-      m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeInSpeed);
-      m_retract = 2;
-      break;
-    case 2:
-      if (m_intakeSubsystem.getIntakeSpinSpeed() >= (Constants.kIntakeInSpeed - 1)) {
-        m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideInPos);
+   if(climbTime.get() >= 2){
+      m_climberSubsystem.setclimbRotatePos(Constants.kClimbRotateDownPos);
       }
-      m_retract = 0;
-      break;
-   }
   }
 
   // Called once the command ends or is interrupted.
