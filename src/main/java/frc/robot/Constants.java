@@ -17,7 +17,6 @@ public class Constants {
         kHoodTable.put(2.0, 3.0);
     }
 
-
     // key - distance    value - speed
     public static final InterpolatingDoubleTreeMap kSpeedTable = new InterpolatingDoubleTreeMap();
     static {
@@ -65,6 +64,7 @@ public class Constants {
     public static final double kClimbRotateOutPos = 13;
     public static final double kClimbRotateDownPos = 0;
 
+    // Intake 0 - 7
     public static final double kIntakeSlideOutPos = 5;
     public static final double kIntakeSlideInPos = 0.5;
 

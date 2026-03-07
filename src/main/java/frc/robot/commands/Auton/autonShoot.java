@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Auton;
 
 import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.intakeFuel;
@@ -14,7 +14,7 @@ import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class shootStill extends Command {
+public class autonShoot extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final shooterIndexer m_shooterSubsystem;
   private final spiralRoller m_spiralRollerSubsystem;
@@ -31,7 +31,7 @@ public class shootStill extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootStill(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake) {
+      public autonShoot(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake) {
         m_shooterSubsystem = shooter;
         m_spiralRollerSubsystem = spirals;
         m_intakeSubsystem = intake;
@@ -54,12 +54,14 @@ public class shootStill extends Command {
   public void execute() {
     switch (shootFlag) {
         case 1:
-            // m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
+            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
             m_shooterSubsystem.setShooterSpinSpeed(Constants.kShooterOutSpeed);
+            spiralTimer.reset();
+            spiralTimer.start();
             shootFlag = 2;
           break;
         case 2:
-          if (m_shooterSubsystem.getShooterSpeed() > 5) {
+          if (spiralTimer.get() >= 0.25) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
             spiralTimer.reset();
             spiralTimer.start();

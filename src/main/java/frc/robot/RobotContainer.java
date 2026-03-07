@@ -20,6 +20,9 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.hoodDown;
 import frc.robot.commands.shootStill;
+import frc.robot.commands.Auton.autonClimb;
+import frc.robot.commands.Auton.autonIntake;
+import frc.robot.commands.Auton.autonShoot;
 import frc.robot.commands.Climb.climbRotate;
 import frc.robot.commands.Climb.climbSpeed;
 import frc.robot.commands.Intake.deployIntake;
@@ -32,6 +35,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.intakeFuel;
 import frc.robot.subsystems.hoodServo;
+import frc.robot.subsystems.turretHood;
 import frc.robot.subsystems.spiralRoller;
 import frc.robot.subsystems.climber;;
 
@@ -53,6 +57,7 @@ public class RobotContainer {
     private final spiralRoller m_spiralRollerSubsystem = new spiralRoller();
     private final hoodServo m_hoodServoSubsystem = new hoodServo();
     private final climber m_climberSubsystem = new climber();
+    private final turretHood m_turretSubsystem = new turretHood();
 
     private final CommandXboxController driverController = new CommandXboxController(0);
     private final CommandXboxController operatorController = new CommandXboxController(1);
@@ -104,30 +109,32 @@ public class RobotContainer {
         driverController.start().and(driverController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
         
         
-        // reset the field-centric heading on left bumper press
-        driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        // reset the field-centric heading on start press
+        driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         // DRIVER CONTROLS commented out bc testing
-        //driverController.rightTrigger().whileTrue(new shootTargetMove(m_shooterSubsystem, m_hoodServoSubsystem, m_spiralRollerSubsystem, drivetrain, driverController, m_intakeSubsystem));
-        //driverController.rightBumper().whileTrue(new smartPass(drivetrain));
-        //driverController.y().whileTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
-        //driverController.a().onTrue(new hoodDown(m_hoodServoSubsystem));
-        //driverController.b().onTrue(new climbSpeed(m_climberSubsystem));
+        driverController.povUp().whileTrue(new smartPass(drivetrain));
+        driverController.a().onTrue(new hoodDown(m_hoodServoSubsystem));
+        driverController.leftBumper().onTrue(new retractIntake(m_intakeSubsystem));
+        driverController.rightBumper().onTrue(new deployIntake(m_intakeSubsystem));
 
         
+                operatorController.y().onTrue(new climbRotate(m_climberSubsystem));
+                operatorController.b().onTrue(new climbSpeed(m_climberSubsystem));
+
         // OPERATOR CONTROLS
-        driverController.rightBumper().whileTrue(new deployIntake(m_intakeSubsystem));
-        driverController.a().onTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
-        // driverController.leftBumper().onTrue(new retractIntake(m_intakeSubsystem));
-        operatorController.y().onTrue(new climbRotate(m_climberSubsystem));
+        operatorController.leftTrigger().whileTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        driverController.rightTrigger().whileTrue(new shootTargetMove(m_shooterSubsystem, m_hoodServoSubsystem, m_spiralRollerSubsystem, drivetrain, driverController, m_intakeSubsystem, m_turretSubsystem));
+
 
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     private void regisiterAutonCommands(){
-        NamedCommands.registerCommand("intakeDeploy", new deployIntake(m_intakeSubsystem));
-        NamedCommands.registerCommand("retractIntake", new retractIntake(m_intakeSubsystem));
+        NamedCommands.registerCommand("intakeDeploy", new autonIntake(m_intakeSubsystem));
+        NamedCommands.registerCommand("autonClimb", new autonClimb(m_climberSubsystem));
+        NamedCommands.registerCommand("autonShoot", new autonShoot(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
     }
     public Command getAutonomousCommand() {
       

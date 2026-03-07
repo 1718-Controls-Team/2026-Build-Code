@@ -5,39 +5,66 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "germ 1"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "germ 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeDeploy"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "wait",
+          "type": "sequential",
           "data": {
-            "waitTime": 0.5
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "germ 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootStill"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "germ 2"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "germ 3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "germ 4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "germ 3"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "germ 4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "autonClimb"
+                }
+              }
+            ]
           }
         }
       ]

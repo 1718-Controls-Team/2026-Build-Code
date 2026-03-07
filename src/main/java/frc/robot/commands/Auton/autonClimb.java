@@ -13,6 +13,7 @@ public class autonClimb extends Command {
   private final climber m_climberSubsystem;
   
     private boolean m_isFinished = false;
+    private int m_climb = 1;
   
   
     /**
@@ -33,14 +34,26 @@ public class autonClimb extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_climberSubsystem.setclimberSpinSpeed(Constants.kClimbUpSpeed);
+      m_climb = 1;
+        m_climberSubsystem.setClimberSpinSpeed(Constants.kClimbUpSpeed);
     }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+   switch (m_climb) {
+    case 1:
+      m_climberSubsystem.setClimbRotatePos(Constants.kClimbRotateOutPos);
+      m_climb = 2;
+      break;
    
+    case 2:
+    if (m_climberSubsystem.getClimbRotateInPos()) {
+      m_climberSubsystem.setClimberSpinSpeed(Constants.kClimbUpSpeed);
+    }
+      break;
+   }
   }
 
   // Called once the command ends or is interrupted.

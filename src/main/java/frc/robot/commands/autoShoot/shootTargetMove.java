@@ -8,6 +8,7 @@ import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.spiralRoller;
 import frc.robot.subsystems.hoodServo;
+import frc.robot.subsystems.turretHood;
 import frc.robot.subsystems.intakeFuel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -39,6 +40,7 @@ public class shootTargetMove extends Command {
   private final spiralRoller m_spiralRollerSubsystem;
   private final CommandSwerveDrivetrain m_Drivetrain;
   private final intakeFuel m_intakeSubsystem;
+  private final turretHood m_turretSubsystem;
   
   
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
@@ -60,6 +62,7 @@ public class shootTargetMove extends Command {
     private final CommandXboxController m_driverController;
     private Timer spiralTimer;
 
+
     Timer loopTimer = new Timer();
     
     private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
@@ -71,13 +74,14 @@ public class shootTargetMove extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootTargetMove(shooterIndexer shooter, hoodServo hood, spiralRoller spirals, CommandSwerveDrivetrain drivetrain, CommandXboxController driverController, intakeFuel intake) {
+      public shootTargetMove(shooterIndexer shooter, hoodServo hood, spiralRoller spirals, CommandSwerveDrivetrain drivetrain, CommandXboxController driverController, intakeFuel intake, turretHood turret) {
         m_shooterSubsystem = shooter;
         m_hoodSubsystem = hood;
         m_spiralRollerSubsystem = spirals;
         m_Drivetrain = drivetrain;
         m_driverController = driverController;
         m_intakeSubsystem = intake;
+        m_turretSubsystem = turret;
     
       addRequirements(shooter);
     }
@@ -133,6 +137,9 @@ public class shootTargetMove extends Command {
     SmartDashboard.putNumber("robot X", m_robotPose.pose.getX());
     SmartDashboard.putNumber("legtwo", legTwo);   
     SmartDashboard.putNumber("robot off", ((m_turretDegrees + 180)));
+
+    m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
+
     m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
         .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));

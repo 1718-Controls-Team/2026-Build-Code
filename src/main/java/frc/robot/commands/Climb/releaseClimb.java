@@ -14,7 +14,6 @@ public class releaseClimb extends Command {
   private final climber m_climberSubsystem;
   
     private boolean m_isFinished = false;
-    private Timer climbTime;
   
   
     /**
@@ -35,18 +34,15 @@ public class releaseClimb extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_climberSubsystem.setclimberSpinSpeed(0);
-      climbTime.reset();
-      climbTime.start();
+      
     }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   if(climbTime.get() >= 2){
-      m_climberSubsystem.setclimbRotatePos(Constants.kClimbRotateDownPos);
-      }
+      m_climberSubsystem.setClimbRotatePos(Constants.kClimbRotateDownPos);
+      
   }
 
   // Called once the command ends or is interrupted.

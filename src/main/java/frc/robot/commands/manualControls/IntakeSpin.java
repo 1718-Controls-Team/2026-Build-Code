@@ -4,7 +4,6 @@ package frc.robot.commands.manualControls;
 
 import frc.robot.subsystems.intakeFuel;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
 
@@ -14,7 +13,6 @@ public class IntakeSpin extends Command {
   private final intakeFuel m_intakeSubsystem;
     
     private boolean m_isFinished = false;
-    private int m_stateMachine = 1;
     
     
       /**
@@ -35,7 +33,6 @@ public class IntakeSpin extends Command {
     // Called when the command is initially scheduled.
     @Override
   public void initialize() {
-        m_stateMachine = 1;
         m_isFinished = false;
   }
 

@@ -38,14 +38,25 @@ public class climber extends SubsystemBase {
    *
    * @return a command
    */
-  public void setclimberSpinSpeed(double climberSpeed) {
+  public void setClimberSpinSpeed(double climberSpeed) {
     climberSpinMotor.setControl(voltageRequest.withVelocity(climberSpeed));
   }
 
-  public void setclimbRotatePos(double climbPos){
+  public void setClimbRotatePos(double climbPos){
     climbRotateMotor.setControl(climbPosition.withPosition(climbPos));
   }
 
+  public double getClimbRotatePos(){
+    return climbRotateMotor.getPosition().getValueAsDouble();
+  }
+
+  public boolean getClimbRotateInPos(){
+    if ((Math.abs(climbRotateMotor.getPosition().getValueAsDouble() - getClimbRotatePos()) < 0.1)){
+      return true;
+    } else {
+      return false;
+    }
+  }
   
   public void configureclimberSpinMotor(TalonFX climberSpinMotor){
     TalonFXConfiguration climberSpinMotorConfig = new TalonFXConfiguration();
