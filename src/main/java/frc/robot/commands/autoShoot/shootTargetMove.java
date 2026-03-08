@@ -12,6 +12,7 @@ import frc.robot.subsystems.turretHood;
 import frc.robot.subsystems.intakeFuel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotContainer;
 
 import java.util.Optional;
 
@@ -41,6 +42,7 @@ public class shootTargetMove extends Command {
   private final CommandSwerveDrivetrain m_Drivetrain;
   private final intakeFuel m_intakeSubsystem;
   private final turretHood m_turretSubsystem;
+  private RobotContainer m_robotContainer;
   
   
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
@@ -61,6 +63,8 @@ public class shootTargetMove extends Command {
     private ChassisSpeeds previousLoopVelocity;
     private final CommandXboxController m_driverController;
     private Timer spiralTimer;
+    private double headingDeg = m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees();
+
 
 
     Timer loopTimer = new Timer();
@@ -132,6 +136,7 @@ public class shootTargetMove extends Command {
     m_turretRadians = Math.atan2(legOne, legTwo);
     m_turretDegrees = (( m_turretRadians / Math.PI )*180);
     SmartDashboard.putNumber("turretOffset", m_turretDegrees);
+    m_turretDegrees = (m_turretDegrees + headingDeg);
     SmartDashboard.putNumber("legone", legOne);
     SmartDashboard.putNumber("robot Y", m_robotPose.pose.getY());
     SmartDashboard.putNumber("robot X", m_robotPose.pose.getX());
@@ -140,10 +145,11 @@ public class shootTargetMove extends Command {
 
     m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
 
-    m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
+    /*m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
-        .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
-
+        .withTargetDirection(new Rotation2d(((m_turretDegrees)/180)*Math.PI)));
+    */
+    
       switch (shootFlag) {
         case 1:
             m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);

@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.753724167979838,
-        "y": 2.6988452042848143
+        "x": 2.9949131944444445,
+        "y": 7.467743055555555
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.95025,
-        "y": -0.20846428571428532
+        "x": 3.9949131944444445,
+        "y": 7.467743055555555
       },
       "isLocked": false,
-      "linkedName": "end of No Climb 5"
+      "linkedName": "Left No Climb 4"
     },
     {
       "anchor": {
-        "x": 2.5850535714285714,
-        "y": 0.7795178571428574
+        "x": 7.687378472222221,
+        "y": 7.451996527777778
       },
       "prevControl": {
-        "x": 1.5850535714285714,
-        "y": 0.7795178571428575
+        "x": 6.687378472222221,
+        "y": 7.451996527777778
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Left No Climb 5"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.6336898395721928,
-      "rotationDegrees": 1.7656862538311393
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.7848246029918713
+    "rotation": -88.66778014613027
   },
   "reversed": false,
-  "folder": "No Climb",
+  "folder": "Left No Climb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 89.01250383886502
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

@@ -4,6 +4,8 @@
   "holonomicMode": true,
   "pathFolders": [
     "Left Trench",
+    "Middle",
+    "Left No Climb",
     "No Climb",
     "Right Trench",
     "sam"

@@ -57,7 +57,7 @@ public class NtargetMove extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public NtargetMove(shooterIndexer turretSubsystem, CommandSwerveDrivetrain drive, CommandXboxController driver) {
+    public NtargetMove(CommandSwerveDrivetrain drive, CommandXboxController driver) {
       m_Drivetrain = drive;
       m_driverController = driver;
 
@@ -70,7 +70,7 @@ public class NtargetMove extends Command {
       } */
      
       // Use addRequirements() here to declare subsystem dependencies.
-      addRequirements(turretSubsystem);
+      // addRequirements(turretSubsystem);
       
           
     }
@@ -78,7 +78,12 @@ public class NtargetMove extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+    loopTimer.reset();
+    loopTimer.start();
     
+    velocity = m_Drivetrain.getState().Speeds;
+    currentTime = loopTimer.get();
+
    }
 
   // Called every time the scheduler runs while the command is scheduled.

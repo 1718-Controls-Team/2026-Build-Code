@@ -5,45 +5,13 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "germ left 1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeDeploy"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "germ left 2"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "germ left 3"
+                  "pathName": "Middle 1"
                 }
               },
               {
@@ -51,11 +19,18 @@
                 "data": {
                   "name": "shootStill"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "germ left 4"
+                  "pathName": "Middle 2"
                 }
               },
               {

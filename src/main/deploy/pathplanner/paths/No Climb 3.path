@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 7.91504892930117,
-        "y": 0.19325595841853005
+        "y": 0.1932559584185305
       },
       "isLocked": false,
       "linkedName": "end of No Climb 2"
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.7406417112299472,
-      "rotationDegrees": 90.59896821824063
+      "rotationDegrees": -0.41394594751275704
     }
   ],
   "constraintZones": [],
@@ -47,7 +47,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 67.38013505195943
+    "rotation": -1.941486390914402
   },
   "reversed": false,
   "folder": "No Climb",

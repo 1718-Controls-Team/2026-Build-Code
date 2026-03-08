@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "germ left 1"
+                  "pathName": "Left No Climb 1"
                 }
               },
               {
@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "germ left 2"
+                  "pathName": "Left No Climb 2"
                 }
               }
             ]
@@ -43,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "germ left 3"
+                  "pathName": "Left No Climb 3"
                 }
               },
               {
@@ -51,17 +51,43 @@
                 "data": {
                   "name": "shootStill"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "germ left 4"
+                  "pathName": "Left No Climb 4"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "autonClimb"
+                  "name": "intakeDeploy"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left No Climb 5"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left No Climb 6"
                 }
               }
             ]

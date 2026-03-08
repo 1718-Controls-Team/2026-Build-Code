@@ -32,12 +32,6 @@
                 "data": {
                   "pathName": "germ 2"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shootStill"
-                }
               }
             ]
           }
@@ -50,6 +44,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "germ 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootStill"
                 }
               },
               {

@@ -27,6 +27,8 @@ import frc.robot.commands.Climb.climbRotate;
 import frc.robot.commands.Climb.climbSpeed;
 import frc.robot.commands.Intake.deployIntake;
 import frc.robot.commands.Intake.retractIntake;
+import frc.robot.commands.autoShoot.NtargetMove;
+import frc.robot.commands.autoShoot.NtargetStill;
 import frc.robot.commands.autoShoot.shootTargetMove;
 import frc.robot.commands.autoShoot.smartPass;
 import frc.robot.commands.manualControls.IntakeSpin;
@@ -103,14 +105,15 @@ public class RobotContainer {
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        driverController.back().and(driverController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        
+        /*driverController.back().and(driverController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         driverController.back().and(driverController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         driverController.start().and(driverController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         driverController.start().and(driverController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-        
+        */
         
         // reset the field-centric heading on start press
-        driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         // DRIVER CONTROLS commented out bc testing
         driverController.povUp().whileTrue(new smartPass(drivetrain));
@@ -123,8 +126,8 @@ public class RobotContainer {
                 operatorController.b().onTrue(new climbSpeed(m_climberSubsystem));
 
         // OPERATOR CONTROLS
-        operatorController.leftTrigger().whileTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
-        driverController.rightTrigger().whileTrue(new shootTargetMove(m_shooterSubsystem, m_hoodServoSubsystem, m_spiralRollerSubsystem, drivetrain, driverController, m_intakeSubsystem, m_turretSubsystem));
+        driverController.leftTrigger().whileTrue(new NtargetMove(drivetrain, driverController));
+        driverController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController));
 
 
 
