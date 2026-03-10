@@ -54,7 +54,7 @@ public class shootStill extends Command {
   public void execute() {
     switch (shootFlag) {
         case 1:
-            // m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
+            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
             m_shooterSubsystem.setShooterSpinSpeed(Constants.kShooterOutSpeed);
             shootFlag = 2;
           break;
@@ -68,9 +68,10 @@ public class shootStill extends Command {
           break; 
         case 3:
           if (spiralTimer.get() >= 2) {
-            if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
-              m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
-            }
+            m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
+            //if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
+            //  m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
+            //}
           }
           break;
       }

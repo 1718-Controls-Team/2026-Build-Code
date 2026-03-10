@@ -2,6 +2,7 @@ package frc.robot.commands.autoShoot;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 import static edu.wpi.first.units.Units.*;
@@ -31,6 +32,9 @@ public class smartPass extends Command {
     private double passX;
     private double passYLeft;
     private double passYRight;
+    
+    
+    private final CommandXboxController m_driverController;
 
     private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
     .withDeadband(MaxSpeed*0.05).withHeadingPID(8, 0, 0.01)
@@ -41,9 +45,9 @@ public class smartPass extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public smartPass(CommandSwerveDrivetrain drive) {
+    public smartPass(CommandSwerveDrivetrain drive, CommandXboxController driver) {
       m_Drivetrain = drive;
-
+      m_driverController = driver;
 
 
      /* if ((m_autoTarget) && (m_kUseLimelight)) {
@@ -78,7 +82,9 @@ public class smartPass extends Command {
   public void execute() {
     SmartDashboard.putNumber("pass off", ((m_passDegrees)));
     //m_shooterSubsystem.setTurretMotorPos(m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees() + m_turretDegrees);
-    m_Drivetrain.setControl(autoAlign.withTargetDirection(new Rotation2d(((m_passDegrees + 180)/180)*Math.PI)));
+    m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
+        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
+        .withTargetDirection(new Rotation2d(((m_passDegrees + 180)/180)*Math.PI)));
   }
 
   // Called once the command ends or is interrupted.

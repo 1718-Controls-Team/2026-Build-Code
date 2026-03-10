@@ -19,10 +19,10 @@ import frc.robot.Constants;
 public class shooterIndexer extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX leftShooterMotor = new TalonFX(20);
-    TalonFX leftIndexerMotor = new TalonFX(19);
-    TalonFX rightShooterMotor = new TalonFX(17);
-    TalonFX rightIndexerMotor = new TalonFX(16);
+    TalonFX leftShooterMotor = new TalonFX(20, Constants.kCanivore);
+    TalonFX leftIndexerMotor = new TalonFX(19, Constants.kCanivore);
+    TalonFX rightShooterMotor = new TalonFX(17, Constants.kCanivore);
+    TalonFX rightIndexerMotor = new TalonFX(16, Constants.kCanivore);
 
     PositionVoltage shooterPosition = new PositionVoltage(0);
 

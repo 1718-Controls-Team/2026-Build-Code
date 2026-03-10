@@ -143,7 +143,9 @@ public class shootTargetMove extends Command {
     SmartDashboard.putNumber("legtwo", legTwo);   
     SmartDashboard.putNumber("robot off", ((m_turretDegrees + 180)));
 
-    m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
+    if (m_turretDegrees <= Constants.kTurretMax && m_turretDegrees >= Constants.kTurretMin) {
+      m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
+    }
 
     /*m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
@@ -167,6 +169,7 @@ public class shootTargetMove extends Command {
           break; 
         case 3:
           if (spiralTimer.get() >= 2) {
+            m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
             if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
               m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
             }

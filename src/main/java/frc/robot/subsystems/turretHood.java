@@ -19,8 +19,8 @@ import frc.robot.Constants;
 public class turretHood extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX leftTurretMotor = new TalonFX(21);
-    TalonFX rightTurretMotor = new TalonFX(18);
+    TalonFX leftTurretMotor = new TalonFX(21, Constants.kCanivore);
+    TalonFX rightTurretMotor = new TalonFX(18, Constants.kCanivore);
 
 
     PositionVoltage turretPosition = new PositionVoltage(0);

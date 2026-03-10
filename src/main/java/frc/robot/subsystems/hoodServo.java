@@ -12,6 +12,9 @@ public class hoodServo extends SubsystemBase {
 
     private static Servo hoodServo1;
     private static Servo hoodServo2;
+    private static Servo hoodServo3;
+    private static Servo hoodServo4;
+
     
     //SERVO Parameters from https://s3.amazonaws.com/actuonix/Actuonix+L16+Datasheet.pdf
     
@@ -23,6 +26,8 @@ public class hoodServo extends SubsystemBase {
     public hoodServo(){
     	hoodServo1 = new Servo(1);
     	hoodServo2 = new Servo(0);
+        hoodServo3 = new Servo(3);
+        hoodServo4 = new Servo(2);
 
     	
 		
@@ -40,6 +45,9 @@ public class hoodServo extends SubsystemBase {
     public void setPos(double degrees){
 	hoodServo1.set(degrees);
     hoodServo2.set(degrees);
+    hoodServo3.set(degrees);
+    hoodServo4.set(degrees);
+
     }
 
     /**

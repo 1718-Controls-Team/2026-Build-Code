@@ -43,14 +43,13 @@ public class retractIntake extends Command {
   public void execute() {
    switch (m_retract) {
     case 1:
-      m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeInSpeed);
+      m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
       m_retract = 2;
       break;
     case 2:
-      if (m_intakeSubsystem.getIntakeSpinSpeed() >= (Constants.kIntakeInSpeed - 1)) {
+      if (m_intakeSubsystem.getIntakeSpinSpeed() <= (Constants.kIntakeNoSpeed + 1)) {
         m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideInPos);
       }
-      m_retract = 0;
       break;
    }
   }
@@ -58,7 +57,6 @@ public class retractIntake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeSubsystem.setIntakeSpinSpeed(0);
 }
   // Returns true when the command should end.
   @Override

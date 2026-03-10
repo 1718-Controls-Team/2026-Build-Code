@@ -1,11 +1,13 @@
 package frc.robot;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 
 public class Constants {
+    public static final CANBus kCanivore = new CANBus("Canivore");
     public static final double[] kBlueHubCoord = {4.627, 4.024};
     public static final double[] kRedHubCoord = {4.627, 4.024};
     public static final double[] kBluePassCoords = {1.905, 6.222, 2.059};
@@ -47,17 +49,20 @@ public class Constants {
 */
 
 // Velocity Controls
-    public static final double kIndexerMainSpeed = 20;
+    public static final double kIndexerMainSpeed = 30;
     public static final double kIndexerNoSpeed = 0;
 
-    public static final double kShooterOutSpeed = 70;
+    public static final double kShooterOutSpeed = 55;
 
-    public static final double kRollerMainSpeed = 20;
+    public static final double kRollerMainSpeed = 16;
 
-    public static final double kIntakeInSpeed = 20;
+    public static final double kIntakeInSpeed = -50;
     public static final double kIntakeIdleSpeed = 10;
+    public static final double kIntakeNoSpeed = 0;
 
     public static final double kClimbUpSpeed = 30;
+
+    
 
 
 // Position Controls
@@ -65,11 +70,13 @@ public class Constants {
     public static final double kClimbRotateDownPos = 0;
 
     // Intake 0 - 7
-    public static final double kIntakeSlideOutPos = 5;
-    public static final double kIntakeSlideInPos = 0.5;
+    public static final double kIntakeSlideOutPos = -14.5;
+    public static final double kIntakeSlideInPos = -3.868;
 
     public static final double kHoodServoDownPos = 0;
 
+    public static final double kTurretMax = .65;
+    public static final double kTurretMin = -1;
 
 
 /*
@@ -134,7 +141,7 @@ public class Constants {
     public static final double kRightRollerSpinMotorPeakForwardVoltage = 11;
     public static final double kRightRollerSpinMotorPeakReverseVoltage = -11;
 
-    public static final InvertedValue kRightRollerSpinMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final InvertedValue kRightRollerSpinMotorDirection = InvertedValue.CounterClockwise_Positive;
     public static final double kRightRollerSpinMotorSupplyCurrentLimit = 40;
 
     public static final double kRightRollerSpinMotorClosedLoopRampPeriod = 0;
@@ -179,7 +186,7 @@ public class Constants {
     public static final double kLeftShooterMotorPeakForwardVoltage = 11;
     public static final double kLeftShooterMotorPeakReverseVoltage = -11;
 
-    public static final InvertedValue kLeftShooterMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final InvertedValue kLeftShooterMotorDirection = InvertedValue.CounterClockwise_Positive;
     public static final double kLeftShooterMotorSupplyCurrentLimit = 40;
 
     public static final double kLeftShooterMotorClosedLoopRampPeriod = 0;

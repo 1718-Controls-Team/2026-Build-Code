@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.671631944444444,
-        "y": 6.507204861111111
+        "x": 7.703125,
+        "y": 6.4482678571428576
       },
       "isLocked": false,
       "linkedName": "Left No Climb 1"
@@ -20,8 +20,8 @@
         "y": 5.8301041666666675
       },
       "prevControl": {
-        "x": 7.687378472222221,
-        "y": 6.570190972222222
+        "x": 7.719321428571428,
+        "y": 6.4644642857142856
       },
       "nextControl": null,
       "isLocked": false,

@@ -113,21 +113,21 @@ public class RobotContainer {
         */
         
         // reset the field-centric heading on start press
-        driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         // DRIVER CONTROLS commented out bc testing
-        driverController.povUp().whileTrue(new smartPass(drivetrain));
+        driverController.povUp().whileTrue(new smartPass(drivetrain, driverController));
         driverController.a().onTrue(new hoodDown(m_hoodServoSubsystem));
         driverController.leftBumper().onTrue(new retractIntake(m_intakeSubsystem));
         driverController.rightBumper().onTrue(new deployIntake(m_intakeSubsystem));
 
         
-                operatorController.y().onTrue(new climbRotate(m_climberSubsystem));
+                driverController.y().onTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
                 operatorController.b().onTrue(new climbSpeed(m_climberSubsystem));
 
         // OPERATOR CONTROLS
-        driverController.leftTrigger().whileTrue(new NtargetMove(drivetrain, driverController));
-        driverController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController));
+        operatorController.leftTrigger().whileTrue(new NtargetMove(drivetrain, driverController));
+        operatorController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController));
 
 
 

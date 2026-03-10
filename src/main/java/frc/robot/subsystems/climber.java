@@ -19,8 +19,8 @@ import frc.robot.Constants;
 public class climber extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX climberSpinMotor = new TalonFX(22);
-    TalonFX climbRotateMotor = new TalonFX(23);
+    TalonFX climberSpinMotor = new TalonFX(22, Constants.kCanivore);
+    TalonFX climbRotateMotor = new TalonFX(23, Constants.kCanivore);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
     PositionVoltage climbPosition = new PositionVoltage(0);

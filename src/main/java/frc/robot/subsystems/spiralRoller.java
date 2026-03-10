@@ -19,8 +19,8 @@ import frc.robot.Constants;
 public class spiralRoller extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX rightRollerSpinMotor = new TalonFX(15);
-    TalonFX leftRollerSpinMotor = new TalonFX(24);
+    TalonFX rightRollerSpinMotor = new TalonFX(15, Constants.kCanivore);
+    TalonFX leftRollerSpinMotor = new TalonFX(24, Constants.kCanivore);
 
     PositionVoltage intakePosition = new PositionVoltage(0);
 

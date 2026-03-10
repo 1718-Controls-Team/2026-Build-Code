@@ -3,9 +3,10 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "Left No Climb",
     "Left Trench",
     "Middle",
-    "Left No Climb",
+    "Middle No Climb",
     "No Climb",
     "Right Trench",
     "sam"
