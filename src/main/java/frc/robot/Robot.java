@@ -19,8 +19,6 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
   private final intakeFuel m_intakeSubsystem;
-  private Field2d field2d = new Field2d();
-  private Field2d odomField = new Field2d();
   LimelightHelpers.PoseEstimate llMeasurementTurret;
   private boolean kUseLimelight = true;
 
@@ -31,8 +29,6 @@ public class Robot extends TimedRobot {
     int[] validIDs = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
     LimelightHelpers.SetFiducialIDFiltersOverride("limelight-lime", validIDs);
 
-    SmartDashboard.putData(field2d);
-    SmartDashboard.putData(odomField);
   }
 
   @Override
@@ -95,8 +91,6 @@ public class Robot extends TimedRobot {
     if (LimelightHelpers.getTV("limelight")) {
       var driveState = m_robotContainer.drivetrain.getState();
 
-      field2d.setRobotPose(llMeasurementTurret.pose);
-      odomField.setRobotPose(driveState.Pose);
       if (llMeasurementTurret != null && llMeasurementTurret.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
         m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementTurret.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, .1));
       }

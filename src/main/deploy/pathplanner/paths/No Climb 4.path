@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5850535714285714,
-        "y": 0.7795178571428574
+        "x": 1.4836964285714282,
+        "y": 0.9900714285714287
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.989964285714285,
-        "y": 0.6499464285714283
+        "x": 1.888607142857142,
+        "y": 0.8604999999999996
       },
       "isLocked": false,
       "linkedName": "end of No Climb 3"
@@ -32,6 +32,10 @@
     {
       "waypointRelativePos": 0.29144385026737973,
       "rotationDegrees": 0.43760279283539016
+    },
+    {
+      "waypointRelativePos": 0.5481283422459896,
+      "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [],
@@ -53,7 +57,7 @@
   "folder": "No Climb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -1.941486390914402
+    "rotation": 42.7974018382342
   },
   "useDefaultConstraints": true
 }

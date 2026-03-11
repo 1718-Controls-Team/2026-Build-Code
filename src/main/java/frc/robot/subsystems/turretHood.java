@@ -42,7 +42,7 @@ public class turretHood extends SubsystemBase {
 
 
   public void setTurretMotorPos(double turretPos){
-    if (turretPos > 0.1 && turretPos < 1.6) {
+    if (turretPos > -.2 && turretPos < .35) {
     leftTurretMotor.setControl(turretPosition.withPosition(turretPos));
     rightTurretMotor.setControl(turretPosition.withPosition(turretPos));
      }

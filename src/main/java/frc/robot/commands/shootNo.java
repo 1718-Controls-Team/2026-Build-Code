@@ -14,7 +14,7 @@ import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class shootStill extends Command {
+public class shootNo extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final shooterIndexer m_shooterSubsystem;
   private final spiralRoller m_spiralRollerSubsystem;
@@ -31,7 +31,7 @@ public class shootStill extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootStill(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake) {
+      public shootNo(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake) {
         m_shooterSubsystem = shooter;
         m_spiralRollerSubsystem = spirals;
         m_intakeSubsystem = intake;
@@ -39,14 +39,14 @@ public class shootStill extends Command {
       addRequirements(shooter);
       addRequirements(spirals);
       addRequirements(intake);
+
     }
   
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      shootFlag = 1;
-
-      
+    m_shooterSubsystem.setShooterOff(0);
+    m_spiralRollerSubsystem.setSpiralRollerOff(0);
       
     }
 
@@ -54,30 +54,9 @@ public class shootStill extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    switch (shootFlag) {
-        case 1:
-            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
-            m_shooterSubsystem.setShooterSpinSpeed(Constants.kShooterOutSpeed);
-            shootFlag = 2;
-          break;
-        case 2:
-          if (m_shooterSubsystem.getShooterSpeed() > 5) {
-            m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
-            spiralTimer.reset();
-            spiralTimer.start();
-            shootFlag = 3;
-          }
-          break; 
-        case 3:
-          if (spiralTimer.get() >= 2) {
-            m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
-            //if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
-            //  m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
-            //}
-          }
-          break;
+    
       }
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override

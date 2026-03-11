@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 
 /** An example command that uses an example subsystem. */
-public class hoodDown extends Command {
+public class hoodUp extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final hoodServo m_hoodServo;
   
@@ -19,19 +19,18 @@ public class hoodDown extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public hoodDown(hoodServo servo) {
+    public hoodUp(hoodServo servo) {
       m_hoodServo = servo;
      
       // Use addRequirements() here to declare subsystem dependencies.
       addRequirements(servo);
-      
           
     }
    
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_hoodServo.setPos1(0);
+        m_hoodServo.setPos1(0.4);
     }
 
 

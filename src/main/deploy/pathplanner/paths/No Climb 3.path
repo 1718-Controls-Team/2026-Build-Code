@@ -9,19 +9,19 @@
       "prevControl": null,
       "nextControl": {
         "x": 7.91504892930117,
-        "y": 0.1932559584185305
+        "y": 0.19325595841853094
       },
       "isLocked": false,
       "linkedName": "end of No Climb 2"
     },
     {
       "anchor": {
-        "x": 2.5850535714285714,
-        "y": 0.7795178571428574
+        "x": 1.4836964285714282,
+        "y": 0.9900714285714287
       },
       "prevControl": {
-        "x": 5.111696428571431,
-        "y": 0.63375
+        "x": 4.010339285714288,
+        "y": 0.8443035714285714
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,7 +47,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -1.941486390914402
+    "rotation": 42.7974018382342
   },
   "reversed": false,
   "folder": "No Climb",

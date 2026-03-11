@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -25,6 +26,8 @@ public class shooterIndexer extends SubsystemBase {
     TalonFX rightIndexerMotor = new TalonFX(16, Constants.kCanivore);
 
     PositionVoltage shooterPosition = new PositionVoltage(0);
+
+    DutyCycleOut ShooterVoltage = new DutyCycleOut(0);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
@@ -46,7 +49,14 @@ public class shooterIndexer extends SubsystemBase {
     rightShooterMotor.setControl(voltageRequest.withVelocity(shooterSpeed));
 
   }
+  public void setShooterOff(double output){
+    leftIndexerMotor.setControl(ShooterVoltage.withOutput(output));
+    leftShooterMotor.setControl(ShooterVoltage.withOutput(output));
+    rightIndexerMotor.setControl(ShooterVoltage.withOutput(output));
+    rightShooterMotor.setControl(ShooterVoltage.withOutput(output));
 
+  }
+  
    public double getShooterSpeed(){
     return leftShooterMotor.getVelocity().getValueAsDouble();
   }

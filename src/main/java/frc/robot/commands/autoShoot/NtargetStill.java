@@ -3,6 +3,7 @@ package frc.robot.commands.autoShoot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.turretHood;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -37,6 +38,7 @@ public class NtargetStill extends Command {
     private double legOne;
     private double legTwo;
     private final CommandXboxController m_driverController;
+    private final turretHood m_turretSubsystem;
 
     private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
     .withDeadband(MaxSpeed*0.05).withHeadingPID(8, 0, 0.01)
@@ -48,9 +50,10 @@ public class NtargetStill extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public NtargetStill(CommandSwerveDrivetrain drive, CommandXboxController driver) {
+    public NtargetStill(CommandSwerveDrivetrain drive, CommandXboxController driver, turretHood turret) {
       m_Drivetrain = drive;
       m_driverController = driver;
+      m_turretSubsystem = turret;
 
 
 
@@ -93,10 +96,11 @@ public class NtargetStill extends Command {
     SmartDashboard.putNumber("robot X", m_robotPose.pose.getX());
     SmartDashboard.putNumber("legtwo", legTwo);   
     SmartDashboard.putNumber("robot off", ((m_turretDegrees + 180)));
+
     m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
         .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
-
+  
     //m_shooterSubsystem.setTurretMotorPos(m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees() + m_turretDegrees);
   }
 

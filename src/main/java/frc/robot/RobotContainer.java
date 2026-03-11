@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.hoodDown;
+import frc.robot.commands.hoodUp;
+import frc.robot.commands.shootNo;
+import frc.robot.commands.shootOff;
 import frc.robot.commands.shootStill;
 import frc.robot.commands.Auton.autonClimb;
 import frc.robot.commands.Auton.autonIntake;
@@ -27,6 +30,7 @@ import frc.robot.commands.Climb.climbRotate;
 import frc.robot.commands.Climb.climbSpeed;
 import frc.robot.commands.Intake.deployIntake;
 import frc.robot.commands.Intake.retractIntake;
+import frc.robot.commands.autoShoot.NshootMove;
 import frc.robot.commands.autoShoot.NtargetMove;
 import frc.robot.commands.autoShoot.NtargetStill;
 import frc.robot.commands.autoShoot.shootTargetMove;
@@ -117,17 +121,17 @@ public class RobotContainer {
 
         // DRIVER CONTROLS commented out bc testing
         driverController.povUp().whileTrue(new smartPass(drivetrain, driverController));
+        driverController.y().onTrue(new hoodUp(m_hoodServoSubsystem));
         driverController.a().onTrue(new hoodDown(m_hoodServoSubsystem));
         driverController.leftBumper().onTrue(new retractIntake(m_intakeSubsystem));
         driverController.rightBumper().onTrue(new deployIntake(m_intakeSubsystem));
-
-        
-                driverController.y().onTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
-                operatorController.b().onTrue(new climbSpeed(m_climberSubsystem));
-
+        driverController.rightTrigger(.5).whileTrue(new shootTargetMove(m_shooterSubsystem, m_spiralRollerSubsystem, driverController, drivetrain, m_intakeSubsystem, m_turretSubsystem));
+        driverController.b().onTrue(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+    
         // OPERATOR CONTROLS
-        operatorController.leftTrigger().whileTrue(new NtargetMove(drivetrain, driverController));
-        operatorController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController));
+        operatorController.leftTrigger().whileTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        operatorController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
+        operatorController.a().onTrue(new shootOff(m_turretSubsystem));
 
 
 
@@ -137,7 +141,7 @@ public class RobotContainer {
     private void regisiterAutonCommands(){
         NamedCommands.registerCommand("intakeDeploy", new autonIntake(m_intakeSubsystem));
         NamedCommands.registerCommand("autonClimb", new autonClimb(m_climberSubsystem));
-        NamedCommands.registerCommand("autonShoot", new autonShoot(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        NamedCommands.registerCommand("shootStill", new autonShoot(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
     }
     public Command getAutonomousCommand() {
       

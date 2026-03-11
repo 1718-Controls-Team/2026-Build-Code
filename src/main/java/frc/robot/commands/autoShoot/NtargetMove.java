@@ -41,7 +41,8 @@ public class NtargetMove extends Command {
     private double dist;
     private double currentTime;
     private double prevTime;
-    private double[] acceleration;
+    private double accelerationX;
+    private double accelerationY;
     private ChassisSpeeds velocity;
     private ChassisSpeeds previousLoopVelocity;
     private final CommandXboxController m_driverController;
@@ -95,8 +96,8 @@ public class NtargetMove extends Command {
     prevTime = currentTime;
     currentTime = loopTimer.get();
 
-    acceleration[0] = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
-    acceleration[1] = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
+    accelerationX = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
+    accelerationY = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
 
     m_alliance = DriverStation.getAlliance();
     if (m_alliance.get() == Alliance.Red) {
@@ -112,8 +113,8 @@ public class NtargetMove extends Command {
 
     dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
-    legTwo = (legTwo - Constants.kShotTimeTable.get(dist)*((acceleration[0]*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
-    legOne = (legOne - Constants.kShotTimeTable.get(dist)*((acceleration[1]*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
+    legTwo = (legTwo - Constants.kShotTimeTable.get(dist)*((accelerationX*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
+    legOne = (legOne - Constants.kShotTimeTable.get(dist)*((accelerationY*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
    
     dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
@@ -129,7 +130,7 @@ public class NtargetMove extends Command {
     m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
         .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
-
+    
     //m_shooterSubsystem.setTurretMotorPos(m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees() + m_turretDegrees);
   }
 

@@ -13,12 +13,6 @@
                 "data": {
                   "pathName": "No Climb 1"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeDeploy"
-                }
               }
             ]
           }
@@ -51,6 +45,12 @@
                 "data": {
                   "name": "shootStill"
                 }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0
+                }
               }
             ]
           }
@@ -63,12 +63,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "No Climb 4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeDeploy"
                 }
               }
             ]

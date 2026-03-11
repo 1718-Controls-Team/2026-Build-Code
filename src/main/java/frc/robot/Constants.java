@@ -22,8 +22,8 @@ public class Constants {
     // key - distance    value - speed
     public static final InterpolatingDoubleTreeMap kSpeedTable = new InterpolatingDoubleTreeMap();
     static {
-        kSpeedTable.put(1.0, 2.0);
-        kSpeedTable.put(2.0, 3.0);
+        kSpeedTable.put(3.66, 90.0);
+        kSpeedTable.put(2.74, 75.0);
     }
 
     // This is only necessary for shooting on move
@@ -31,14 +31,15 @@ public class Constants {
     // key - distance    value - time till shot lands
     public static final InterpolatingDoubleTreeMap kShotTimeTable = new InterpolatingDoubleTreeMap();
     static {
-        kShotTimeTable.put(1.0, 2.0);
-        kShotTimeTable.put(2.0, 3.0);
+        kShotTimeTable.put(3.66, 1.3);
+        kShotTimeTable.put(2.74, 1.2);
     }
 
     // limelight forward pos according to intake position
     public static final InterpolatingDoubleTreeMap kLLForwardPos = new InterpolatingDoubleTreeMap();
     static {
-        kLLForwardPos.put(2.0, 0.4);
+        kLLForwardPos.put(0.0, 0.4699);
+        kLLForwardPos.put(-2.0, 0.6199);
     }
     public static final double kAccelCompFactor = 0.1;
 
@@ -49,10 +50,10 @@ public class Constants {
 */
 
 // Velocity Controls
-    public static final double kIndexerMainSpeed = 30;
+    public static final double kIndexerMainSpeed = 50;
     public static final double kIndexerNoSpeed = 0;
 
-    public static final double kShooterOutSpeed = 55;
+    public static final double kShooterOutSpeed = 75;
 
     public static final double kRollerMainSpeed = 16;
 
@@ -75,8 +76,8 @@ public class Constants {
 
     public static final double kHoodServoDownPos = 0;
 
-    public static final double kTurretMax = .65;
-    public static final double kTurretMin = -1;
+    public static final double kTurretMax = .35;
+    public static final double kTurretMin = -0.2;
 
 
 /*
@@ -120,7 +121,7 @@ public class Constants {
 
     public static final double kIntakeElectricSlideMotorVoltageClosedLoopRampPeriod = 0;
     public static final InvertedValue kIntakeElectricSlideMotorDirection = InvertedValue.CounterClockwise_Positive;
-    public static final double kIntakeElectricSlideMotorSupplyCurrentLimit = 40;
+    public static final double kIntakeElectricSlideMotorSupplyCurrentLimit = 20;
     
 
 
@@ -175,9 +176,9 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kLeftShooterMotorProportional = 1;
+    public static final double kLeftShooterMotorProportional = 2;
     public static final double kLeftShooterMotorIntegral = 0;
-    public static final double kLeftShooterMotorDerivative = 0;
+    public static final double kLeftShooterMotorDerivative = 0.1;
 
     public static final double kLeftShooterMotorGravityFeedForward = 0;
     public static final double kLeftShooterMotorVelocityFeedForward = 0.112;
@@ -198,9 +199,9 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kRightShooterMotorProportional = 1;
+    public static final double kRightShooterMotorProportional = 2;
     public static final double kRightShooterMotorIntegral = 0;
-    public static final double kRightShooterMotorDerivative = 0;
+    public static final double kRightShooterMotorDerivative = 0.1;
 
     public static final double kRightShooterMotorGravityFeedForward = 0;
     public static final double kRightShooterMotorVelocityFeedForward = 0.112;
@@ -221,7 +222,7 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kLeftIndexerMotorProportional = 0;
+    public static final double kLeftIndexerMotorProportional = 1;
     public static final double kLeftIndexerMotorIntegral = 0;
     public static final double kLeftIndexerMotorDerivative = 0;
 
@@ -243,7 +244,7 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kRightIndexerMotorProportional = 0;
+    public static final double kRightIndexerMotorProportional = 1;
     public static final double kRightIndexerMotorIntegral = 0;
     public static final double kRightIndexerMotorDerivative = 0;
 
@@ -254,7 +255,7 @@ public class Constants {
     public static final double kRightIndexerMotorPeakForwardVoltage = 11;
     public static final double kRightIndexerMotorPeakReverseVoltage = -11;
 
-    public static final InvertedValue kRightIndexerMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final InvertedValue kRightIndexerMotorDirection = InvertedValue.CounterClockwise_Positive;
     public static final double kRightIndexerMotorSupplyCurrentLimit = 40;
 
     public static final double kRightIndexerMotorClosedLoopRampPeriod = 0;
@@ -266,9 +267,9 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kLeftTurretMotorProportional = 0;
+    public static final double kLeftTurretMotorProportional = 9;
     public static final double kLeftTurretMotorIntegral = 0;
-    public static final double kLeftTurretMotorDerivative = 0;
+    public static final double kLeftTurretMotorDerivative = 0.2;
 
     public static final double kLeftTurretMotorGravityFeedForward = 0;
     public static final double kLeftTurretMotorVelocityFeedForward = 0.2;
@@ -287,9 +288,9 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kRightTurretMotorProportional = 0;
+    public static final double kRightTurretMotorProportional = 7;
     public static final double kRightTurretMotorIntegral = 0;
-    public static final double kRightTurretMotorDerivative = 0;
+    public static final double kRightTurretMotorDerivative = 0.2;
 
     public static final double kRightTurretMotorGravityFeedForward = 0;
     public static final double kRightTurretMotorVelocityFeedForward = 0.2;

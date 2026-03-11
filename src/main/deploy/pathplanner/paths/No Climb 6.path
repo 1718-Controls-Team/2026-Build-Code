@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.95025,
-        "y": -0.20846428571428532
+        "x": 9.096017857142858,
+        "y": -0.40282142857142844
       },
       "isLocked": false,
       "linkedName": "end of No Climb 5"
     },
     {
       "anchor": {
-        "x": 2.5850535714285714,
-        "y": 0.7795178571428574
+        "x": 1.8400178571428567,
+        "y": 0.8766964285714289
       },
       "prevControl": {
-        "x": 1.5850535714285714,
-        "y": 0.7795178571428575
+        "x": 0.8400178571428567,
+        "y": 0.876696428571429
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,11 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6336898395721928,
+      "waypointRelativePos": 0.43315508021390386,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 0.6203208556149736,
       "rotationDegrees": 1.7656862538311393
     }
   ],
@@ -47,7 +51,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.7848246029918713
+    "rotation": 49.57392125990085
   },
   "reversed": false,
   "folder": "No Climb",

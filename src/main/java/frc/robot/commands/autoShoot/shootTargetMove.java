@@ -7,12 +7,13 @@ package frc.robot.commands.autoShoot;
 import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.spiralRoller;
-import frc.robot.subsystems.hoodServo;
 import frc.robot.subsystems.turretHood;
 import frc.robot.subsystems.intakeFuel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotContainer;
+import frc.robot.generated.TunerConstants;
+import static edu.wpi.first.units.Units.*;
 
 import java.util.Optional;
 
@@ -26,10 +27,8 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.generated.TunerConstants;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.PoseEstimate;
-import static edu.wpi.first.units.Units.*;
 
 
 
@@ -37,14 +36,11 @@ import static edu.wpi.first.units.Units.*;
 public class shootTargetMove extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final shooterIndexer m_shooterSubsystem;
-  private final hoodServo m_hoodSubsystem;
   private final spiralRoller m_spiralRollerSubsystem;
   private final CommandSwerveDrivetrain m_Drivetrain;
   private final intakeFuel m_intakeSubsystem;
   private final turretHood m_turretSubsystem;
-  private RobotContainer m_robotContainer;
-  
-  
+
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     private double legOne;
     private double legTwo;
@@ -58,41 +54,44 @@ public class shootTargetMove extends Command {
     private PoseEstimate m_robotPose;
     private Optional<Alliance> m_alliance;
     private double prevTime;
-    private double[] acceleration;
+    private double accelerationX;
+    private double accelerationY;
+    private final CommandXboxController m_driverController;
     private ChassisSpeeds velocity;
     private ChassisSpeeds previousLoopVelocity;
-    private final CommandXboxController m_driverController;
     private Timer spiralTimer;
-    private double headingDeg = m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees();
+    private double headingDeg;
 
 
-
-    Timer loopTimer = new Timer();
-    
     private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
     .withDeadband(MaxSpeed*0.05).withHeadingPID(8, 0, 0.01)
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+    Timer loopTimer = new Timer();
+
 
       /**
        * Creates a new set-PowerCommand.
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootTargetMove(shooterIndexer shooter, hoodServo hood, spiralRoller spirals, CommandSwerveDrivetrain drivetrain, CommandXboxController driverController, intakeFuel intake, turretHood turret) {
+      public shootTargetMove(shooterIndexer shooter, spiralRoller spirals,  CommandXboxController driver, CommandSwerveDrivetrain drivetrain, intakeFuel intake, turretHood turret) {
         m_shooterSubsystem = shooter;
-        m_hoodSubsystem = hood;
         m_spiralRollerSubsystem = spirals;
+        m_driverController = driver;
         m_Drivetrain = drivetrain;
-        m_driverController = driverController;
         m_intakeSubsystem = intake;
         m_turretSubsystem = turret;
-    
+
       addRequirements(shooter);
+      addRequirements(spirals);
+      addRequirements(intake);
     }
   
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+      headingDeg = m_Drivetrain.getState().Pose.getRotation().getDegrees();
       shootFlag = 1;
 
       loopTimer.reset();
@@ -111,8 +110,8 @@ public class shootTargetMove extends Command {
     prevTime = currentTime;
     currentTime = loopTimer.get();
 
-    acceleration[0] = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
-    acceleration[1] = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
+    accelerationX = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
+    accelerationY = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
 
     m_alliance = DriverStation.getAlliance();
     if (m_alliance.get() == Alliance.Red) {
@@ -128,8 +127,8 @@ public class shootTargetMove extends Command {
 
     dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
-    legTwo = (legTwo - Constants.kShotTimeTable.get(dist)*((acceleration[0]*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
-    legOne = (legOne - Constants.kShotTimeTable.get(dist)*((acceleration[1]*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
+    legTwo = (legTwo - Constants.kShotTimeTable.get(dist)*((accelerationX*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
+    legOne = (legOne - Constants.kShotTimeTable.get(dist)*((accelerationY*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
    
     dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
@@ -143,19 +142,22 @@ public class shootTargetMove extends Command {
     SmartDashboard.putNumber("legtwo", legTwo);   
     SmartDashboard.putNumber("robot off", ((m_turretDegrees + 180)));
 
+    m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
+        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
+        .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
+
+    m_turretDegrees = ((m_turretDegrees + 180) + m_robotPose.pose.getRotation().getDegrees() - 90);
+    m_turretDegrees = (-m_turretDegrees / 72);
+    SmartDashboard.putNumber("turret off", ((m_turretDegrees)));
+
     if (m_turretDegrees <= Constants.kTurretMax && m_turretDegrees >= Constants.kTurretMin) {
       m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
     }
 
-    /*m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
-        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
-        .withTargetDirection(new Rotation2d(((m_turretDegrees)/180)*Math.PI)));
-    */
     
       switch (shootFlag) {
         case 1:
             m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
-            m_hoodSubsystem.setPos(Constants.kHoodTable.get(dist));
             m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
             shootFlag = 2;
           break;

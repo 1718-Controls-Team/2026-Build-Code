@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -23,6 +24,8 @@ public class spiralRoller extends SubsystemBase {
     TalonFX leftRollerSpinMotor = new TalonFX(24, Constants.kCanivore);
 
     PositionVoltage intakePosition = new PositionVoltage(0);
+
+    DutyCycleOut RollerVoltage = new DutyCycleOut(0);
 
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
@@ -42,6 +45,11 @@ public class spiralRoller extends SubsystemBase {
     leftRollerSpinMotor.setControl(voltageRequest.withVelocity(rollerSpeed));
     rightRollerSpinMotor.setControl(voltageRequest.withVelocity(rollerSpeed));
 
+  }
+
+  public void setSpiralRollerOff(double output) {
+    leftRollerSpinMotor.setControl(RollerVoltage.withOutput(output));
+    rightRollerSpinMotor.setControl(RollerVoltage.withOutput(output));
   }
 
    public double getSpiralRollerSpinSpeed() {

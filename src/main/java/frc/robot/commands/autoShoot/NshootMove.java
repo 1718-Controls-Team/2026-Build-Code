@@ -106,7 +106,6 @@ public class NshootMove extends Command {
     switch (shootFlag) {
         case 1:
             m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kIndexerMainSpeed);
-            m_hoodSubsystem.setPos(Constants.kHoodTable.get(dist));
             shootFlag = 2;
           break;
         case 2:
