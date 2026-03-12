@@ -45,12 +45,6 @@
                 "data": {
                   "name": "shootStill"
                 }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0
-                }
               }
             ]
           }
