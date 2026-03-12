@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.intakeFuel;
-import frc.robot.subsystems.turretHood;
 import frc.robot.subsystems.spiralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -15,13 +14,16 @@ import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class shootOff extends Command {
+public class spittersAreQuitters extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final turretHood m_turretSubsystem;
-
+  private final shooterIndexer m_shooterSubsystem;
+  private final spiralRoller m_spiralRollerSubsystem;
+  private final intakeFuel m_intakeSubsystem;
   
   
     private boolean m_isFinished = false;
+    private int shootFlag = 0;
+    Timer spiralTimer = new Timer();
   
     
       /**
@@ -29,16 +31,22 @@ public class shootOff extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootOff(turretHood turret) {
-        m_turretSubsystem = turret;
+      public spittersAreQuitters(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake) {
+        m_shooterSubsystem = shooter;
+        m_spiralRollerSubsystem = spirals;
+        m_intakeSubsystem = intake;
     
-      addRequirements(turret);
-
+      addRequirements(shooter);
+      addRequirements(spirals);
+      addRequirements(intake);
     }
+  
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_turretSubsystem.setTurretMotorPos(0.0);
+      shootFlag = 1;
+
+      
       
     }
 
@@ -46,14 +54,20 @@ public class shootOff extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-      }
-  
+      m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(-30);
+      m_shooterSubsystem.setShooterSpinSpeed(-40);
+      m_shooterSubsystem.setIndexerSpinSpeed(-50);
+      m_intakeSubsystem.setIntakeSpinSpeed(40);
+            //if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
+            //  m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
+            //}
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+  m_shooterSubsystem.setShooterOff(0);
+    m_spiralRollerSubsystem.setSpiralRollerOff(0);
 }
   // Returns true when the command should end.
   @Override

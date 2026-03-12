@@ -47,6 +47,7 @@ public class shootNo extends Command {
     public void initialize() {
     m_shooterSubsystem.setShooterOff(0);
     m_spiralRollerSubsystem.setSpiralRollerOff(0);
+    m_intakeSubsystem.setIntakeOutput(0);
       
     }
 

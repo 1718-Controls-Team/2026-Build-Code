@@ -104,7 +104,7 @@ public class shootTargetMove extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    previousLoopVelocity = velocity;
+   /*  previousLoopVelocity = velocity;
     velocity = m_Drivetrain.getState().Speeds;
 
     prevTime = currentTime;
@@ -112,6 +112,7 @@ public class shootTargetMove extends Command {
 
     accelerationX = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
     accelerationY = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
+    */
 
     m_alliance = DriverStation.getAlliance();
     if (m_alliance.get() == Alliance.Red) {
@@ -125,11 +126,11 @@ public class shootTargetMove extends Command {
       legOne = (Constants.kBlueHubCoord[1] - m_robotPose.pose.getY());
     }
 
-    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
+    /* dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
     legTwo = (legTwo - Constants.kShotTimeTable.get(dist)*((accelerationX*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
     legOne = (legOne - Constants.kShotTimeTable.get(dist)*((accelerationY*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
-   
+   */
     dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
     m_turretRadians = Math.atan2(legOne, legTwo);
@@ -147,7 +148,7 @@ public class shootTargetMove extends Command {
         .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
 
     m_turretDegrees = ((m_turretDegrees + 180) + m_robotPose.pose.getRotation().getDegrees() - 90);
-    m_turretDegrees = (-m_turretDegrees / 72);
+    m_turretDegrees = (-m_turretDegrees / 108);
     SmartDashboard.putNumber("turret off", ((m_turretDegrees)));
 
     if (m_turretDegrees <= Constants.kTurretMax && m_turretDegrees >= Constants.kTurretMin) {
@@ -162,7 +163,7 @@ public class shootTargetMove extends Command {
             shootFlag = 2;
           break;
         case 2:
-          if (m_shooterSubsystem.getShooterSpeed() > 5) {
+          if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 5)) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
             spiralTimer.reset();
             spiralTimer.start();
@@ -172,9 +173,6 @@ public class shootTargetMove extends Command {
         case 3:
           if (spiralTimer.get() >= 2) {
             m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
-            if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
-              m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
-            }
           }
           break;
       }

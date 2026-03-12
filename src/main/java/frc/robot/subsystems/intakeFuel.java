@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -24,6 +25,8 @@ public class intakeFuel extends SubsystemBase {
 
     PositionVoltage intakePosition = new PositionVoltage(0);
 
+    DutyCycleOut outputIntake = new DutyCycleOut(0);
+
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
   public intakeFuel() {
@@ -40,6 +43,10 @@ public class intakeFuel extends SubsystemBase {
    */
   public void setIntakeSpinSpeed(double intakeSpeed) {
     intakeSpinMotor.setControl(voltageRequest.withVelocity(intakeSpeed));
+  }
+
+  public void setIntakeOutput(double output) {
+    intakeSpinMotor.setControl(outputIntake.withOutput(output));
   }
 
    public double getIntakeSpinSpeed() {

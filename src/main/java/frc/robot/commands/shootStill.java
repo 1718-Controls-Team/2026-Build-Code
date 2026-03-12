@@ -61,7 +61,8 @@ public class shootStill extends Command {
             shootFlag = 2;
           break;
         case 2:
-          if (m_shooterSubsystem.getShooterSpeed() > 5) {
+
+          if (m_shooterSubsystem.getShooterSpeed() > (Constants.kShooterOutSpeed - 5)) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
             spiralTimer.reset();
             spiralTimer.start();

@@ -59,6 +59,8 @@ public class deployIntake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+  m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
+
 }
   // Returns true when the command should end.
   @Override

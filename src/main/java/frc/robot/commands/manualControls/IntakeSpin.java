@@ -40,7 +40,7 @@ public class IntakeSpin extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {    
-      m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeInSpeed);
+      m_intakeSubsystem.setIntakeElectricSlidePos(0.0);
     
   }
 
