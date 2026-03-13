@@ -43,13 +43,11 @@ public class retractIntake extends Command {
   public void execute() {
    switch (m_retract) {
     case 1:
-      m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
+      m_intakeSubsystem.setIntakeOutput(0.0);
       m_retract = 2;
       break;
     case 2:
-      if (m_intakeSubsystem.getIntakeSpinSpeed() <= (Constants.kIntakeNoSpeed + 1)) {
         m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideInPos);
-      }
       break;
    }
   }

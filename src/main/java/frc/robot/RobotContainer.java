@@ -10,6 +10,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.fasterxml.jackson.databind.util.Named;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,12 +22,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.hoodDown;
 import frc.robot.commands.hoodUp;
 import frc.robot.commands.shootNo;
-import frc.robot.commands.shootOff;
 import frc.robot.commands.shootStill;
 import frc.robot.commands.spittersAreQuitters;
+import frc.robot.commands.turretZero;
 import frc.robot.commands.Auton.autonClimb;
 import frc.robot.commands.Auton.autonIntake;
 import frc.robot.commands.Auton.autonShoot;
+import frc.robot.commands.Auton.flywheel;
 import frc.robot.commands.Climb.climbRotate;
 import frc.robot.commands.Climb.climbSpeed;
 import frc.robot.commands.Intake.deployIntake;
@@ -133,7 +135,7 @@ public class RobotContainer {
         // OPERATOR CONTROLS
         operatorController.leftTrigger().whileTrue(new shootSelf(m_shooterSubsystem, m_spiralRollerSubsystem, driverController, drivetrain, m_intakeSubsystem, m_turretSubsystem));
         operatorController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
-        operatorController.b().onTrue(new shootOff(m_turretSubsystem));
+        operatorController.b().onTrue(new turretZero(m_turretSubsystem));
         operatorController.y().onTrue(new hoodUp(m_hoodServoSubsystem));
 
 
@@ -145,6 +147,11 @@ public class RobotContainer {
         NamedCommands.registerCommand("intakeDeploy", new autonIntake(m_intakeSubsystem));
         NamedCommands.registerCommand("autonClimb", new autonClimb(m_climberSubsystem));
         NamedCommands.registerCommand("shootStill", new autonShoot(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        NamedCommands.registerCommand("intakeRetract", new retractIntake(m_intakeSubsystem));
+        NamedCommands.registerCommand("hoodUp", new hoodUp(m_hoodServoSubsystem));
+        NamedCommands.registerCommand("hoodDown", new hoodDown(m_hoodServoSubsystem));
+        NamedCommands.registerCommand("flywheel", new flywheel(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        NamedCommands.registerCommand("turretZero", new turretZero(m_turretSubsystem));
     }
     public Command getAutonomousCommand() {
       

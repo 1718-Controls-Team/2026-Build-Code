@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.551705199870643,
-        "y": 1.6610637451917531
+        "x": 7.54434201900149,
+        "y": 1.7478419097535012
       },
       "isLocked": false,
       "linkedName": "end of No Climb 1"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 7.544540954423866,
-        "y": 2.7118511627033435
+        "y": 3.3736458333333337
       },
       "prevControl": {
-        "x": 7.533293004210057,
-        "y": 2.3483928441016944
+        "x": 7.539911442539613,
+        "y": 3.123688701769312
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,21 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.005970149253731416,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {

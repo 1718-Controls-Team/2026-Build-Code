@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.888607142857142,
-        "y": 0.8604999999999996
+        "x": 1.8339461824047967,
+        "y": 0.5497667027600539
       },
       "isLocked": false,
       "linkedName": "end of No Climb 3"
@@ -20,8 +20,8 @@
         "y": 1.2215812299316224
       },
       "prevControl": {
-        "x": 7.848892857142857,
-        "y": 0.27742857142857136
+        "x": 7.800303571428573,
+        "y": 0.5689642857096272
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,8 +34,8 @@
       "rotationDegrees": 0.43760279283539016
     },
     {
-      "waypointRelativePos": 0.5481283422459896,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 0.6711229946524065,
+      "rotationDegrees": 0.2643648707596507
     }
   ],
   "constraintZones": [],
@@ -57,7 +57,7 @@
   "folder": "No Climb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 42.7974018382342
+    "rotation": 48.797
   },
   "useDefaultConstraints": true
 }

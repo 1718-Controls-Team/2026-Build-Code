@@ -5,13 +5,19 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
                   "pathName": "No Climb 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeDeploy"
                 }
               }
             ]
@@ -43,20 +49,44 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootStill"
+                  "name": "intakeRetract"
                 }
               }
             ]
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
+          "data": {
+            "name": "hoodUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shootStill"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "hoodDown"
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
                   "pathName": "No Climb 4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeDeploy"
                 }
               }
             ]
@@ -79,6 +109,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeRetract"
           }
         }
       ]

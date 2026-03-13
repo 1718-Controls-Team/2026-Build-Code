@@ -1,4 +1,4 @@
-package frc.robot.commands.Auton;
+package frc.robot.commands.Intake;
 
 
 
@@ -9,25 +9,25 @@ import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class autonIntake extends Command {
+public class autoRetract extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final intakeFuel m_intakeSubsystem;
   
-    private boolean m_isFinished = false;
-    private Timer erikaTimer = new Timer();
-  
+    private boolean m_isFinished = false;  
+    private int m_retract = 0;
+    private Timer m_ashleyTimer = new Timer();
   
     /**
      * Creates a new set-PowerCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public autonIntake(intakeFuel intakeSubsystem) {
-      m_intakeSubsystem = intakeSubsystem;
+    public autoRetract(intakeFuel intake) {
+      m_intakeSubsystem = intake;
   
      
       // Use addRequirements() here to declare subsystem dependencies.
-      addRequirements(intakeSubsystem);
+      addRequirements(intake);
       
           
     }
@@ -35,21 +35,21 @@ public class autonIntake extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_isFinished = false;
-        erikaTimer.reset();
-        erikaTimer.start();
+      m_retract = 1;
+      m_ashleyTimer.reset();
+      m_ashleyTimer.start();
+
     }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (erikaTimer.get() <= 0.25) {
-      m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos);
-      m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeInSpeed);
-    }
+  if (m_ashleyTimer.get() <= 0.25) {
+      m_intakeSubsystem.setIntakeOutput(0.0);
+      m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideInPos);
+   }
   }
-  
 
   // Called once the command ends or is interrupted.
   @Override

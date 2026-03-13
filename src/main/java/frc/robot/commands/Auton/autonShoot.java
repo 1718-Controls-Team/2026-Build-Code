@@ -61,29 +61,33 @@ public class autonShoot extends Command {
             shootFlag = 2;
           break;
         case 2:
-          if (spiralTimer.get() >= 0.25) {
+          if (spiralTimer.get() >= 0.5) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
-            spiralTimer.reset();
-            spiralTimer.start();
             shootFlag = 3;
           }
           break; 
         case 3:
-          if (spiralTimer.get() >= 2) {
-            if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
-              m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
+          for (int i = 0; i < 5; i++) {
+            if (m_intakeSubsystem.getIntakeElectricSlidePos() > -7) {
+              m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos);
+              spiralTimer.reset();
+              spiralTimer.start();
+            }
+            if (spiralTimer.get() >= .5) {
+              m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideInPos);
             }
           }
           break;
+
       }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  m_shooterSubsystem.setShooterSpinSpeed(0);
-  m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(0);
-  m_shooterSubsystem.setIndexerSpinSpeed(0);
+  m_shooterSubsystem.setShooterOff(0);
+    m_spiralRollerSubsystem.setSpiralRollerOff(0);
+    m_intakeSubsystem.setIntakeOutput(0);
 }
   // Returns true when the command should end.
   @Override

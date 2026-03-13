@@ -15,7 +15,7 @@ public class Constants {
     // key - distance    value - speed
     public static final InterpolatingDoubleTreeMap kSpeedTable = new InterpolatingDoubleTreeMap();
     static {
-        kSpeedTable.put(3.51, 57.0);
+        kSpeedTable.put(3.51, 60.0);
         kSpeedTable.put(2.6, 50.0);
         kSpeedTable.put(1.8, 47.0);
 
@@ -48,12 +48,12 @@ public class Constants {
     public static final double kIndexerMainSpeed = 50;
     public static final double kIndexerNoSpeed = 0;
 
-    public static final double kShooterOutSpeed = 47;
+    public static final double kShooterOutSpeed = 63;
 
 
     public static final double kRollerMainSpeed = 30;
 
-    public static final double kIntakeInSpeed = -60;
+    public static final double kIntakeInSpeed = -70;
     public static final double kIntakeIdleSpeed = -10;
     public static final double kIntakeNoSpeed = 0;
 
@@ -66,8 +66,8 @@ public class Constants {
     public static final double kClimbRotateOutPos = 13;
     public static final double kClimbRotateDownPos = 0;
 
-    // Intake 0 - 7
-    public static final double kIntakeSlideOutPos = -13;
+    // Intake 0 -> -15
+    public static final double kIntakeSlideOutPos = -14.6;
     public static final double kIntakeSlideInPos = -3.868;
 
     public static final double kHoodServoDownPos = 0.2;

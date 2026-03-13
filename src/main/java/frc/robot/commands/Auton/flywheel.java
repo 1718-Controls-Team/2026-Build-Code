@@ -2,11 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Auton;
 
 import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.intakeFuel;
-import frc.robot.subsystems.turretHood;
 import frc.robot.subsystems.spiralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -15,13 +14,16 @@ import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class turretZero extends Command {
+public class flywheel extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final turretHood m_turretSubsystem;
-
+  private final shooterIndexer m_shooterSubsystem;
+  private final spiralRoller m_spiralRollerSubsystem;
+  private final intakeFuel m_intakeSubsystem;
   
   
     private boolean m_isFinished = false;
+    private int shootFlag = 0;
+    Timer spiralTimer = new Timer();
   
     
       /**
@@ -29,16 +31,20 @@ public class turretZero extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public turretZero(turretHood turret) {
-        m_turretSubsystem = turret;
+      public flywheel(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake) {
+        m_shooterSubsystem = shooter;
+        m_spiralRollerSubsystem = spirals;
+        m_intakeSubsystem = intake;
     
-      addRequirements(turret);
-
+      addRequirements(shooter);
     }
+  
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_turretSubsystem.setTurretMotorPos(0.0);
+      shootFlag = 1;
+
+      
       
     }
 
@@ -46,9 +52,11 @@ public class turretZero extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-      }
+
+    m_shooterSubsystem.setShooterSpinSpeed(Constants.kShooterOutSpeed);
   
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override

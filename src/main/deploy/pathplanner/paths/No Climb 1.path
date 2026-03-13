@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.447642857142856,
-        "y": 0.6823392857142858
+        "x": 4.457360714285712,
+        "y": 0.7811375000000009
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.260532331004437,
-        "y": 0.700928813091515
+        "x": 6.002499999999995,
+        "y": 0.21264285713765718
       },
       "isLocked": false,
       "linkedName": null
@@ -20,15 +20,20 @@
         "y": 1.1940138331642378
       },
       "prevControl": {
-        "x": 6.6223494669852165,
-        "y": 1.0583208418109846
+        "x": 7.295759766164681,
+        "y": 1.2186698743782718
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "end of No Climb 1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 1.2646122834426343
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
