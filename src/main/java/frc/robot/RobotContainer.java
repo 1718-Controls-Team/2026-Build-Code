@@ -127,7 +127,6 @@ public class RobotContainer {
         driverController.povUp().whileTrue(new smartPass(drivetrain, driverController));
         driverController.leftBumper().onTrue(new retractIntake(m_intakeSubsystem));
         driverController.rightBumper().onTrue(new deployIntake(m_intakeSubsystem));
-        driverController.b().onTrue(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
         driverController.a().onTrue(new hoodDown(m_hoodServoSubsystem));
         driverController.x().whileTrue(new spittersAreQuitters(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
 
@@ -135,7 +134,8 @@ public class RobotContainer {
         // OPERATOR CONTROLS
         operatorController.leftTrigger().whileTrue(new shootSelf(m_shooterSubsystem, m_spiralRollerSubsystem, driverController, drivetrain, m_intakeSubsystem, m_turretSubsystem));
         operatorController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
-        operatorController.b().onTrue(new turretZero(m_turretSubsystem));
+        operatorController.x().onTrue(new turretZero(m_turretSubsystem));
+        operatorController.b().onTrue(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
         operatorController.y().onTrue(new hoodUp(m_hoodServoSubsystem));
 
 
