@@ -53,7 +53,7 @@ public class Constants {
 
     public static final double kRollerMainSpeed = 30;
 
-    public static final double kIntakeInSpeed = -70;
+    public static final double kIntakeInSpeed = -60;
     public static final double kIntakeIdleSpeed = -10;
     public static final double kIntakeNoSpeed = 0;
 
@@ -68,7 +68,7 @@ public class Constants {
 
     // Intake 0 -> -15
     public static final double kIntakeSlideOutPos = -14.6;
-    public static final double kIntakeSlideInPos = -3.868;
+    public static final double kIntakeSlideInPos = -6.697;
 
     public static final double kHoodServoDownPos = 0.2;
 

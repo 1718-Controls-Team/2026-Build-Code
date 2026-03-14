@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6014409722222223,
-        "y": 0.6967361111111119
+        "x": 1.5484821428571425,
+        "y": 5.962375
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3749590271465375,
-        "y": 1.1323001647506483
+        "x": 1.2893392857142854,
+        "y": 5.962375
       },
       "isLocked": false,
       "linkedName": "Middle No Climb 3"
     },
     {
       "anchor": {
-        "x": 2.506770833333333,
-        "y": 1.751753472222223
+        "x": 0.8358392857142853,
+        "y": 5.962375
       },
       "prevControl": {
-        "x": 2.1043870180858213,
-        "y": 1.5436269596380052
+        "x": 1.0762202726244912,
+        "y": 5.893694718025656
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,21 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 0.5,
+        "maxAcceleration": 0.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -42,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.9700649037096
   },
   "reversed": false,
   "folder": "Middle No Climb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 178.2100893917539
   },
   "useDefaultConstraints": true
 }

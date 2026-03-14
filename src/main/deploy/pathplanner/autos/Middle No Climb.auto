@@ -15,16 +15,29 @@
                 }
               },
               {
-                "type": "named",
+                "type": "race",
                 "data": {
-                  "name": "shootStill"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shootStill"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.0
+                      }
+                    }
+                  ]
                 }
               }
             ]
           }
         },
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -34,9 +47,22 @@
                 }
               },
               {
-                "type": "wait",
+                "type": "race",
                 "data": {
-                  "waitTime": 1.0
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeDeploy"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.25
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -50,12 +76,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "Middle No Climb 3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shootStill"
                 }
               }
             ]

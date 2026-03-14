@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 0.6014409722222223,
-        "y": 0.6967361111111119
+        "x": 1.5484821428571425,
+        "y": 5.962375
       },
       "prevControl": {
-        "x": 0.7400929575625599,
-        "y": 1.08148574361825
+        "x": 1.68713412819748,
+        "y": 6.347124632507137
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 178.2100893917539
   },
   "reversed": false,
   "folder": "Middle No Climb",

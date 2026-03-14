@@ -116,7 +116,7 @@ public class shootSelf extends Command {
     switch (shootFlag) {
         case 1:
             m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
-            m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist) + 7);
+            m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist) + 4);
             shootFlag = 2;
           break;
         case 2:
