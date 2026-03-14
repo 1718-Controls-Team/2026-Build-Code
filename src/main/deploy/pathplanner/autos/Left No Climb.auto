@@ -15,9 +15,34 @@
                 }
               },
               {
-                "type": "named",
+                "type": "race",
                 "data": {
-                  "name": "intakeDeploy"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeDeploy"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "flywheel"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "turretZero"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -31,6 +56,25 @@
                 "type": "path",
                 "data": {
                   "pathName": "Left No Climb 2"
+                }
+              },
+              {
+                "type": "race",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeRetract"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -49,7 +93,32 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootStill"
+                  "name": "hoodUp"
+                }
+              },
+              {
+                "type": "race",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shootStill"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.5
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "hoodDown"
                 }
               }
             ]
@@ -66,9 +135,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "race",
                 "data": {
-                  "name": "intakeDeploy"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeDeploy"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -85,9 +167,22 @@
                 }
               },
               {
-                "type": "path",
+                "type": "race",
                 "data": {
-                  "pathName": "Left No Climb 6"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeRetract"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
+                      }
+                    }
+                  ]
                 }
               }
             ]
