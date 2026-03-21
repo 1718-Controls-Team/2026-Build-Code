@@ -19,11 +19,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.PASS;
 import frc.robot.commands.hoodDown;
 import frc.robot.commands.hoodUp;
 import frc.robot.commands.shootNo;
 import frc.robot.commands.shootStill;
 import frc.robot.commands.spittersAreQuitters;
+import frc.robot.commands.turnTsAround;
 import frc.robot.commands.turretZero;
 import frc.robot.commands.Auton.autonClimb;
 import frc.robot.commands.Auton.autonIntake;
@@ -39,7 +41,6 @@ import frc.robot.commands.autoShoot.NtargetStill;
 import frc.robot.commands.autoShoot.shootSelf;
 import frc.robot.commands.autoShoot.shootTargetMove;
 import frc.robot.commands.autoShoot.smartPass;
-import frc.robot.commands.manualControls.IntakeSpin;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.shooterIndexer;
@@ -124,19 +125,26 @@ public class RobotContainer {
         driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         // DRIVER CONTROLS commented out bc testing
-        driverController.povUp().whileTrue(new smartPass(drivetrain, driverController));
+        driverController.povUp().whileTrue(new smartPass(drivetrain, driverController, m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
         driverController.leftBumper().onTrue(new retractIntake(m_intakeSubsystem));
         driverController.rightBumper().onTrue(new deployIntake(m_intakeSubsystem));
         driverController.a().onTrue(new hoodDown(m_hoodServoSubsystem));
         driverController.x().whileTrue(new spittersAreQuitters(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        driverController.rightTrigger().whileTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem))
+                                       .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
+        //driverController.leftTrigger().whileTrue(new PASS(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
+        driverController.leftTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
 
-    
         // OPERATOR CONTROLS
-        operatorController.leftTrigger().whileTrue(new shootSelf(m_shooterSubsystem, m_spiralRollerSubsystem, driverController, drivetrain, m_intakeSubsystem, m_turretSubsystem));
+        operatorController.leftTrigger().whileTrue(new shootSelf(m_shooterSubsystem, m_spiralRollerSubsystem, drivetrain, m_intakeSubsystem, m_turretSubsystem))
+                                        .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
         operatorController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
         operatorController.x().onTrue(new turretZero(m_turretSubsystem));
-        operatorController.b().onTrue(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
+        operatorController.b().onTrue(new turnTsAround(m_turretSubsystem));
         operatorController.y().onTrue(new hoodUp(m_hoodServoSubsystem));
+    
+
+
 
 
 

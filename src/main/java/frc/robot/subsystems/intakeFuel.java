@@ -80,7 +80,7 @@ public class intakeFuel extends SubsystemBase {
     intakeSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kIntakeSpinMotorPeakReverseVoltage;
 
     intakeSpinMotorConfig.MotorOutput.Inverted = Constants.kIntakeSpinMotorDirection;
-    intakeSpinMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    intakeSpinMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
   
 
     Slot0Configs slot0 = intakeSpinMotorConfig.Slot0;

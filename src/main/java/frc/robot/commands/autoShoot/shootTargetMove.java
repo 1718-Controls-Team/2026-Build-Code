@@ -8,6 +8,7 @@ import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.spiralRoller;
 import frc.robot.subsystems.turretHood;
+import frc.robot.subsystems.hoodServo;
 import frc.robot.subsystems.intakeFuel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -40,6 +42,7 @@ public class shootTargetMove extends Command {
   private final CommandSwerveDrivetrain m_Drivetrain;
   private final intakeFuel m_intakeSubsystem;
   private final turretHood m_turretSubsystem;
+  private final hoodServo m_hoodSubsystem;
 
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     private double legOne;
@@ -48,10 +51,11 @@ public class shootTargetMove extends Command {
     private double currentTime;
     public boolean m_autoTarget = true;
     private double m_turretDegrees;
+    private double m_robotDegrees;
     private double m_turretRadians;
     private boolean m_isFinished = false;
     private int shootFlag = 0;
-    private PoseEstimate m_robotPose;
+    private Pose2d m_robotPose;
     private Optional<Alliance> m_alliance;
     private double prevTime;
     private double accelerationX;
@@ -75,10 +79,11 @@ public class shootTargetMove extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootTargetMove(shooterIndexer shooter, spiralRoller spirals,  CommandXboxController driver, CommandSwerveDrivetrain drivetrain, intakeFuel intake, turretHood turret) {
+      public shootTargetMove(shooterIndexer shooter, spiralRoller spirals, hoodServo hood, CommandXboxController driver, CommandSwerveDrivetrain drivetrain, intakeFuel intake, turretHood turret) {
         m_shooterSubsystem = shooter;
         m_spiralRollerSubsystem = spirals;
         m_driverController = driver;
+        m_hoodSubsystem = hood;
         m_Drivetrain = drivetrain;
         m_intakeSubsystem = intake;
         m_turretSubsystem = turret;
@@ -104,7 +109,7 @@ public class shootTargetMove extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   /*  previousLoopVelocity = velocity;
+    previousLoopVelocity = velocity;
     velocity = m_Drivetrain.getState().Speeds;
 
     prevTime = currentTime;
@@ -112,71 +117,68 @@ public class shootTargetMove extends Command {
 
     accelerationX = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
     accelerationY = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
-    */
+    
 
-    m_alliance = DriverStation.getAlliance();
+    m_robotPose = m_Drivetrain.getState().Pose;
+    if (m_robotPose != null) {
+       m_alliance = DriverStation.getAlliance();
     if (m_alliance.get() == Alliance.Red) {
-      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight");
-      legTwo = (Constants.kRedHubCoord[0] - m_robotPose.pose.getX());
-      legOne = (Constants.kRedHubCoord[1] - m_robotPose.pose.getY());
-    } 
-    else {
-      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-      legTwo = (Constants.kBlueHubCoord[0] - m_robotPose.pose.getX());
-      legOne = (Constants.kBlueHubCoord[1] - m_robotPose.pose.getY());
+      legTwo = Math.abs((m_robotPose.getX() - Constants.kRedHubCoord[0]));
+      legOne = Math.abs((m_robotPose.getY() - Constants.kRedHubCoord[1]));
+    } else {
+      legTwo = Math.abs((m_robotPose.getX() - Constants.kBlueHubCoord[0]));
+      legOne = Math.abs((m_robotPose.getY() - Constants.kBlueHubCoord[1]));
     }
 
-    /* dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
+    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
     legTwo = (legTwo - Constants.kShotTimeTable.get(dist)*((accelerationX*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
     legOne = (legOne - Constants.kShotTimeTable.get(dist)*((accelerationY*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
-   */
+   
     dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
-    m_turretRadians = Math.atan2(legOne, legTwo);
-    m_turretDegrees = (( m_turretRadians / Math.PI )*180);
-    SmartDashboard.putNumber("turretOffset", m_turretDegrees);
-    m_turretDegrees = (m_turretDegrees + headingDeg);
-    SmartDashboard.putNumber("legone", legOne);
-    SmartDashboard.putNumber("robot Y", m_robotPose.pose.getY());
-    SmartDashboard.putNumber("robot X", m_robotPose.pose.getX());
-    SmartDashboard.putNumber("legtwo", legTwo);   
-    SmartDashboard.putNumber("robot off", ((m_turretDegrees + 180)));
+    m_robotDegrees = Math.atan2(legOne, legTwo);
 
     m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
-        .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
+        .withTargetDirection(new Rotation2d((m_robotDegrees + 180))));
 
-    m_turretDegrees = ((m_turretDegrees + 180) + m_robotPose.pose.getRotation().getDegrees() - 90);
+    m_turretDegrees = (Math.acos(legTwo / dist)) - m_robotPose.getRotation().getDegrees();
+    SmartDashboard.putNumber("turret deg", m_turretDegrees);
     m_turretDegrees = (-m_turretDegrees / 108);
     SmartDashboard.putNumber("turret off", ((m_turretDegrees)));
 
     if (m_turretDegrees <= Constants.kTurretMax && m_turretDegrees >= Constants.kTurretMin) {
       m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
     }
-
     
       switch (shootFlag) {
         case 1:
-            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
-            m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
+            m_hoodSubsystem.setPos1(0.35);
             shootFlag = 2;
           break;
         case 2:
+          if (m_hoodSubsystem.getPos() == 0.35) {
+            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
+            m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
+            shootFlag = 3;
+          }
+          break;
+        case 3:
           if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 5)) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
             spiralTimer.reset();
             spiralTimer.start();
-            shootFlag = 3;
+            shootFlag = 4;
           }
           break; 
-        case 3:
+        case 4:
           if (spiralTimer.get() >= 2) {
             m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
           }
           break;
       }
-  }
+  } }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -184,6 +186,7 @@ public class shootTargetMove extends Command {
   m_shooterSubsystem.setShooterSpinSpeed(0);
   m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(0);
   m_shooterSubsystem.setIndexerSpinSpeed(0);
+  m_hoodSubsystem.setPos1(0.2);
 }
   // Returns true when the command should end.
   @Override

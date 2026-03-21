@@ -9,6 +9,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
@@ -29,6 +30,8 @@ public class shooterIndexer extends SubsystemBase {
 
     DutyCycleOut ShooterVoltage = new DutyCycleOut(0);
 
+    VelocityTorqueCurrentFOC GoodVelocityControl = new VelocityTorqueCurrentFOC(0);
+
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
   public shooterIndexer() {
@@ -45,8 +48,8 @@ public class shooterIndexer extends SubsystemBase {
    * @return a command
    */
   public void setShooterSpinSpeed(double shooterSpeed) {
-    leftShooterMotor.setControl(voltageRequest.withVelocity(shooterSpeed));
-    rightShooterMotor.setControl(voltageRequest.withVelocity(shooterSpeed));
+    leftShooterMotor.setControl(GoodVelocityControl.withVelocity(shooterSpeed));
+    rightShooterMotor.setControl(GoodVelocityControl.withVelocity(shooterSpeed));
 
   }
   public void setShooterOff(double output){
@@ -56,9 +59,13 @@ public class shooterIndexer extends SubsystemBase {
     rightShooterMotor.setControl(ShooterVoltage.withOutput(output));
 
   }
-  
+  public void setIndexerOff(double output){
+    leftIndexerMotor.setControl(ShooterVoltage.withOutput(output));
+    rightIndexerMotor.setControl(ShooterVoltage.withOutput(output));
+
+  }
    public double getShooterSpeed(){
-    return leftShooterMotor.getVelocity().getValueAsDouble();
+    return rightShooterMotor.getVelocity().getValueAsDouble();
   }
 
   public void setIndexerSpinSpeed(double indexerSpeed){
@@ -68,7 +75,7 @@ public class shooterIndexer extends SubsystemBase {
   }
 
   public double getIndexerSpeed(){
-    return leftIndexerMotor.getVelocity().getValueAsDouble();
+    return rightIndexerMotor.getVelocity().getValueAsDouble();
   }
 
   
@@ -90,7 +97,7 @@ public class shooterIndexer extends SubsystemBase {
     leftShooterMotorConfig.Voltage.PeakReverseVoltage = Constants.kLeftShooterMotorPeakReverseVoltage;
 
     leftShooterMotorConfig.MotorOutput.Inverted = Constants.kLeftShooterMotorDirection;
-    leftShooterMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    leftShooterMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
   
 
     Slot0Configs slot0 = leftShooterMotorConfig.Slot0;
@@ -128,7 +135,7 @@ public class shooterIndexer extends SubsystemBase {
     rightShooterMotorConfig.Voltage.PeakReverseVoltage = Constants.kRightShooterMotorPeakReverseVoltage;
 
     rightShooterMotorConfig.MotorOutput.Inverted = Constants.kRightShooterMotorDirection;
-    rightShooterMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    rightShooterMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
   
 
     Slot0Configs slot0 = rightShooterMotorConfig.Slot0;

@@ -23,6 +23,8 @@ public class autonShoot extends Command {
   
     private boolean m_isFinished = false;
     private int shootFlag = 0;
+    private double inFlag = 0;
+    private double outFlag = 0;
     Timer spiralTimer = new Timer();
   
     
@@ -43,8 +45,8 @@ public class autonShoot extends Command {
     @Override
     public void initialize() {
       shootFlag = 1;
-
-      
+      inFlag = 0;
+      outFlag = 0;
       
     }
 
@@ -67,20 +69,23 @@ public class autonShoot extends Command {
           }
           break; 
         case 3:
-          for (int i = 0; i < 5; i++) {
-            if (m_intakeSubsystem.getIntakeElectricSlidePos() > -7) {
-              m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos);
-              spiralTimer.reset();
-              spiralTimer.start();
+         /*if (m_intakeSubsystem.getIntakeElectricSlidePos() == (Constants.kIntakeSlideInPos - 1) || m_intakeSubsystem.getIntakeElectricSlidePos() == (Constants.kIntakeSlideInPos + 1)) {
+              outFlag = 1;
+            } else {
+              inFlag = 1;
             }
-            if (spiralTimer.get() >= .5) {
+            if (inFlag == 1) {
               m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideInPos);
-            }
+              inFlag = 0;
+            } 
+            if (outFlag == 1) {
+              m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos);
+              outFlag = 0;
+            } */
+            break; 
           }
-          break;
-
       }
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override

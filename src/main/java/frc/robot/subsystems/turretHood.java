@@ -43,10 +43,9 @@ public class turretHood extends SubsystemBase {
 
 
   public void setTurretMotorPos(double turretPos){
-    if (turretPos > -.2 && turretPos < .35) {
     leftTurretMotor.setControl(turretPosition.withPosition(turretPos));
     rightTurretMotor.setControl(turretPosition.withPosition(turretPos));
-     }
+     
   } 
 
   public double getTurretMotorPos(){
@@ -86,6 +85,7 @@ public class turretHood extends SubsystemBase {
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
     slot0.kG = Constants.kLeftTurretMotorGravityFeedForward;
     slot0.kV = Constants.kLeftTurretMotorVelocityFeedForward;
+    slot0.kS = Constants.kLeftTurretMotorStaticFeedForward;
 
     
     StatusCode leftTurretMotorStatus = StatusCode.StatusCodeNotInitialized;
@@ -123,6 +123,7 @@ public class turretHood extends SubsystemBase {
     slot0.GravityType = GravityTypeValue.Arm_Cosine;
     slot0.kG = Constants.kRightTurretMotorGravityFeedForward;
     slot0.kV = Constants.kRightTurretMotorVelocityFeedForward;
+    slot0.kS = Constants.kRightTurretMotorStaticFeedForward;
 
     
     StatusCode rightTurretMotorStatus = StatusCode.StatusCodeNotInitialized;

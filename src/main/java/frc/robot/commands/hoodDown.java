@@ -32,6 +32,7 @@ public class hoodDown extends Command {
     @Override
     public void initialize() {
         m_hoodServo.setPos1(0.2);
+        m_isFinished = true;
     }
 
 

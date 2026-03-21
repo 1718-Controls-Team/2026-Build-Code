@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 7.544540954423866,
-        "y": 3.3736458333333337
+        "y": 2.658303571428571
       },
       "prevControl": null,
       "nextControl": {
         "x": 8.742395833333333,
-        "y": -0.531493055555555
+        "y": -1.2468353174603175
       },
       "isLocked": false,
       "linkedName": "end of No Climb 2"
@@ -51,7 +51,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 48.797
+    "rotation": 43.6028189727036
   },
   "reversed": false,
   "folder": "No Climb",

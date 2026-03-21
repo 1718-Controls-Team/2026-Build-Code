@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.shooterIndexer;
+import frc.robot.subsystems.hoodServo;
 import frc.robot.subsystems.intakeFuel;
 import frc.robot.subsystems.spiralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,11 +15,12 @@ import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class spittersAreQuitters extends Command {
+public class PASS extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final shooterIndexer m_shooterSubsystem;
   private final spiralRoller m_spiralRollerSubsystem;
   private final intakeFuel m_intakeSubsystem;
+  private final hoodServo m_hoodServo;
   
   
     private boolean m_isFinished = false;
@@ -31,10 +33,11 @@ public class spittersAreQuitters extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public spittersAreQuitters(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake) {
+      public PASS(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake, hoodServo hood) {
         m_shooterSubsystem = shooter;
         m_spiralRollerSubsystem = spirals;
         m_intakeSubsystem = intake;
+        m_hoodServo = hood;
     
       addRequirements(shooter);
       addRequirements(spirals);
@@ -54,21 +57,36 @@ public class spittersAreQuitters extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(-30);
-      m_shooterSubsystem.setShooterSpinSpeed(-40);
-      m_shooterSubsystem.setIndexerSpinSpeed(-50);
-      m_intakeSubsystem.setIntakeSpinSpeed(40);
+    switch (shootFlag) {
+        case 1:
+            m_hoodServo.setPos1(0.5);
+            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
+            m_shooterSubsystem.setShooterSpinSpeed(90);
+            shootFlag = 2;
+          break;
+        case 2:
+          if (m_hoodServo.getPos() == (0.5 + 0.05) || m_hoodServo.getPos() == (0.5 - 0.05)) {
+            m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
+            spiralTimer.reset();
+            spiralTimer.start();
+            shootFlag = 3;
+          }
+          break; 
+        case 3:
+          if (spiralTimer.get() >= 2) {
+            m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
             //if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
             //  m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
             //}
+          }
+          break;
+      }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  m_shooterSubsystem.setShooterOff(0);
-  m_spiralRollerSubsystem.setSpiralRollerOff(0);
-  m_intakeSubsystem.setIntakeOutput(0);
+  
 }
   // Returns true when the command should end.
   @Override

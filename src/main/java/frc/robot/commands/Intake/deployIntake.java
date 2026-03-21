@@ -49,7 +49,7 @@ public class deployIntake extends Command {
         break;
     case 2:
         if (m_intakeSubsystem.getIntakeSlideInPos()) {
-            m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeInSpeed);
+            m_intakeSubsystem.setIntakeOutput(Constants.kIntakeInPower);
             
         }
         break; 

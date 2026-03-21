@@ -57,7 +57,7 @@
   "folder": "Left No Climb",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -60.85972508960163
+    "rotation": -49.184916125118384
   },
   "useDefaultConstraints": true
 }

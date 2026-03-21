@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.907829861111111,
-        "y": 7.782673611111111
+        "x": 7.913678571428571,
+        "y": 8.69957142857143
       },
       "isLocked": false,
       "linkedName": "Left No Climb 3"
@@ -20,8 +20,8 @@
         "y": 7.031339285714285
       },
       "prevControl": {
-        "x": 2.585053571428571,
-        "y": 7.598214285714285
+        "x": 2.439285714285714,
+        "y": 7.857357142857143
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,7 +51,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.85972508960163
+    "rotation": -49.184916125118384
   },
   "reversed": false,
   "folder": "Left No Climb",

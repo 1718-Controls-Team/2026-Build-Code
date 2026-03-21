@@ -46,12 +46,6 @@ public class hoodServo extends SubsystemBase {
 	hoodServo1.set(degrees);
     hoodServo2.set(degrees);
     }
-
-    public void setPos2(double degrees){
-    hoodServo3.set(degrees);
-    hoodServo4.set(degrees);
-
-    }
     /**
      * Returns the current angle of the servo by taking the angle it was last set to
      * with the time before the movement begins and after that is called the current

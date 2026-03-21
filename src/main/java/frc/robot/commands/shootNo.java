@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.shooterIndexer;
+import frc.robot.subsystems.hoodServo;
 import frc.robot.subsystems.intakeFuel;
 import frc.robot.subsystems.spiralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,6 +20,7 @@ public class shootNo extends Command {
   private final shooterIndexer m_shooterSubsystem;
   private final spiralRoller m_spiralRollerSubsystem;
   private final intakeFuel m_intakeSubsystem;
+  private final hoodServo m_hoodSubsystem;
   
   
     private boolean m_isFinished = false;
@@ -31,10 +33,11 @@ public class shootNo extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootNo(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake) {
+      public shootNo(shooterIndexer shooter, spiralRoller spirals, intakeFuel intake, hoodServo hood) {
         m_shooterSubsystem = shooter;
         m_spiralRollerSubsystem = spirals;
         m_intakeSubsystem = intake;
+        m_hoodSubsystem = hood;
     
       addRequirements(shooter);
       addRequirements(spirals);
@@ -48,9 +51,10 @@ public class shootNo extends Command {
     m_shooterSubsystem.setShooterOff(0);
     m_spiralRollerSubsystem.setSpiralRollerOff(0);
     m_intakeSubsystem.setIntakeOutput(0);
+    m_hoodSubsystem.setPos1(0.2);
       
     }
-
+  
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
