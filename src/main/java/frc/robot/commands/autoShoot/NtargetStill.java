@@ -44,10 +44,6 @@ public class NtargetStill extends Command {
     private final CommandXboxController m_driverController;
     private final turretHood m_turretSubsystem;
 
-    private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
-    .withDeadband(MaxSpeed*0.05).withHeadingPID(8, 0, 0.01)
-    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
   
     /**
      * Creates a new set-PowerCommand.
@@ -91,29 +87,27 @@ public class NtargetStill extends Command {
       legOne = m_robotPose.getY() - Constants.kBlueHubCoord[1];
     }  
   
-    cry = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
     m_turretRadians = Math.atan2(legOne, legTwo);
     m_robotDegrees = (( m_turretRadians / Math.PI )*180);
-    SmartDashboard.putNumber("LL X", cry.pose.getX());
-    SmartDashboard.putNumber("LL Y", cry.pose.getY());
     SmartDashboard.putNumber("legone", legOne);
     SmartDashboard.putNumber("legtwo", legTwo);   
-    SmartDashboard.putNumber("robot off", ((m_robotDegrees)));
+    SmartDashboard.putNumber("robot off", ((m_robotPose.getRotation().getDegrees())));
 
-    m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
+  /*  m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
         .withTargetDirection(new Rotation2d(((m_robotDegrees + 180)/180)*Math.PI)));
-     
-    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
+    */
 
-    m_turretDegrees = (Math.acos(legTwo / dist)) - m_robotPose.getRotation().getDegrees();
+    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
+    SmartDashboard.putNumber("distance", dist);
+
+    m_turretDegrees = (((Math.atan2(legOne, legTwo))/ Math.PI )*180) - m_robotPose.getRotation().getDegrees();
     SmartDashboard.putNumber("turret deg", m_turretDegrees);
-    m_turretDegrees = (m_turretDegrees / 108);
+    m_turretDegrees = ((m_turretDegrees + 180) / 90);
     SmartDashboard.putNumber("turret off", ((m_turretDegrees)));
 
-     // m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
+     m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
     
-    //m_shooterSubsystem.setTurretMotorPos(m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees() + m_turretDegrees);
 }
   
 

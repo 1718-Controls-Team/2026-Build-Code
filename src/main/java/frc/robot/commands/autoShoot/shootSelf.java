@@ -16,12 +16,14 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotContainer;
+import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.generated.TunerConstants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 
 
 /** An example command that uses an example subsystem. */
@@ -99,16 +101,17 @@ public class shootSelf extends Command {
 
     switch (shootFlag) {
         case 1:
-            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
             m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
             shootFlag = 2;
           break;
         case 2:
           if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 9)) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
+            m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
           }
           break; 
 
+          
       }
     }
       

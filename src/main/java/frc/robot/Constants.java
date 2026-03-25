@@ -15,9 +15,9 @@ public class Constants {
     // key - distance    value - speed
     public static final InterpolatingDoubleTreeMap kSpeedTable = new InterpolatingDoubleTreeMap();
     static {
-        kSpeedTable.put(3.51, 70.0);
-        kSpeedTable.put(2.6, 60.0);
-        kSpeedTable.put(1.8, 57.0);
+        kSpeedTable.put(4.57, 85.0);
+        kSpeedTable.put(3.39, 75.0);
+        kSpeedTable.put(2.6, 64.0);
         /*kSpeedTable.put(3.51, 60.0);
         kSpeedTable.put(2.6, 50.0);
         kSpeedTable.put(1.8, 47.0);
@@ -55,7 +55,7 @@ public class Constants {
     public static final double kShooterOutSpeed = 67;
 
 
-    public static final double kRollerMainSpeed = 30;
+    public static final double kRollerMainSpeed = 0.6;
 
     public static final double kIntakeInSpeed = -60;
     public static final double kIntakeInPower = -0.4;
@@ -77,8 +77,10 @@ public class Constants {
 
     public static final double kHoodServoDownPos = 0.2;
 
-    public static final double kTurretMax = .35;
-    public static final double kTurretMin = -0.2;
+    public static final double kTurretMax = 4;
+    public static final double kTurretMin = -.4;
+    // Left turret .3 to -4
+    // Right turret -.4 to 4
 
 
 /*
@@ -305,53 +307,6 @@ public class Constants {
     public static final double kRightTurretMotorSupplyCurrentLimit = 40;
 
     public static final double kRightTurretMotorClosedLoopRampPeriod = 0;
-    
-
-/*
- * ####################################################################################################################################
- * ####################################################### Climber Spin ###############################################################
- * ####################################################################################################################################
-*/
-
-    public static final double kClimberSpinMotorProportional = 0;
-    public static final double kClimberSpinMotorIntegral = 0;
-    public static final double kClimberSpinMotorDerivative = 0;
-    
-    public static final double kClimberSpinMotorGravityFeedForward = 0;
-    public static final double kClimberSpinMotorVelocityFeedForward = 0.112;
-    public static final double kClimberSpinMotorStaticFeedForward = 0;
-
-    public static final double kClimberSpinMotorPeakForwardVoltage = 11;
-    public static final double kClimberSpinMotorPeakReverseVoltage = -11;
-
-    public static final InvertedValue kClimberSpinMotorDirection = InvertedValue.Clockwise_Positive;
-    public static final double kClimberSpinMotorSupplyCurrentLimit = 40;
-
-    public static final double kClimberSpinMotorClosedLoopRampPeriod = 0;
-    
-    
-    
-/*
- * ####################################################################################################################################
- * ####################################################### Climb Rotate ###############################################################
- * ####################################################################################################################################
-*/
-
-    public static final double kClimbRotateMotorProportional = 0;
-    public static final double kClimbRotateMotorIntegral = 0;
-    public static final double kClimbRotateMotorDerivative = 0;
-
-    public static final double kClimbRotateMotorGravityFeedForward = 0;
-    public static final double kClimbRotateMotorVelocityFeedForward = 0.2;
-
-    public static final double kClimbRotateMotorPeakForwardVoltage = 11;
-    public static final double kClimbRotateMotorPeakReverseVoltage = -11;
-
-    public static final InvertedValue kClimbRotateMotorDirection = InvertedValue.Clockwise_Positive;
-    public static final double kClimbRotateMotorSupplyCurrentLimit = 40;
-
-    public static final double kClimbRotateMotorClosedLoopRampPeriod = 0;
-    
     
     
 }

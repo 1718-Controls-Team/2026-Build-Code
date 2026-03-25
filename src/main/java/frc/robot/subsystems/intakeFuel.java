@@ -110,7 +110,7 @@ public class intakeFuel extends SubsystemBase {
     TalonFXConfiguration intakeElectricSlideMotorConfig = new TalonFXConfiguration();
 
     intakeElectricSlideMotorConfig.MotorOutput.Inverted = Constants.kIntakeElectricSlideMotorDirection;
-    intakeElectricSlideMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    intakeElectricSlideMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
 
     intakeElectricSlideMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kIntakeElectricSlideMotorSupplyCurrentLimit;

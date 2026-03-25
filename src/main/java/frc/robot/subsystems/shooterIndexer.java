@@ -169,7 +169,7 @@ public class shooterIndexer extends SubsystemBase {
     TalonFXConfiguration leftIndexerMotorConfig = new TalonFXConfiguration();
 
     leftIndexerMotorConfig.MotorOutput.Inverted = Constants.kLeftIndexerMotorDirection;
-    leftIndexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    leftIndexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
 
     leftIndexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftIndexerMotorSupplyCurrentLimit;
@@ -206,7 +206,7 @@ public class shooterIndexer extends SubsystemBase {
     TalonFXConfiguration rightIndexerMotorConfig = new TalonFXConfiguration();
 
     rightIndexerMotorConfig.MotorOutput.Inverted = Constants.kRightIndexerMotorDirection;
-    rightIndexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    rightIndexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
 
     rightIndexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightIndexerMotorSupplyCurrentLimit;

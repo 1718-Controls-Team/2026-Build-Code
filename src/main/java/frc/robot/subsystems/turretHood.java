@@ -43,9 +43,11 @@ public class turretHood extends SubsystemBase {
 
 
   public void setTurretMotorPos(double turretPos){
-    leftTurretMotor.setControl(turretPosition.withPosition(turretPos));
-    rightTurretMotor.setControl(turretPosition.withPosition(turretPos));
-     
+    if (turretPos >= Constants.kTurretMin && turretPos <= Constants.kTurretMax) {
+      leftTurretMotor.setControl(turretPosition.withPosition(turretPos));
+      rightTurretMotor.setControl(turretPosition.withPosition(turretPos));
+    }
+    
   } 
 
   public double getTurretMotorPos(){

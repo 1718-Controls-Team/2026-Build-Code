@@ -27,12 +27,9 @@ import frc.robot.commands.shootStill;
 import frc.robot.commands.spittersAreQuitters;
 import frc.robot.commands.turnTsAround;
 import frc.robot.commands.turretZero;
-import frc.robot.commands.Auton.autonClimb;
 import frc.robot.commands.Auton.autonIntake;
 import frc.robot.commands.Auton.autonShoot;
 import frc.robot.commands.Auton.flywheel;
-import frc.robot.commands.Climb.climbRotate;
-import frc.robot.commands.Climb.climbSpeed;
 import frc.robot.commands.Intake.deployIntake;
 import frc.robot.commands.Intake.retractIntake;
 import frc.robot.commands.autoShoot.NshootMove;
@@ -47,8 +44,7 @@ import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.intakeFuel;
 import frc.robot.subsystems.hoodServo;
 import frc.robot.subsystems.turretHood;
-import frc.robot.subsystems.spiralRoller;
-import frc.robot.subsystems.climber;;
+import frc.robot.subsystems.spiralRoller;;
 
 
 public class RobotContainer {
@@ -67,7 +63,6 @@ public class RobotContainer {
     private final intakeFuel m_intakeSubsystem = new intakeFuel();
     private final spiralRoller m_spiralRollerSubsystem = new spiralRoller();
     private final hoodServo m_hoodServoSubsystem = new hoodServo();
-    private final climber m_climberSubsystem = new climber();
     private final turretHood m_turretSubsystem = new turretHood();
 
     private final CommandXboxController driverController = new CommandXboxController(0);
@@ -153,7 +148,6 @@ public class RobotContainer {
 
     private void regisiterAutonCommands(){
         NamedCommands.registerCommand("intakeDeploy", new autonIntake(m_intakeSubsystem));
-        NamedCommands.registerCommand("autonClimb", new autonClimb(m_climberSubsystem));
         NamedCommands.registerCommand("shootStill", new autonShoot(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
         NamedCommands.registerCommand("intakeRetract", new retractIntake(m_intakeSubsystem));
         NamedCommands.registerCommand("hoodUp", new hoodUp(m_hoodServoSubsystem));

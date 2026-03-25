@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
   private final intakeFuel m_intakeSubsystem;
   private final shooterIndexer m_shooterSubsystem;
   LimelightHelpers.PoseEstimate llMeasurementTurret;
+  LimelightHelpers.PoseEstimate llMeasurementShooter;
   private boolean kUseLimelight = true;
   private double lots;
   private Optional<Alliance> m_alliance;
@@ -92,25 +93,33 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double headingDeg = m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees();
+    LimelightHelpers.setCameraPose_RobotSpace("limelight-cool", 0, 0, 0, 0, 0, 0);
     LimelightHelpers.setCameraPose_RobotSpace("limelight", Constants.kLLForwardPos.get(m_intakeSubsystem.getIntakeElectricSlidePos()), 0, 0, 0, 0, 0);
    
     if (kUseLimelight) {
       LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0,0,0,0,0);
+      LimelightHelpers.SetRobotOrientation("limelight-cool", headingDeg, 0,0,0,0,0);
     
       llMeasurementTurret = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+      llMeasurementShooter = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-cool");
 
 
       if (LimelightHelpers.getTV("limelight")) {
 
         if (llMeasurementTurret != null && llMeasurementTurret.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
           m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementTurret.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
+          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(999, 999, 999));
+        }
+      }
+      if (LimelightHelpers.getTV("limelight-cool")) {
+
+        if (llMeasurementShooter != null && llMeasurementShooter.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
+          m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementShooter.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
           m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(5, 5, 5));
-          lots = lots + 1;
         }
       }
     }
     SmartDashboard.putNumber("robot heading", headingDeg);
-    SmartDashboard.putNumber("lots", lots);
     SmartDashboard.putNumber("robot Y", m_robotContainer.drivetrain.getState().Pose.getY());
     SmartDashboard.putNumber("robot X", m_robotContainer.drivetrain.getState().Pose.getX());
     SmartDashboard.getNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getRotation2d().getDegrees());

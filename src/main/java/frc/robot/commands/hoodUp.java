@@ -30,7 +30,7 @@ public class hoodUp extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_hoodServo.setPos1(0.3);
+        m_hoodServo.setPos1(0.35);
         m_isFinished = true;
     }
 
