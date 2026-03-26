@@ -46,6 +46,8 @@ public class shootTargetMove extends Command {
 
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     private double legOne;
+    private double deltaX;
+    private double deltaY;
     private double legTwo;
     private double dist;
     private double currentTime;
@@ -126,67 +128,47 @@ public class shootTargetMove extends Command {
       legTwo = Math.abs((m_robotPose.getX() - Constants.kRedHubCoord[0]));
       legOne = Math.abs((m_robotPose.getY() - Constants.kRedHubCoord[1]));
     } else {
-      legTwo = Math.abs((m_robotPose.getX() - Constants.kBlueHubCoord[0]));
-      legOne = Math.abs((m_robotPose.getY() - Constants.kBlueHubCoord[1]));
+      legTwo = Constants.kBlueHubCoord[0] - (m_robotPose.getX());
+      legOne = Constants.kBlueHubCoord[1] - (m_robotPose.getY());
     }
 
     dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
-    legTwo = (legTwo - Constants.kShotTimeTable.get(dist)*((accelerationX*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
-    legOne = (legOne - Constants.kShotTimeTable.get(dist)*((accelerationY*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
+    deltaX = (legTwo - Constants.kShotTimeTable.get(dist)*((accelerationX*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
+    deltaY = (legOne - Constants.kShotTimeTable.get(dist)*((accelerationY*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
    
-    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
+    dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
     m_robotDegrees = Math.atan2(legOne, legTwo);
 
-    m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
+    /*m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
         .withTargetDirection(new Rotation2d((m_robotDegrees + 180))));
-
-    m_turretDegrees = (Math.acos(legTwo / dist)) - m_robotPose.getRotation().getDegrees();
+    */
+    m_turretDegrees = (((Math.atan2(deltaY, deltaX))/ Math.PI )*180) - m_robotPose.getRotation().getDegrees();
     SmartDashboard.putNumber("turret deg", m_turretDegrees);
-    m_turretDegrees = (-m_turretDegrees / 108);
+    m_turretDegrees = (m_turretDegrees / 90);
     SmartDashboard.putNumber("turret off", ((m_turretDegrees)));
 
-    if (m_turretDegrees <= Constants.kTurretMax && m_turretDegrees >= Constants.kTurretMin) {
       m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
-    }
+    
     
       switch (shootFlag) {
-        case 1:
-            m_hoodSubsystem.setPos1(0.35);
-            shootFlag = 2;
-          break;
-        case 2:
-          if (m_hoodSubsystem.getPos() == 0.35) {
-            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
+        case 1:      
             m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
-            shootFlag = 3;
-          }
-          break;
-        case 3:
-          if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 5)) {
-            m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
-            spiralTimer.reset();
-            spiralTimer.start();
-            shootFlag = 4;
-          }
-          break; 
-        case 4:
-          if (spiralTimer.get() >= 2) {
-            m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
-          }
-          break;
+             if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 9)) {
+              m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
+              m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
+            }
+        break; 
       }
-  } }
+    }
+  } 
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  m_shooterSubsystem.setShooterSpinSpeed(0);
-  m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(0);
-  m_shooterSubsystem.setIndexerSpinSpeed(0);
-  m_hoodSubsystem.setPos1(0.2);
+  
 }
   // Returns true when the command should end.
   @Override

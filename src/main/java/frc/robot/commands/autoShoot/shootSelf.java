@@ -85,38 +85,31 @@ public class shootSelf extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_robotPose = m_Drivetrain.getState().Pose;
-    if (m_robotPose != null) {
-       m_alliance = DriverStation.getAlliance();
-    if (m_alliance.get() == Alliance.Red) {
-      legTwo = Math.abs((m_robotPose.getX() - Constants.kRedHubCoord[0]));
-      legOne = Math.abs((m_robotPose.getY() - Constants.kRedHubCoord[1]));
-    } else {
-      legTwo = Math.abs((m_robotPose.getX() - Constants.kBlueHubCoord[0]));
-      legOne = Math.abs((m_robotPose.getY() - Constants.kBlueHubCoord[1]));
-    }
-    
-    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
-
-
     switch (shootFlag) {
         case 1:
+          m_robotPose = m_Drivetrain.getState().Pose;
+      if (m_robotPose != null) {
+        m_alliance = DriverStation.getAlliance();
+      if (m_alliance.get() == Alliance.Red) {
+        legTwo = Math.abs((m_robotPose.getX() - Constants.kRedHubCoord[0]));
+        legOne = Math.abs((m_robotPose.getY() - Constants.kRedHubCoord[1]));
+     } else {
+        legTwo = Math.abs((m_robotPose.getX() - Constants.kBlueHubCoord[0]));
+        legOne = Math.abs((m_robotPose.getY() - Constants.kBlueHubCoord[1]));
+      }
+     }
+         dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
             m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
-            shootFlag = 2;
-          break;
-        case 2:
-          if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 9)) {
+             if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 9)) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
             m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
           }
           break; 
-
-          
       }
     }
-      
+   
     //m_shooterSubsystem.setTurretMotorPos(m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees() + m_turretDegrees);
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override

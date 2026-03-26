@@ -128,12 +128,13 @@ public class RobotContainer {
         driverController.rightTrigger().whileTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem))
                                        .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
         //driverController.leftTrigger().whileTrue(new PASS(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
-        driverController.leftTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
+        driverController.leftTrigger().whileTrue(new shootTargetMove(m_shooterSubsystem, m_spiralRollerSubsystem, m_hoodServoSubsystem, driverController, drivetrain, m_intakeSubsystem, m_turretSubsystem))
+                                                    .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
 
         // OPERATOR CONTROLS
         operatorController.leftTrigger().whileTrue(new shootSelf(m_shooterSubsystem, m_spiralRollerSubsystem, drivetrain, m_intakeSubsystem, m_turretSubsystem))
                                         .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
-        operatorController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
+        operatorController.leftTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
         operatorController.x().onTrue(new turretZero(m_turretSubsystem));
         operatorController.b().onTrue(new turnTsAround(m_turretSubsystem));
         operatorController.y().onTrue(new hoodUp(m_hoodServoSubsystem));

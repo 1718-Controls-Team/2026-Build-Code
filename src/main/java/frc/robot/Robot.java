@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
 
         if (llMeasurementTurret != null && llMeasurementTurret.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
           m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementTurret.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
-          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(999, 999, 999));
+          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(999, 999, 0.1));
         }
       }
       if (LimelightHelpers.getTV("limelight-cool")) {
