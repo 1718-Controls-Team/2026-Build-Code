@@ -145,6 +145,22 @@ public class shootTargetMove extends Command {
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
         .withTargetDirection(new Rotation2d((m_robotDegrees + 180))));
     */
+
+   // double robotTurretOneX = (m_robotPose.getX()) + (-7 * Math.cos(m_robotPose.getRotation().getDegrees())) - (8 * Math.sin(m_robotPose.getRotation().getDegrees()));
+   // double robotTurretOneY = (m_robotPose.getY()) + (-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (8 * Math.cos(m_robotPose.getRotation().getDegrees()));
+   // double robotTurretTwoX = (m_robotPose.getX()) + (-7 * Math.cos(m_robotPose.getRotation().getDegrees())) - (-8 * Math.sin(m_robotPose.getRotation().getDegrees()));
+   // double robotTurretTwoY = (m_robotPose.getY()) + (-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (-8 * Math.cos(m_robotPose.getRotation().getDegrees()));
+   // double deltaXTurretOne = Constants.kBlueHubCoord[0] - robotTurretOneX; //or red hub. but that depends on real code that is not here
+   // double deltaYTurretOne = Constants.kBlueHubCoord[1] - robotTurretOneY;  //or red hub. but that depends on real code that is not here
+   // double deltaXTurretTwo = Constants.kBlueHubCoord[0] - robotTurretTwoX;  //or red hub. but that depends on real code that is not here
+   // double deltaYTurretTwo = Constants.kBlueHubCoord[1] - robotTurretTwoY;  //or red hub. but that depends on real code that is not here
+   // double launchHeadingTurretOne = Math.atan2(deltaYTurretOne, deltaXTurretOne);
+   // double launchHeadingTurretTwo = Math.atan2(deltaYTurretTwo, deltaXTurretTwo);
+   // double turretOneHeading = launchHeadingTurretOne - m_robotPose.getRotation().getDegrees();
+   // double turretTwoHeading = launchHeadingTurretTwo - m_robotPose.getRotation().getDegrees();
+   // // I don't really know what to do with these numbers that's Ashley's job
+   // // Also It can't be greater than 180 or less than -180 do that too
+   
     m_turretDegrees = (((Math.atan2(deltaY, deltaX))/ Math.PI )*180) - m_robotPose.getRotation().getDegrees();
     SmartDashboard.putNumber("turret deg", m_turretDegrees);
     m_turretDegrees = (m_turretDegrees / 90);

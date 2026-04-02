@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
   LimelightHelpers.PoseEstimate llMeasurementTurret;
   LimelightHelpers.PoseEstimate llMeasurementShooter;
   private boolean kUseLimelight = true;
-  private double lots;
+  private String allianceString; 
   private Optional<Alliance> m_alliance;
 
   public Robot() {
@@ -49,6 +49,15 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run(); 
     SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getRotation2d().getDegrees());
     SmartDashboard.putNumber("velocity", m_shooterSubsystem.getShooterSpeed());
+    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    Optional<Alliance> alliance = DriverStation.getAlliance();
+    if(alliance.get() == Alliance.Red){
+      allianceString = "Red";
+    }
+    else if(alliance.get() == Alliance.Blue){
+      allianceString = "Blue";
+    }
+    SmartDashboard.putString("Alliance", allianceString);
 
 
     // limelight stuff down below 
@@ -115,7 +124,7 @@ public class Robot extends TimedRobot {
 
         if (llMeasurementShooter != null && llMeasurementShooter.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
           m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementShooter.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
-          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(5, 5, 5));
+          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(999, 999, 0.1));
         }
       }
     }
