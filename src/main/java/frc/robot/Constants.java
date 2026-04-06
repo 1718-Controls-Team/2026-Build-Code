@@ -126,6 +126,26 @@ public class Constants {
     public static final InvertedValue kIntakeElectricSlideMotorDirection = InvertedValue.CounterClockwise_Positive;
     public static final double kIntakeElectricSlideMotorSupplyCurrentLimit = 20;
     
+/*
+ * ####################################################################################################################################
+ * ####################################################### Intake Slide ###############################################################
+ * ####################################################################################################################################
+*/
+
+    public static final double kHoodMotorProportional = 2;
+    public static final double kHoodMotorIntegral = 0;
+    public static final double kHoodMotorDerivative = 0;    
+
+    public static final double kHoodMotorVelocityFeedForward = 0.2;
+    public static final double kHoodMotorGravityFeedForward = 0;
+
+    public static final double kHoodMotorMaxForwardVoltage = 11;
+    public static final double kHoodMotorMaxReverseVoltage = -11;
+
+    public static final double kHoodMotorVoltageClosedLoopRampPeriod = 0;
+    public static final InvertedValue kHoodMotorDirection = InvertedValue.CounterClockwise_Positive;
+    public static final double kHoodMotorSupplyCurrentLimit = 20;
+    
 
 
 /*
