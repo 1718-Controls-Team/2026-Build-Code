@@ -59,7 +59,7 @@ public class PASS extends Command {
   public void execute() {
     switch (shootFlag) {
         case 1:
-            m_hoodServo.setPos1(0.5);
+            m_hoodServo.setPos1(1);
             m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
             m_shooterSubsystem.setShooterSpinSpeed(90);
             shootFlag = 2;

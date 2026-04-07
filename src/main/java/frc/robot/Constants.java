@@ -128,15 +128,16 @@ public class Constants {
     
 /*
  * ####################################################################################################################################
- * ####################################################### Intake Slide ###############################################################
+ * ####################################################### Hood ###############################################################
  * ####################################################################################################################################
 */
 
-    public static final double kHoodMotorProportional = 2;
+    public static final double kHoodMotorProportional = 4;
     public static final double kHoodMotorIntegral = 0;
     public static final double kHoodMotorDerivative = 0;    
 
     public static final double kHoodMotorVelocityFeedForward = 0.2;
+    public static final double kHoodMotorStaticFeedForward = 0.05;
     public static final double kHoodMotorGravityFeedForward = 0;
 
     public static final double kHoodMotorMaxForwardVoltage = 11;

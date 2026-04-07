@@ -80,6 +80,7 @@ public void configurehoodMotor2(TalonFX hoodMotor2){
 
     slot0.GravityType = GravityTypeValue.Elevator_Static;
     slot0.kV = Constants.kHoodMotorVelocityFeedForward;
+    slot0.kS = Constants.kHoodMotorStaticFeedForward;
     slot0.kG = Constants.kHoodMotorGravityFeedForward;
  
 
@@ -116,6 +117,7 @@ public void configurehoodMotor2(TalonFX hoodMotor2){
 
     slot0.GravityType = GravityTypeValue.Elevator_Static;
     slot0.kV = Constants.kHoodMotorVelocityFeedForward;
+    slot0.kS = Constants.kHoodMotorStaticFeedForward;
     slot0.kG = Constants.kHoodMotorGravityFeedForward;
  
 

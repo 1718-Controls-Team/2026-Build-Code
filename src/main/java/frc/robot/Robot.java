@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
       llMeasurementShooter = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-cool");
 
 
-      if (LimelightHelpers.getTV("limelight")) {
+      if (LimelightHelpers.getTV("limelight") && !(m_intakeSubsystem.getIntakeElectricSlidePos() > -7)) {
 
         if (llMeasurementTurret != null && llMeasurementTurret.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
           m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementTurret.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
