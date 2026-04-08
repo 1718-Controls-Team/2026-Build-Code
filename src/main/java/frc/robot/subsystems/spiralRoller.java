@@ -21,7 +21,6 @@ public class spiralRoller extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX rightRollerSpinMotor = new TalonFX(15, Constants.kCanivore);
-    TalonFX leftRollerSpinMotor = new TalonFX(24, Constants.kCanivore);
 
     PositionVoltage intakePosition = new PositionVoltage(0);
 
@@ -30,7 +29,6 @@ public class spiralRoller extends SubsystemBase {
     private VelocityVoltage voltageRequest = new VelocityVoltage(0);
 
   public spiralRoller() {
-    this.configureLeftRollerSpinMotor(leftRollerSpinMotor);
     this.configureRightRollerSpinMotor(rightRollerSpinMotor);  
   }
 
@@ -42,61 +40,21 @@ public class spiralRoller extends SubsystemBase {
    * @return a command
    */
   public void setSpiralRollerSpinSpeed(double rollerSpeed) {
-    leftRollerSpinMotor.setControl(voltageRequest.withVelocity(rollerSpeed));
     rightRollerSpinMotor.setControl(voltageRequest.withVelocity(rollerSpeed));
 
   }
 
   public void setSpiralRollerOff(double output) {
-    leftRollerSpinMotor.setControl(RollerVoltage.withOutput(output));
     rightRollerSpinMotor.setControl(RollerVoltage.withOutput(output));
   }
 
    public double getSpiralRollerSpinSpeed() {
-    return leftRollerSpinMotor.getVelocity().getValueAsDouble();
+    return rightRollerSpinMotor.getVelocity().getValueAsDouble();
   }
 //######################################### Start OF ROLLER CONFIGURATION ######################################################
 //######################################### Start OF ROLLER CONFIGURATION ######################################################
 //######################################### Start OF ROLLER CONFIGURATION ###################################################### 
 
-//######################################### ROLLER LEFT CONFIGURATION ###################################################### 
-
-  public void configureLeftRollerSpinMotor(TalonFX LeftRollerSpinMotor){
-    TalonFXConfiguration leftRollerSpinMotorConfig = new TalonFXConfiguration();
-
-    leftRollerSpinMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftRollerSpinMotorSupplyCurrentLimit;
-    leftRollerSpinMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;    
-
-    leftRollerSpinMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftRollerSpinMotorClosedLoopRampPeriod;
-    leftRollerSpinMotorConfig.Voltage.PeakForwardVoltage = Constants.kLeftRollerSpinMotorPeakForwardVoltage;
-    leftRollerSpinMotorConfig.Voltage.PeakReverseVoltage = Constants.kLeftRollerSpinMotorPeakReverseVoltage;
-
-    leftRollerSpinMotorConfig.MotorOutput.Inverted = Constants.kLeftRollerSpinMotorDirection;
-    leftRollerSpinMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-  
-
-    Slot0Configs slot0 = leftRollerSpinMotorConfig.Slot0;
-    slot0.kP = Constants.kLeftRollerSpinMotorProportional;
-    slot0.kI = Constants.kLeftRollerSpinMotorIntegral;
-    slot0.kD = Constants.kLeftRollerSpinMotorDerivative;
-    slot0.kV = Constants.kLeftRollerSpinMotorVelocityFeedForward;
-    
-    slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    slot0.kG = Constants.kLeftRollerSpinMotorGravityFeedForward;
-    slot0.kS = Constants.kLeftRollerSpinMotorStaticFeedForward;
-    
-
-    
-    StatusCode LeftRollerSpinMotorStatus = StatusCode.StatusCodeNotInitialized;
-    for(int i = 0; i < 5; ++i) {
-      LeftRollerSpinMotorStatus = LeftRollerSpinMotor.getConfigurator().apply(leftRollerSpinMotorConfig);
-      if (LeftRollerSpinMotorStatus.isOK()) break;
-    }
-    if (!LeftRollerSpinMotorStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + LeftRollerSpinMotorStatus.toString());
-    }
-    LeftRollerSpinMotor.setPosition(0);
-  }
 //######################################### ROLLER RIGHT CONFIGURATION ###################################################### 
 
   public void configureRightRollerSpinMotor(TalonFX RightRollerSpinMotor){

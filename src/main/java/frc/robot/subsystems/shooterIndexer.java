@@ -21,10 +21,9 @@ import frc.robot.Constants;
 public class shooterIndexer extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
-    TalonFX leftShooterMotor = new TalonFX(20, Constants.kCanivore);
-    TalonFX leftIndexerMotor = new TalonFX(19, Constants.kCanivore);
-    TalonFX rightShooterMotor = new TalonFX(17, Constants.kCanivore);
-    TalonFX rightIndexerMotor = new TalonFX(16, Constants.kCanivore);
+    TalonFX leftShooterMotor = new TalonFX(19, Constants.kCanivore);
+    TalonFX leftIndexerMotor = new TalonFX(16, Constants.kCanivore);
+    TalonFX rightShooterMotor = new TalonFX(22, Constants.kCanivore);
 
     PositionVoltage shooterPosition = new PositionVoltage(0);
 
@@ -38,7 +37,6 @@ public class shooterIndexer extends SubsystemBase {
     this.configureleftShooterMotor(leftShooterMotor);
     this.configurerightShooterMotor(rightShooterMotor);
     this.configureleftIndexerMotor(leftIndexerMotor);
-    this.configurerightIndexerMotor(rightIndexerMotor);
 
   }
 
@@ -55,13 +53,11 @@ public class shooterIndexer extends SubsystemBase {
   public void setShooterOff(double output){
     leftIndexerMotor.setControl(ShooterVoltage.withOutput(output));
     leftShooterMotor.setControl(ShooterVoltage.withOutput(output));
-    rightIndexerMotor.setControl(ShooterVoltage.withOutput(output));
     rightShooterMotor.setControl(ShooterVoltage.withOutput(output));
 
   }
   public void setIndexerOff(double output){
     leftIndexerMotor.setControl(ShooterVoltage.withOutput(output));
-    rightIndexerMotor.setControl(ShooterVoltage.withOutput(output));
 
   }
    public double getShooterSpeed(){
@@ -70,12 +66,11 @@ public class shooterIndexer extends SubsystemBase {
 
   public void setIndexerSpinSpeed(double indexerSpeed){
     leftIndexerMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
-    rightIndexerMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
 
   }
 
   public double getIndexerSpeed(){
-    return rightIndexerMotor.getVelocity().getValueAsDouble();
+    return leftIndexerMotor.getVelocity().getValueAsDouble();
   }
 
   
@@ -200,43 +195,8 @@ public class shooterIndexer extends SubsystemBase {
       System.out.println("Could not configure device. Error: " + leftIndexerMotorStatus.toString());
     }
   }
- //######################################### INDEXER LEFT CONFIGURATION ###################################################### 
-
-  public void configurerightIndexerMotor(TalonFX rightIndexerMotor){
-    TalonFXConfiguration rightIndexerMotorConfig = new TalonFXConfiguration();
-
-    rightIndexerMotorConfig.MotorOutput.Inverted = Constants.kRightIndexerMotorDirection;
-    rightIndexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-
-
-    rightIndexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightIndexerMotorSupplyCurrentLimit;
-    rightIndexerMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-    rightIndexerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kRightIndexerMotorClosedLoopRampPeriod;
-    rightIndexerMotorConfig.Voltage.PeakForwardVoltage = Constants.kRightIndexerMotorPeakForwardVoltage;
-    rightIndexerMotorConfig.Voltage.PeakReverseVoltage = Constants.kRightIndexerMotorPeakReverseVoltage;
-    
-
-    Slot0Configs slot0 = rightIndexerMotorConfig.Slot0;
-    slot0.kP = Constants.kRightIndexerMotorProportional;
-    slot0.kI = Constants.kRightIndexerMotorIntegral;
-    slot0.kD = Constants.kRightIndexerMotorDerivative;
-
-    slot0.GravityType = GravityTypeValue.Elevator_Static;
-    slot0.kV = Constants.kRightIndexerMotorVelocityFeedForward;
-    slot0.kG = Constants.kRightIndexerMotorGravityFeedForward;
-    slot0.kS = Constants.kRightIndexerMotorStaticFeedForward;
  
-
-
-    StatusCode rightIndexerMotorStatus = StatusCode.StatusCodeNotInitialized;
-    for(int i = 0; i < 5; ++i) {
-      rightIndexerMotorStatus = rightIndexerMotor.getConfigurator().apply(rightIndexerMotorConfig);
-      if (rightIndexerMotorStatus.isOK()) break;
-    }
-    if (!rightIndexerMotorStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + rightIndexerMotorStatus.toString());
-    }
-  }
+  
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

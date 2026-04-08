@@ -102,7 +102,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double headingDeg = m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees();
-    LimelightHelpers.setCameraPose_RobotSpace("limelight-cool", 0, 0, 0, 0, 0, 0);
     LimelightHelpers.setCameraPose_RobotSpace("limelight", Constants.kLLForwardPos.get(m_intakeSubsystem.getIntakeElectricSlidePos()), 0, 0, 0, 0, 0);
    
     if (kUseLimelight) {
@@ -113,18 +112,19 @@ public class Robot extends TimedRobot {
       llMeasurementShooter = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-cool");
 
 
-      if (LimelightHelpers.getTV("limelight") && !(m_intakeSubsystem.getIntakeElectricSlidePos() > -7)) {
+     if (LimelightHelpers.getTV("limelight")) {
 
         if (llMeasurementTurret != null && llMeasurementTurret.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
           m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementTurret.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
-          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(999, 999, 0.1));
+          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(99, 99, 0.1));
         }
       }
+
       if (LimelightHelpers.getTV("limelight-cool")) {
 
         if (llMeasurementShooter != null && llMeasurementShooter.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
-          m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementShooter.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
-          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(999, 999, 0.1));
+          m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementShooter.pose, Utils.fpgaToCurrentTime(llMeasurementShooter.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
+          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(99, 99, 0.1));
         }
       }
     }

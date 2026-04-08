@@ -65,7 +65,6 @@ public class autonShoot extends Command {
         case 2:
           if (spiralTimer.get() >= 0.5) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
-            shootFlag = 3;
           }
           break; 
         case 3:

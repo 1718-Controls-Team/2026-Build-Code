@@ -56,12 +56,13 @@ public class shootStill extends Command {
   public void execute() {
     switch (shootFlag) {
         case 1:
-            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kRollerMainSpeed);
+            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(30);
             m_shooterSubsystem.setShooterSpinSpeed(Constants.kShooterOutSpeed);
             shootFlag = 2; 
           break;
+        
         case 2:
-          if (m_shooterSubsystem.getShooterSpeed() > (Constants.kShooterOutSpeed - 3)) {
+          if (m_shooterSubsystem.getShooterSpeed() > (Constants.kShooterOutSpeed - 30)) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
             spiralTimer.reset();
             spiralTimer.start();

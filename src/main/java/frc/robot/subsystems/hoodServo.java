@@ -11,7 +11,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.Servo;
 
 
 /**
@@ -20,10 +19,10 @@ import edu.wpi.first.wpilibj.Servo;
  */
 public class hoodServo extends SubsystemBase {
 
-    private static TalonFX hoodMotor1 = new TalonFX(25);
-    private static TalonFX hoodMotor2 = new TalonFX(26);
+    TalonFX hoodMotor1 = new TalonFX(23, Constants.kCanivore);
+    TalonFX hoodMotor2 = new TalonFX(24, Constants.kCanivore);
 
-    private static PositionVoltage hoodPos = new PositionVoltage(0);
+    private PositionVoltage hoodPos = new PositionVoltage(0);
  
     
     //SERVO Parameters from https://s3.amazonaws.com/actuonix/Actuonix+L16+Datasheet.pdf
@@ -50,7 +49,7 @@ public class hoodServo extends SubsystemBase {
      */
     public void setPos1(double degrees){
 	hoodMotor1.setControl(hoodPos.withPosition(degrees));
-	hoodMotor2.setControl(hoodPos.withPosition(degrees));
+	hoodMotor2.setControl(hoodPos.withPosition(-degrees));
     }
 
      public double getPos(){
@@ -63,7 +62,7 @@ public void configurehoodMotor2(TalonFX hoodMotor2){
     TalonFXConfiguration hoodMotorConfig = new TalonFXConfiguration();
 
     hoodMotorConfig.MotorOutput.Inverted = Constants.kHoodMotorDirection;
-    hoodMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    hoodMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
 
     hoodMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kHoodMotorSupplyCurrentLimit;
@@ -100,7 +99,7 @@ public void configurehoodMotor2(TalonFX hoodMotor2){
     TalonFXConfiguration hoodMotorConfig = new TalonFXConfiguration();
 
     hoodMotorConfig.MotorOutput.Inverted = Constants.kHoodMotorDirection;
-    hoodMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    hoodMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
 
     hoodMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kHoodMotorSupplyCurrentLimit;
