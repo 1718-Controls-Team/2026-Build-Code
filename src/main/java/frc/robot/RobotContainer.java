@@ -29,6 +29,7 @@ import frc.robot.commands.turnTsAround;
 import frc.robot.commands.turretZero;
 import frc.robot.commands.Auton.autonIntake;
 import frc.robot.commands.Auton.autonShoot;
+import frc.robot.commands.Auton.autonTurret;
 import frc.robot.commands.Auton.flywheel;
 import frc.robot.commands.Intake.deployIntake;
 import frc.robot.commands.Intake.retractIntake;
@@ -112,12 +113,16 @@ public class RobotContainer {
         
         /*driverController.back().and(driverController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         driverController.back().and(driverController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        driverController.start().and(driverController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        driverController.start().and(driverController.y()).whileTrue(drivet
+        rain.sysIdQuasistatic(Direction.kForward));
         driverController.start().and(driverController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
         */
         
         // reset the field-centric heading on start press
         driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        if (driverController.start() != null) {
+            LimelightHelpers.SetIMUMode("limelight-cool", 1);
+        }
 
         // DRIVER CONTROLS commented out bc testing
         driverController.povUp().whileTrue(new smartPass(drivetrain, driverController, m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
@@ -130,19 +135,16 @@ public class RobotContainer {
         //driverController.leftTrigger().whileTrue(new PASS(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
         driverController.leftTrigger().whileTrue(new shootTargetMove(m_shooterSubsystem, m_spiralRollerSubsystem, m_hoodServoSubsystem, driverController, drivetrain, m_intakeSubsystem, m_turretSubsystem))
                                                     .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
+        driverController.y().whileTrue(new PASS(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
 
         // OPERATOR CONTROLS
         operatorController.leftTrigger().whileTrue(new shootSelf(m_shooterSubsystem, m_spiralRollerSubsystem, drivetrain, m_intakeSubsystem, m_turretSubsystem))
                                         .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
-        operatorController.leftTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
+        operatorController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
         operatorController.x().onTrue(new turretZero(m_turretSubsystem));
         operatorController.b().onTrue(new turnTsAround(m_turretSubsystem));
         operatorController.y().onTrue(new hoodUp(m_hoodServoSubsystem));
     
-
-
-
-
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
@@ -155,6 +157,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("hoodDown", new hoodDown(m_hoodServoSubsystem));
         NamedCommands.registerCommand("flywheel", new flywheel(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
         NamedCommands.registerCommand("turretZero", new turretZero(m_turretSubsystem));
+        NamedCommands.registerCommand("turretForward", new autonTurret(m_turretSubsystem));
     }
     public Command getAutonomousCommand() {
       

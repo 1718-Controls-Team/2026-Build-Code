@@ -49,7 +49,7 @@ public class Constants {
 */
 
 // Velocity Controls
-    public static final double kIndexerMainSpeed = 80;
+    public static final double kIndexerMainSpeed = 90;
     public static final double kIndexerNoSpeed = 0;
 
     public static final double kShooterOutSpeed = 67;
@@ -74,7 +74,7 @@ public class Constants {
 
     // Intake 0 -> -15
     public static final double kIntakeSlideOutPos = -14.6;
-    public static final double kIntakeSlideInPos = -1;
+    public static final double kIntakeSlideInPos = -3;
 
     public static final double kHoodServoDownPos = 0.2;
 
@@ -152,7 +152,7 @@ public class Constants {
 
 /*
  * ####################################################################################################################################
- * ####################################################### Right Roller ###############################################################
+ * ####################################################### Roller ###############################################################
  * ####################################################################################################################################
 */
     
@@ -167,7 +167,7 @@ public class Constants {
     public static final double kRightRollerSpinMotorPeakForwardVoltage = 11;
     public static final double kRightRollerSpinMotorPeakReverseVoltage = -11;
 
-    public static final InvertedValue kRightRollerSpinMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final InvertedValue kRightRollerSpinMotorDirection = InvertedValue.CounterClockwise_Positive;
     public static final double kRightRollerSpinMotorSupplyCurrentLimit = 40;
 
     public static final double kRightRollerSpinMotorClosedLoopRampPeriod = 0;
@@ -224,7 +224,7 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kLeftIndexerMotorProportional = 3;
+    public static final double kLeftIndexerMotorProportional = 5;
     public static final double kLeftIndexerMotorIntegral = 0;
     public static final double kLeftIndexerMotorDerivative = 0;
 

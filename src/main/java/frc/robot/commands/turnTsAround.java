@@ -38,8 +38,9 @@ public class turnTsAround extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      m_turretSubsystem.setTurretMotorPos(2);
-      
+      m_turretSubsystem.setTurretMotorL(2);
+      m_turretSubsystem.setTurretMotorR(-2);
+      m_isFinished = true;
     }
 
 

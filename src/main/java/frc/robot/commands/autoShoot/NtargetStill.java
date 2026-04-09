@@ -122,7 +122,7 @@ public class NtargetStill extends Command {
     */
 
     dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-    m_turretDegrees = (((Math.atan2(deltaY, deltaX))/ Math.PI )*180) - m_robotPose.getRotation().getDegrees();
+    m_turretDegrees = ((((Math.atan2(deltaY, deltaX))/ Math.PI )*180) - m_robotPose.getRotation().getDegrees());
     turretOneHeading = ((turretOneHeading + m_turretDegrees));
     turretTwoHeading = ((turretTwoHeading + m_turretDegrees));
 
