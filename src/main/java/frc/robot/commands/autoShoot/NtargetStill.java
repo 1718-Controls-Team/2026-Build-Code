@@ -41,10 +41,10 @@ public class NtargetStill extends Command {
     private boolean m_isFinished = false;
     private Pose2d m_robotPose;
     private Optional<Alliance> m_alliance;
-    private double deltaY;
-    private double deltaX;
-    private double hubX;
-    private double hubY;
+    private double m_deltaY;
+    private double m_deltaX;
+    private double m_hubX;
+    private double m_hubY;
     private final CommandXboxController m_driverController;
     private final turretHood m_turretSubsystem;
 
@@ -84,21 +84,20 @@ public class NtargetStill extends Command {
    m_robotPose = m_Drivetrain.getState().Pose;
     m_alliance = DriverStation.getAlliance();
     if (m_alliance.get() == Alliance.Red) {
-      deltaX = m_robotPose.getX() - Constants.kRedHubCoord[0];
-      deltaY = m_robotPose.getY() - Constants.kRedHubCoord[1];
-      hubX = Constants.kRedHubCoord[0];
-      hubY = Constants.kRedHubCoord[1];
+      m_hubX = Constants.kRedHubCoord[0];
+      m_hubY = Constants.kRedHubCoord[1];
     } else {
-      deltaX = Constants.kBlueHubCoord[0] - m_robotPose.getX();
-      deltaY = Constants.kBlueHubCoord[1] - m_robotPose.getY();
-      hubX = Constants.kBlueHubCoord[0];
-      hubY = Constants.kBlueHubCoord[1];
-    }  
-  
-    m_turretRadians = Math.atan2(deltaY, deltaX);
+      m_hubX = Constants.kBlueHubCoord[0];
+      m_hubY = Constants.kBlueHubCoord[1];
+    } 
+
+      m_deltaX =  m_hubX - m_robotPose.getX();
+      m_deltaY =  m_hubY - m_robotPose.getY();
+
+    m_turretRadians = Math.atan2(m_deltaY, m_deltaX);
     m_robotDegrees = (( m_turretRadians / Math.PI )*180);
-    SmartDashboard.putNumber("deltaY", deltaY);
-    SmartDashboard.putNumber("deltaX", deltaX);   
+    SmartDashboard.putNumber("deltaY", m_deltaY);
+    SmartDashboard.putNumber("deltaX", m_deltaX);   
     SmartDashboard.putNumber("robot off", ((m_robotPose.getRotation().getDegrees())));
 
    double turretXOne = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (8 * Math.sin(m_robotPose.getRotation().getDegrees())));
@@ -107,22 +106,22 @@ public class NtargetStill extends Command {
    double turretXTwo = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (-8 * Math.sin(m_robotPose.getRotation().getDegrees())));
    double turretYTwo = m_robotPose.getY() + ((-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (-8 * Math.cos(m_robotPose.getRotation().getDegrees())));
 
-   double deltaXTurretOne = hubX - turretXOne;
-   double deltaYTurretOne = hubY - turretYOne;
-   double deltaXTurretTwo = hubX - turretXTwo;
-   double deltaYTurretTwo = hubY - turretYTwo;
+  double deltaXTurretOne = m_hubX - turretXOne;
+   double deltaYTurretOne = m_hubY - turretYOne;
+   double deltaXTurretTwo = m_hubX - turretXTwo;
+   double deltaYTurretTwo = m_hubY - turretYTwo;
 
    double launchHeadingTurretOne = Math.atan2(deltaYTurretOne, deltaXTurretOne);
    double launchHeadingTurretTwo = Math.atan2(deltaYTurretTwo, deltaXTurretTwo);
-   double turretOneHeading = launchHeadingTurretOne - m_robotPose.getRotation().getDegrees();
-   double turretTwoHeading = launchHeadingTurretTwo - m_robotPose.getRotation().getDegrees();
+   double turretOneHeading = launchHeadingTurretOne + m_robotPose.getRotation().getDegrees();
+   double turretTwoHeading = launchHeadingTurretTwo + m_robotPose.getRotation().getDegrees();
   /*  m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
         .withTargetDirection(new Rotation2d(((m_robotDegrees + 180)/180)*Math.PI)));
     */
 
-    dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-    m_turretDegrees = ((((Math.atan2(deltaY, deltaX))/ Math.PI )*180) - m_robotPose.getRotation().getDegrees());
+    dist = Math.sqrt(Math.pow(m_deltaX, 2) + Math.pow(m_deltaY, 2));
+    m_turretDegrees = ((((Math.atan2(m_deltaY, m_deltaX))/ Math.PI )*180) + m_robotPose.getRotation().getDegrees());
     turretOneHeading = ((turretOneHeading + m_turretDegrees));
     turretTwoHeading = ((turretTwoHeading + m_turretDegrees));
 
@@ -130,9 +129,17 @@ public class NtargetStill extends Command {
       turretOneHeading = turretOneHeading - 360;
       turretTwoHeading = turretTwoHeading - 360;
     }
-    if (turretOneHeading < 180) {
+    if (turretOneHeading < -180) {
       turretOneHeading = turretOneHeading + 360;
       turretTwoHeading = turretTwoHeading + 360;
+    }
+    if (m_turretDegrees < -180) {
+      turretOneHeading = turretOneHeading + 360;
+      turretTwoHeading = turretTwoHeading + 360;
+    }
+    if (m_turretDegrees > 180) {
+      turretOneHeading = turretOneHeading - 360;
+      turretTwoHeading = turretTwoHeading - 360;
     }
 
     m_turretOffsetOne = (turretOneHeading / 90);
@@ -145,6 +152,7 @@ public class NtargetStill extends Command {
 
      m_turretSubsystem.setTurretMotorPos(m_turretOffset);
      //m_turretSubsystem.setTurretMotor2(m_turretOffsetTwo);
+     //m_turretSubsystem.setTurretMotor1(m_turretOffsetOne);
     
 }
   

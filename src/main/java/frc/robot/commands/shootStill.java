@@ -62,23 +62,14 @@ public class shootStill extends Command {
           break;
         
         case 2:
-          if (m_shooterSubsystem.getShooterSpeed() > (Constants.kShooterOutSpeed - 30)) {
+          if (m_shooterSubsystem.getShooterSpeed() > (Constants.kShooterOutSpeed - 10)) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
             spiralTimer.reset();
             spiralTimer.start();
-            shootFlag = 3;
           } else {
             m_shooterSubsystem.setIndexerOff(0.0);
           }
           break; 
-        case 3:
-          if (spiralTimer.get() >= 2) {
-            m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
-            //if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
-            //  m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
-            //}
-          }
-          break;
       }
   }
 

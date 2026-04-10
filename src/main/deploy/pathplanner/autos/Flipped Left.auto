@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left No Climb 1"
+                  "pathName": "FL 1"
                 }
               },
               {
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left No Climb 2"
+                  "pathName": "FL 2"
                 }
               }
             ]
@@ -65,12 +65,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Left No Climb 3"
-                }
-              },
               {
                 "type": "race",
                 "data": {

@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Bee 1"
+                  "pathName": "Flip 1"
                 }
               },
               {
@@ -29,8 +29,45 @@
                       "data": {
                         "waitTime": 0.25
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "flywheel"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "turretZero"
+                      }
                     }
                   ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Flip 2"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Flip 3"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Flip 4"
                 }
               },
               {
@@ -40,7 +77,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "turretForward"
+                        "name": "intakeRetract"
                       }
                     },
                     {
@@ -56,28 +93,28 @@
           }
         },
         {
-          "type": "race",
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "race",
                 "data": {
-                  "name": "hoodUp"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "hoodUp"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    }
+                  ]
                 }
               },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
               {
                 "type": "race",
                 "data": {
@@ -99,25 +136,6 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "intakeRetract"
-                                  }
-                                },
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 1.0
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "race",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
                                     "name": "intakeDeploy"
                                   }
                                 },
@@ -233,139 +251,6 @@
                                   "type": "named",
                                   "data": {
                                     "name": "intakeDeploy"
-                                  }
-                                },
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 1.0
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "race",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "intakeRetract"
-                                  }
-                                },
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 1.0
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "race",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "intakeDeploy"
-                                  }
-                                },
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 1.0
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "race",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "intakeRetract"
-                                  }
-                                },
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 1.0
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "race",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "intakeDeploy"
-                                  }
-                                },
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 1.0
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "race",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "intakeRetract"
-                                  }
-                                },
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 1.0
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "race",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "intakeDeploy"
-                                  }
-                                },
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 1.0
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "race",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "intakeRetract"
                                   }
                                 },
                                 {
@@ -383,7 +268,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 20.0
+                        "waitTime": 8.0
                       }
                     }
                   ]

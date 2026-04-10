@@ -4,14 +4,8 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.shooterIndexer;
-import frc.robot.subsystems.intakeFuel;
 import frc.robot.subsystems.turretHood;
-import frc.robot.subsystems.spiralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
-
-import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
@@ -39,7 +33,7 @@ public class turretZero extends Command {
     @Override
     public void initialize() {
       m_turretSubsystem.setTurretMotorPos(0.0);
-      
+      m_isFinished = true;
     }
 
 

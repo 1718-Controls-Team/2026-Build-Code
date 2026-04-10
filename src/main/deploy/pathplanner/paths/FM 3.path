@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.358303571428571,
-        "y": 4.051196428571429
+        "x": 0.9163715277777778,
+        "y": 5.9875694444444445
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9398958333333334,
-        "y": 3.7988020833333334
+        "x": 1.1535423522904062,
+        "y": 5.908512502940235
       },
       "isLocked": false,
-      "linkedName": "Middle 2"
+      "linkedName": "FM 2"
     },
     {
       "anchor": {
-        "x": 1.6407118055555556,
-        "y": 3.7200694444444444
+        "x": 1.735190972222222,
+        "y": 5.656892361111111
       },
       "prevControl": {
-        "x": 2.002881944444445,
-        "y": 3.8460416666666672
+        "x": 1.4832465277777778,
+        "y": 5.719878472222222
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 146.30993247402034
   },
   "reversed": false,
-  "folder": "Middle",
+  "folder": "Flipped Middle",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

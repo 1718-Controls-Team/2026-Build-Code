@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.585715312258182,
-        "y": 4.418736381133009
+        "x": 7.797604166666666,
+        "y": 1.0746527777777783
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.335734052341666,
-        "y": 4.421797376159369
+        "x": 7.829097222222222,
+        "y": 1.3580902777777784
       },
       "isLocked": false,
-      "linkedName": "end of germ left 3"
+      "linkedName": "End of Flip 1"
     },
     {
       "anchor": {
-        "x": 1.728828208107346,
-        "y": 4.418736381133009
+        "x": 7.544540954423866,
+        "y": 2.658303571428571
       },
       "prevControl": {
-        "x": 2.012265708107346,
-        "y": 4.421435785901061
+        "x": 7.562867347528532,
+        "y": 2.408976189627508
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "End of Flip 2"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 89.01250383886502
   },
   "reversed": false,
-  "folder": "Left Trench",
+  "folder": "Flipped Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

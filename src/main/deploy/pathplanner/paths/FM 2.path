@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6138496356861367,
-        "y": 3.752568961789202
+        "x": 1.735190972222222,
+        "y": 4.019253472222222
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8850103499718514,
-        "y": 3.7039796760749155
+        "x": 2.3335590277777776,
+        "y": 6.522951388888889
       },
       "isLocked": false,
-      "linkedName": "end of germ 3"
+      "linkedName": "FM 1"
     },
     {
       "anchor": {
-        "x": 1.6354417452513061,
-        "y": 3.752568961789202
+        "x": 0.9163715277777778,
+        "y": 5.9875694444444445
       },
       "prevControl": {
-        "x": 1.8848880347154584,
-        "y": 3.7691987144201455
+        "x": 1.3572743055555556,
+        "y": 6.019062500000001
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "FM 2"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Right Trench",
+  "folder": "Flipped Middle",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

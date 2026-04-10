@@ -50,7 +50,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Left No Climb",
+  "folder": "Left",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0

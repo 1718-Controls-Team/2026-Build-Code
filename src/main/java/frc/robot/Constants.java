@@ -220,25 +220,25 @@ public class Constants {
     
 /*
  * ####################################################################################################################################
- * ####################################################### Indexer Left ###############################################################
+ * ####################################################### Indexer ###############################################################
  * ####################################################################################################################################
 */
 
-    public static final double kLeftIndexerMotorProportional = 5;
-    public static final double kLeftIndexerMotorIntegral = 0;
-    public static final double kLeftIndexerMotorDerivative = 0;
+    public static final double kIndexerMotorProportional = 10;
+    public static final double kIndexerMotorIntegral = 0;
+    public static final double kIndexerMotorDerivative = 0;
 
-    public static final double kLeftIndexerMotorGravityFeedForward = 0;
-    public static final double kLeftIndexerMotorVelocityFeedForward = 0.112;
-    public static final double kLeftIndexerMotorStaticFeedForward = 0.05;
+    public static final double kIndexerMotorGravityFeedForward = 0;
+    public static final double kIndexerMotorVelocityFeedForward = 0.112;
+    public static final double kIndexerMotorStaticFeedForward = 2.05;
 
-    public static final double kLeftIndexerMotorPeakForwardVoltage = 11;
-    public static final double kLeftIndexerMotorPeakReverseVoltage = -11;
+    public static final double kIndexerMotorPeakForwardVoltage = 11;
+    public static final double kIndexerMotorPeakReverseVoltage = -11;
 
-    public static final InvertedValue kLeftIndexerMotorDirection = InvertedValue.Clockwise_Positive;
-    public static final double kLeftIndexerMotorSupplyCurrentLimit = 40;
+    public static final InvertedValue kIndexerMotorDirection = InvertedValue.Clockwise_Positive;
+    public static final double kIndexerMotorSupplyCurrentLimit = 40;
 
-    public static final double kLeftIndexerMotorClosedLoopRampPeriod = 0;
+    public static final double kIndexerMotorClosedLoopRampPeriod = 0;
     
 
 /*

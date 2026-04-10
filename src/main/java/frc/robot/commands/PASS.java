@@ -61,25 +61,16 @@ public class PASS extends Command {
         case 1:
             m_hoodServo.setPos1(1);
             m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
-            m_shooterSubsystem.setShooterSpinSpeed(90);
+            m_shooterSubsystem.setShooterSpinSpeed(100);
+            spiralTimer.reset();
+            spiralTimer.start();
             shootFlag = 2;
           break;
         case 2:
-          if (m_hoodServo.getPos() == (1 + 0.05) || m_hoodServo.getPos() == (1 - 0.05)) {
+            if (spiralTimer.get() >= 0.5) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
-            spiralTimer.reset();
-            spiralTimer.start();
-            shootFlag = 3;
-          }
+            }
           break; 
-        case 3:
-          if (spiralTimer.get() >= 2) {
-            m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeNoSpeed);
-            //if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
-            //  m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
-            //}
-          }
-          break;
       }
   }
 

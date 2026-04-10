@@ -22,7 +22,7 @@ public class shooterIndexer extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     
     TalonFX leftShooterMotor = new TalonFX(19, Constants.kCanivore);
-    TalonFX leftIndexerMotor = new TalonFX(16, Constants.kCanivore);
+    TalonFX indexerMotor = new TalonFX(16, Constants.kCanivore);
     TalonFX rightShooterMotor = new TalonFX(22, Constants.kCanivore);
 
     PositionVoltage shooterPosition = new PositionVoltage(0);
@@ -36,7 +36,7 @@ public class shooterIndexer extends SubsystemBase {
   public shooterIndexer() {
     this.configureleftShooterMotor(leftShooterMotor);
     this.configurerightShooterMotor(rightShooterMotor);
-    this.configureleftIndexerMotor(leftIndexerMotor);
+    this.configureindexerMotor(indexerMotor);
 
   }
 
@@ -51,26 +51,31 @@ public class shooterIndexer extends SubsystemBase {
 
   }
   public void setShooterOff(double output){
-    leftIndexerMotor.setControl(ShooterVoltage.withOutput(output));
+    indexerMotor.setControl(ShooterVoltage.withOutput(output));
     leftShooterMotor.setControl(ShooterVoltage.withOutput(output));
     rightShooterMotor.setControl(ShooterVoltage.withOutput(output));
 
   }
   public void setIndexerOff(double output){
-    leftIndexerMotor.setControl(ShooterVoltage.withOutput(output));
+    indexerMotor.setControl(ShooterVoltage.withOutput(output));
 
   }
    public double getShooterSpeed(){
     return rightShooterMotor.getVelocity().getValueAsDouble();
   }
 
-  public void setIndexerSpinSpeed(double indexerSpeed){
-    leftIndexerMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
+  public void setIndexerSpinTorq(double indexerSpeed){
+    indexerMotor.setControl(GoodVelocityControl.withVelocity(indexerSpeed));
+
+  }
+
+ public void setIndexerSpinSpeed(double indexerSpeed){
+    indexerMotor.setControl(voltageRequest.withVelocity(indexerSpeed));
 
   }
 
   public double getIndexerSpeed(){
-    return leftIndexerMotor.getVelocity().getValueAsDouble();
+    return indexerMotor.getVelocity().getValueAsDouble();
   }
 
   
@@ -158,41 +163,41 @@ public class shooterIndexer extends SubsystemBase {
 //######################################### Start OF INDEXER CONFIGURATION ######################################################
 //######################################### Start OF INDEXER CONFIGURATION ###################################################### 
 
-//######################################### INDEXER LEFT CONFIGURATION ###################################################### 
+//######################################### INDEXER CONFIGURATION ###################################################### 
 
-  public void configureleftIndexerMotor(TalonFX leftIndexerMotor){
-    TalonFXConfiguration leftIndexerMotorConfig = new TalonFXConfiguration();
+  public void configureindexerMotor(TalonFX indexerMotor){
+    TalonFXConfiguration indexerMotorConfig = new TalonFXConfiguration();
 
-    leftIndexerMotorConfig.MotorOutput.Inverted = Constants.kLeftIndexerMotorDirection;
-    leftIndexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    indexerMotorConfig.MotorOutput.Inverted = Constants.kIndexerMotorDirection;
+    indexerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
 
-    leftIndexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftIndexerMotorSupplyCurrentLimit;
-    leftIndexerMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-    leftIndexerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftIndexerMotorClosedLoopRampPeriod;
-    leftIndexerMotorConfig.Voltage.PeakForwardVoltage = Constants.kLeftIndexerMotorPeakForwardVoltage;
-    leftIndexerMotorConfig.Voltage.PeakReverseVoltage = Constants.kLeftIndexerMotorPeakReverseVoltage;
+    indexerMotorConfig.CurrentLimits.SupplyCurrentLimit = Constants.kIndexerMotorSupplyCurrentLimit;
+    indexerMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    indexerMotorConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kIndexerMotorClosedLoopRampPeriod;
+    indexerMotorConfig.Voltage.PeakForwardVoltage = Constants.kIndexerMotorPeakForwardVoltage;
+    indexerMotorConfig.Voltage.PeakReverseVoltage = Constants.kIndexerMotorPeakReverseVoltage;
     
 
-    Slot0Configs slot0 = leftIndexerMotorConfig.Slot0;
-    slot0.kP = Constants.kLeftIndexerMotorProportional;
-    slot0.kI = Constants.kLeftIndexerMotorIntegral;
-    slot0.kD = Constants.kLeftIndexerMotorDerivative;
+    Slot0Configs slot0 = indexerMotorConfig.Slot0;
+    slot0.kP = Constants.kIndexerMotorProportional;
+    slot0.kI = Constants.kIndexerMotorIntegral;
+    slot0.kD = Constants.kIndexerMotorDerivative;
 
     slot0.GravityType = GravityTypeValue.Elevator_Static;
-    slot0.kV = Constants.kLeftIndexerMotorVelocityFeedForward;
-    slot0.kG = Constants.kLeftIndexerMotorGravityFeedForward;
-    slot0.kS = Constants.kLeftIndexerMotorStaticFeedForward;
+    slot0.kV = Constants.kIndexerMotorVelocityFeedForward;
+    slot0.kG = Constants.kIndexerMotorGravityFeedForward;
+    slot0.kS = Constants.kIndexerMotorStaticFeedForward;
  
 
 
-    StatusCode leftIndexerMotorStatus = StatusCode.StatusCodeNotInitialized;
+    StatusCode indexerMotorStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
-      leftIndexerMotorStatus = leftIndexerMotor.getConfigurator().apply(leftIndexerMotorConfig);
-      if (leftIndexerMotorStatus.isOK()) break;
+      indexerMotorStatus = indexerMotor.getConfigurator().apply(indexerMotorConfig);
+      if (indexerMotorStatus.isOK()) break;
     }
-    if (!leftIndexerMotorStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + leftIndexerMotorStatus.toString());
+    if (!indexerMotorStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + indexerMotorStatus.toString());
     }
   }
  

@@ -58,9 +58,7 @@ public class spittersAreQuitters extends Command {
       m_shooterSubsystem.setShooterSpinSpeed(-40);
       m_shooterSubsystem.setIndexerSpinSpeed(-50);
       m_intakeSubsystem.setIntakeSpinSpeed(40);
-            //if (m_intakeSubsystem.getIntakeElectricSlidePos() != (Constants.kIntakeSlideInPos +- .5)) {
-            //  m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos + 0.5);
-            //}
+
   }
 
   // Called once the command ends or is interrupted.

@@ -3,13 +3,13 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Left No Climb",
-    "Left Trench",
+    "Flipped Left",
+    "Flipped Right",
+    "Left",
+    "Marysville",
     "Middle",
-    "Middle No Climb",
-    "Holy Shit",
-    "No Climb",
-    "Right Trench",
+    "Flipped Middle",
+    "Right",
     "sam"
   ],
   "autoFolders": [],
@@ -37,5 +37,10 @@
   "brModuleY": -0.273,
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
-  "robotFeatures": []
+  "robotFeatures": [
+    "{\"name\":\"Left Turret\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":-0.23,\"y\":0.2},\"radius\":0.17,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Right Turret\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":-0.23,\"y\":-0.2},\"radius\":0.17,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":-0.5,\"y\":0.19},\"end\":{\"x\":-0.35,\"y\":0.19},\"strokeWidth\":0.02}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":-0.5,\"y\":-0.19},\"end\":{\"x\":-0.35,\"y\":-0.19},\"strokeWidth\":0.02}}"
+  ]
 }
