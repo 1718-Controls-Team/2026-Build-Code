@@ -57,7 +57,7 @@ public class autonShoot extends Command {
     switch (shootFlag) {
         case 1:
             m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
-            m_shooterSubsystem.setShooterSpinSpeed(70);
+            m_shooterSubsystem.setShooterSpinSpeed(75);
             spiralTimer.reset();
             spiralTimer.start();
             shootFlag = 2;

@@ -45,8 +45,8 @@ public class autonTurret extends Command {
   @Override
   public void execute() {
     if (erikaTimer.get() <= 0.25) {
-      m_turretSubsystem.setTurretMotorR(-2);
-      m_turretSubsystem.setTurretMotorL(2);
+      m_turretSubsystem.setTurretMotor1(-2);
+      m_turretSubsystem.setTurretMotor2(2);
       m_isFinished = true;
     }
   }

@@ -1,31 +1,29 @@
-package frc.robot.commands.Auton;
+package frc.robot.commands;
 
 
 
-import frc.robot.subsystems.intakeFuel;
-import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.hoodServo;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class autonIntake extends Command {
+public class hoodsOUT extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final intakeFuel m_intakeSubsystem;
+  private final hoodServo m_hoodServo;
   
     private boolean m_isFinished = false;
-    
+  
+  
     /**
      * Creates a new set-PowerCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public autonIntake(intakeFuel intakeSubsystem) {
-      m_intakeSubsystem = intakeSubsystem;
-  
+    public hoodsOUT(hoodServo servo) {
+      m_hoodServo = servo;
      
       // Use addRequirements() here to declare subsystem dependencies.
-      addRequirements(intakeSubsystem);
+      addRequirements(servo);
       
           
     }
@@ -33,23 +31,21 @@ public class autonIntake extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_isFinished = false;
-        
+        m_hoodServo.setPos1(2);
+        m_isFinished = true;
     }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos);
-      m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeInSpeed);
-    
+   
   }
-  
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+  
 }
   // Returns true when the command should end.
   @Override

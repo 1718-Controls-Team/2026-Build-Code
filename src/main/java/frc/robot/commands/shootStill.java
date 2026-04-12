@@ -62,13 +62,8 @@ public class shootStill extends Command {
           break;
         
         case 2:
-          if (m_shooterSubsystem.getShooterSpeed() > (Constants.kShooterOutSpeed - 10)) {
             m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
-            spiralTimer.reset();
-            spiralTimer.start();
-          } else {
-            m_shooterSubsystem.setIndexerOff(0.0);
-          }
+          
           break; 
       }
   }

@@ -9,7 +9,7 @@ import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class autonIntake extends Command {
+public class intakeMid extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final intakeFuel m_intakeSubsystem;
   
@@ -20,7 +20,7 @@ public class autonIntake extends Command {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public autonIntake(intakeFuel intakeSubsystem) {
+    public intakeMid(intakeFuel intakeSubsystem) {
       m_intakeSubsystem = intakeSubsystem;
   
      
@@ -41,7 +41,7 @@ public class autonIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeSlideOutPos);
+      m_intakeSubsystem.setIntakeElectricSlidePos(Constants.kIntakeMidPos);
       m_intakeSubsystem.setIntakeSpinSpeed(Constants.kIntakeInSpeed);
     
   }

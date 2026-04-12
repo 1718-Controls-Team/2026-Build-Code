@@ -9,18 +9,19 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 public class Constants {
     public static final CANBus kCanivore = new CANBus("Canivore");
     public static final double[] kBlueHubCoord = {4.627, 4.024};
-    public static final double[] kRedHubCoord = {4.627, 4.024};
+    public static final double[] kRedHubCoord = {11.939, 4.024};
     public static final double[] kBluePassCoords = {1.905, 6.222, 2.059};
 
     // key - distance    value - speed
     public static final InterpolatingDoubleTreeMap kSpeedTable = new InterpolatingDoubleTreeMap();
     static {
-        kSpeedTable.put(4.57, 85.0);
+        kSpeedTable.put(4.57, 100.0);
+        kSpeedTable.put(3.39, 73.0);
+        kSpeedTable.put(2.6, 61.0);
+        /*
+        kSpeedTable.put(4.57, 83.0);
         kSpeedTable.put(3.39, 75.0);
         kSpeedTable.put(2.6, 64.0);
-        /*kSpeedTable.put(3.51, 60.0);
-        kSpeedTable.put(2.6, 50.0);
-        kSpeedTable.put(1.8, 47.0);
         */
     } 
 
@@ -49,22 +50,18 @@ public class Constants {
 */
 
 // Velocity Controls
-    public static final double kIndexerMainSpeed = 90;
+    public static final double kIndexerMainSpeed = 81.5;
     public static final double kIndexerNoSpeed = 0;
 
     public static final double kShooterOutSpeed = 67;
+    public static final double kShooterAutoSpeed = 75;
 
-
-
-    public static final double kRollerMainSpeed = 0.4;
+    public static final double kRollerMainSpeed = 0.55;
 
     public static final double kIntakeInSpeed = -60;
-    public static final double kIntakeInPower = -0.4;
+    public static final double kIntakeInPower = -0.55;
     public static final double kIntakeIdleSpeed = -10;
     public static final double kIntakeNoSpeed = 0;
-
-    public static final double kClimbUpSpeed = 30;
-
     
 
 
@@ -74,6 +71,7 @@ public class Constants {
 
     // Intake 0 -> -15
     public static final double kIntakeSlideOutPos = -14.6;
+    public static final double kIntakeMidPos = -9;
     public static final double kIntakeSlideInPos = -3;
 
     public static final double kHoodServoDownPos = 0.2;
@@ -224,13 +222,14 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kIndexerMotorProportional = 10;
+
+    public static final double kIndexerMotorProportional = 3.5;
     public static final double kIndexerMotorIntegral = 0;
     public static final double kIndexerMotorDerivative = 0;
 
     public static final double kIndexerMotorGravityFeedForward = 0;
     public static final double kIndexerMotorVelocityFeedForward = 0.112;
-    public static final double kIndexerMotorStaticFeedForward = 2.05;
+    public static final double kIndexerMotorStaticFeedForward = 0;
 
     public static final double kIndexerMotorPeakForwardVoltage = 11;
     public static final double kIndexerMotorPeakReverseVoltage = -11;

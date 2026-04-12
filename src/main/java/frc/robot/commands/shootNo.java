@@ -51,7 +51,6 @@ public class shootNo extends Command {
     m_shooterSubsystem.setShooterOff(0);
     m_spiralRollerSubsystem.setSpiralRollerOff(0);
     m_intakeSubsystem.setIntakeOutput(0);
-    m_hoodSubsystem.setPos1(0.2);
       
     }
   

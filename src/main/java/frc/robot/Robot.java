@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
     m_shooterSubsystem = new shooterIndexer();
 
     int[] validIDs = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
-    LimelightHelpers.SetFiducialIDFiltersOverride("limelight-lime", validIDs);
+    LimelightHelpers.SetFiducialIDFiltersOverride("limelight", validIDs);
 
     RobotController.setBrownoutVoltage(Constants.kCustomBrownout);
   }
@@ -122,17 +122,18 @@ public class Robot extends TimedRobot {
 
         if (llMeasurementTurret != null && llMeasurementTurret.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
           m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementTurret.pose, Utils.fpgaToCurrentTime(llMeasurementTurret.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
-          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(999, 999, 0.1));
+          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(9999,9999, 0.0000000000001));
         }
       }
 
-      if (LimelightHelpers.getTV("limelight-cool")) {
+       if (LimelightHelpers.getTV("limelight-cool")) {
 
         if (llMeasurementShooter != null && llMeasurementShooter.tagCount > 0 && (m_robotContainer.drivetrain.getState().Speeds.omegaRadiansPerSecond < 1.5)) {
           m_robotContainer.drivetrain.addVisionMeasurement(llMeasurementShooter.pose, Utils.fpgaToCurrentTime(llMeasurementShooter.timestampSeconds),VecBuilder.fill(0.1, 0.1, 0.1));
-          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(0.001, 0.001, 0.001));
+          m_robotContainer.drivetrain.setStateStdDevs(VecBuilder.fill(999, 999, 0.00000000000001));
         }
-      }
+      } 
+
     
     SmartDashboard.putNumber("robot heading", headingDeg);
     SmartDashboard.putNumber("robot Y", m_robotContainer.drivetrain.getState().Pose.getY());

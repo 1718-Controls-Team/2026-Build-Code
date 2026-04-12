@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.PASS;
 import frc.robot.commands.hoodDown;
 import frc.robot.commands.hoodUp;
+import frc.robot.commands.hoodsOUT;
 import frc.robot.commands.shootNo;
 import frc.robot.commands.shootStill;
 import frc.robot.commands.spittersAreQuitters;
@@ -31,6 +32,8 @@ import frc.robot.commands.Auton.autonIntake;
 import frc.robot.commands.Auton.autonShoot;
 import frc.robot.commands.Auton.autonTurret;
 import frc.robot.commands.Auton.flywheel;
+import frc.robot.commands.Auton.intakeMid;
+import frc.robot.commands.Intake.carryIntake;
 import frc.robot.commands.Intake.deployIntake;
 import frc.robot.commands.Intake.retractIntake;
 import frc.robot.commands.autoShoot.NshootMove;
@@ -130,7 +133,8 @@ public class RobotContainer {
 
         driverController.rightTrigger().whileTrue(new shootStill(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem))
          .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
-
+        driverController.back().onTrue(new hoodsOUT(m_hoodServoSubsystem));
+        driverController.povUp().onTrue(new carryIntake(m_intakeSubsystem));
         driverController.y().onTrue(new hoodUp(m_hoodServoSubsystem));
         driverController.a().onTrue(new hoodDown(m_hoodServoSubsystem));
         driverController.x().whileTrue(new spittersAreQuitters(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
@@ -140,7 +144,9 @@ public class RobotContainer {
         // OPERATOR CONTROLS
         operatorController.leftTrigger().whileTrue(new shootSelf(m_shooterSubsystem, m_spiralRollerSubsystem, drivetrain, m_intakeSubsystem, m_turretSubsystem))
          .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
-        operatorController.rightTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
+        operatorController.leftTrigger().whileTrue(new NtargetStill(drivetrain, driverController, m_turretSubsystem));
+        operatorController.rightTrigger().whileTrue(new shootTargetMove(m_shooterSubsystem, m_spiralRollerSubsystem, drivetrain, m_turretSubsystem))
+         .onFalse(new shootNo(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem, m_hoodServoSubsystem));
 
         operatorController.x().onTrue(new turretZero(m_turretSubsystem));
         operatorController.b().onTrue(new turnTsAround(m_turretSubsystem));
@@ -160,6 +166,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("flywheel", new flywheel(m_shooterSubsystem, m_spiralRollerSubsystem, m_intakeSubsystem));
         NamedCommands.registerCommand("turretZero", new turretZero(m_turretSubsystem));
         NamedCommands.registerCommand("turretForward", new autonTurret(m_turretSubsystem));
+        NamedCommands.registerCommand("intakeMid", new intakeMid(m_intakeSubsystem));
     }
     public Command getAutonomousCommand() {
       

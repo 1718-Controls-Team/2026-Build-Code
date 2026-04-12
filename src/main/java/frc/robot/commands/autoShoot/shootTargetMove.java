@@ -8,29 +8,16 @@ import frc.robot.subsystems.shooterIndexer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.spiralRoller;
 import frc.robot.subsystems.turretHood;
-import frc.robot.subsystems.hoodServo;
-import frc.robot.subsystems.intakeFuel;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.RobotContainer;
-import frc.robot.generated.TunerConstants;
-import static edu.wpi.first.units.Units.*;
-
 import java.util.Optional;
 
-import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
-import frc.robot.LimelightHelpers.PoseEstimate;
 
 
 
@@ -40,11 +27,8 @@ public class shootTargetMove extends Command {
   private final shooterIndexer m_shooterSubsystem;
   private final spiralRoller m_spiralRollerSubsystem;
   private final CommandSwerveDrivetrain m_Drivetrain;
-  private final intakeFuel m_intakeSubsystem;
   private final turretHood m_turretSubsystem;
-  private final hoodServo m_hoodSubsystem;
 
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     private double legOne;
     private double deltaX;
     private double deltaY;
@@ -53,25 +37,23 @@ public class shootTargetMove extends Command {
     private double currentTime;
     public boolean m_autoTarget = true;
     private double m_turretDegrees;
-    private double m_robotDegrees;
-    private double m_turretRadians;
     private boolean m_isFinished = false;
     private int shootFlag = 0;
+    private double m_hubX;
+    private double m_hubY;
+    private double m_deltaX;
+    private double m_deltaY;
+    private boolean m_red;
     private Pose2d m_robotPose;
     private Optional<Alliance> m_alliance;
     private double prevTime;
     private double accelerationX;
     private double accelerationY;
-    private final CommandXboxController m_driverController;
     private ChassisSpeeds velocity;
     private ChassisSpeeds previousLoopVelocity;
-    private Timer spiralTimer;
-    private double headingDeg;
+    private double m_turretOffsetOne;
+    private double m_turretOffsetTwo;
 
-
-    private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
-    .withDeadband(MaxSpeed*0.05).withHeadingPID(8, 0, 0.01)
-    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     Timer loopTimer = new Timer();
 
@@ -81,24 +63,19 @@ public class shootTargetMove extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public shootTargetMove(shooterIndexer shooter, spiralRoller spirals, hoodServo hood, CommandXboxController driver, CommandSwerveDrivetrain drivetrain, intakeFuel intake, turretHood turret) {
+      public shootTargetMove(shooterIndexer shooter, spiralRoller spirals, CommandSwerveDrivetrain drivetrain, turretHood turret) {
         m_shooterSubsystem = shooter;
         m_spiralRollerSubsystem = spirals;
-        m_driverController = driver;
-        m_hoodSubsystem = hood;
         m_Drivetrain = drivetrain;
-        m_intakeSubsystem = intake;
         m_turretSubsystem = turret;
 
       addRequirements(shooter);
       addRequirements(spirals);
-      addRequirements(intake);
     }
   
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      headingDeg = m_Drivetrain.getState().Pose.getRotation().getDegrees();
       shootFlag = 1;
 
       loopTimer.reset();
@@ -122,15 +99,76 @@ public class shootTargetMove extends Command {
     
 
     m_robotPose = m_Drivetrain.getState().Pose;
-    if (m_robotPose != null) {
-       m_alliance = DriverStation.getAlliance();
+    m_alliance = DriverStation.getAlliance();
     if (m_alliance.get() == Alliance.Red) {
-      legTwo = Math.abs((m_robotPose.getX() - Constants.kRedHubCoord[0]));
-      legOne = Math.abs((m_robotPose.getY() - Constants.kRedHubCoord[1]));
+      m_hubX = Constants.kRedHubCoord[0];
+      m_hubY = Constants.kRedHubCoord[1];
+      m_red = true;
     } else {
-      legTwo = Constants.kBlueHubCoord[0] - (m_robotPose.getX());
-      legOne = Constants.kBlueHubCoord[1] - (m_robotPose.getY());
+      m_hubX = Constants.kBlueHubCoord[0];
+      m_hubY = Constants.kBlueHubCoord[1];
+      m_red = false;
+    } 
+
+      m_deltaX =  m_hubX - m_robotPose.getX();
+      m_deltaY =  m_hubY - m_robotPose.getY();
+
+    SmartDashboard.putNumber("deltaY", m_deltaY);
+    SmartDashboard.putNumber("deltaX", m_deltaX);   
+
+   double turretXOne = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (8 * Math.sin(m_robotPose.getRotation().getDegrees())));
+   double turretYOne = m_robotPose.getY() + ((-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (8 * Math.cos(m_robotPose.getRotation().getDegrees())));
+
+   double turretXTwo = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (-8 * Math.sin(m_robotPose.getRotation().getDegrees())));
+   double turretYTwo = m_robotPose.getY() + ((-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (-8 * Math.cos(m_robotPose.getRotation().getDegrees())));
+
+  double deltaXTurretOne = m_hubX - turretXOne;
+   double deltaYTurretOne = m_hubY - turretYOne;
+   double deltaXTurretTwo = m_hubX - turretXTwo;
+   double deltaYTurretTwo = m_hubY - turretYTwo;
+
+   double launchHeadingTurretOne = Math.atan2(deltaYTurretOne, deltaXTurretOne);
+   double launchHeadingTurretTwo = Math.atan2(deltaYTurretTwo, deltaXTurretTwo);
+   double turretOneHeading;
+   double turretTwoHeading;
+
+
+    dist = Math.sqrt(Math.pow(m_deltaX, 2) + Math.pow(m_deltaY, 2));
+    if (m_red == true) {
+      m_turretDegrees = ((((Math.atan2(m_deltaY, m_deltaX))/ Math.PI )*180) - (m_robotPose.getRotation().getDegrees()) + 180);
+    } else {
+      m_turretDegrees = ((((Math.atan2(m_deltaY, m_deltaX))/ Math.PI )*180) - (m_robotPose.getRotation().getDegrees()) + 180);
     }
+
+    turretOneHeading = ((launchHeadingTurretOne + m_turretDegrees));
+    turretTwoHeading = ((launchHeadingTurretTwo + m_turretDegrees));
+
+    if (turretOneHeading > 180) {
+      turretOneHeading = turretOneHeading - 360;
+      turretTwoHeading = turretTwoHeading - 360;
+    }
+    if (turretOneHeading < -180) {
+      turretOneHeading = turretOneHeading + 360;
+      turretTwoHeading = turretTwoHeading + 360;
+    }
+      
+    if (m_turretDegrees < -180) {
+      m_turretDegrees = m_turretDegrees + 360;
+    }
+    if (m_turretDegrees > 180) {
+      m_turretDegrees = m_turretDegrees - 360;
+    }
+
+    m_turretOffsetOne = (turretOneHeading / 90);
+    m_turretOffsetTwo = (turretTwoHeading / 90);
+
+    SmartDashboard.putNumber("distance", dist);
+    SmartDashboard.putNumber("turret deg", m_turretDegrees);
+    SmartDashboard.putNumber("turret off", m_turretOffsetOne);
+
+     m_turretSubsystem.setTurretMotor1(m_turretOffsetTwo);
+     m_turretSubsystem.setTurretMotor2(m_turretOffsetOne);
+    
 
     dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
 
@@ -139,47 +177,19 @@ public class shootTargetMove extends Command {
    
     dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
-    m_robotDegrees = Math.atan2(legOne, legTwo);
-
-    /*m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
-        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
-        .withTargetDirection(new Rotation2d((m_robotDegrees + 180))));
-    */
-
-   // double robotTurretOneX = (m_robotPose.getX()) + (-7 * Math.cos(m_robotPose.getRotation().getDegrees())) - (8 * Math.sin(m_robotPose.getRotation().getDegrees()));
-   // double robotTurretOneY = (m_robotPose.getY()) + (-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (8 * Math.cos(m_robotPose.getRotation().getDegrees()));
-   // double robotTurretTwoX = (m_robotPose.getX()) + (-7 * Math.cos(m_robotPose.getRotation().getDegrees())) - (-8 * Math.sin(m_robotPose.getRotation().getDegrees()));
-   // double robotTurretTwoY = (m_robotPose.getY()) + (-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (-8 * Math.cos(m_robotPose.getRotation().getDegrees()));
-   // double deltaXTurretOne = Constants.kBlueHubCoord[0] - robotTurretOneX; //or red hub. but that depends on real code that is not here
-   // double deltaYTurretOne = Constants.kBlueHubCoord[1] - robotTurretOneY;  //or red hub. but that depends on real code that is not here
-   // double deltaXTurretTwo = Constants.kBlueHubCoord[0] - robotTurretTwoX;  //or red hub. but that depends on real code that is not here
-   // double deltaYTurretTwo = Constants.kBlueHubCoord[1] - robotTurretTwoY;  //or red hub. but that depends on real code that is not here
-   // double launchHeadingTurretOne = Math.atan2(deltaYTurretOne, deltaXTurretOne);
-   // double launchHeadingTurretTwo = Math.atan2(deltaYTurretTwo, deltaXTurretTwo);
-   // double turretOneHeading = launchHeadingTurretOne - m_robotPose.getRotation().getDegrees();
-   // double turretTwoHeading = launchHeadingTurretTwo - m_robotPose.getRotation().getDegrees();
-   // // I don't really know what to do with these numbers that's Ashley's job
-   // // Also It can't be greater than 180 or less than -180 do that too
-   
-    m_turretDegrees = (((Math.atan2(deltaY, deltaX))/ Math.PI )*180) - m_robotPose.getRotation().getDegrees();
-    SmartDashboard.putNumber("turret deg", m_turretDegrees);
-    m_turretDegrees = (m_turretDegrees / 90);
-    SmartDashboard.putNumber("turret off", ((m_turretDegrees)));
-
-      m_turretSubsystem.setTurretMotorPos(m_turretDegrees);
-    
-    
-      switch (shootFlag) {
-        case 1:      
-            m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
-             if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 9)) {
-              m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
-              m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
-            }
-        break; 
-      }
+    if (Constants.kSpeedTable.get(dist) >= 92) {
+      m_shooterSubsystem.setIndexerSpinTorq(85);
+    } else {
+      m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
     }
-  } 
+
+      if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 9)) {
+        m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
+        m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
+        }
+      }
+    
+  
 
   // Called once the command ends or is interrupted.
   @Override
