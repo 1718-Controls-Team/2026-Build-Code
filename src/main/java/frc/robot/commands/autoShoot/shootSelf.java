@@ -58,7 +58,7 @@ public class shootSelf extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        m_robotPose = m_Drivetrain.getState().Pose;
+          m_robotPose = m_Drivetrain.getState().Pose;
         m_alliance = DriverStation.getAlliance();
       if (m_alliance.get() == Alliance.Red) {
         legTwo = Math.abs((m_robotPose.getX() - Constants.kRedHubCoord[0]));
@@ -69,7 +69,7 @@ public class shootSelf extends Command {
       }
          dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
             m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
-             if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 9)) {
+             if (m_shooterSubsystem.getShooterSpeedR() > (Constants.kSpeedTable.get(dist) - 9)) {
             m_shooterSubsystem.setIndexerSpinTorq(Constants.kIndexerMainSpeed);
             m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
           }

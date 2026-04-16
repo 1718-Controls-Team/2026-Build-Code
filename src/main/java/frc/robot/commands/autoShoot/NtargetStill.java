@@ -5,22 +5,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.turretHood;
 
-import static edu.wpi.first.units.Units.*;
 
 import java.util.Optional;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.LimelightHelpers;
-import frc.robot.generated.TunerConstants;
-import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.Constants;
 
 
@@ -29,16 +20,12 @@ public class NtargetStill extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final CommandSwerveDrivetrain m_Drivetrain;
   
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     public boolean m_autoTarget = true;
     private double m_turretDegrees;
-    private double m_robotDegrees;
     private boolean m_red;
     private double m_turretOffset;
     private double m_turretOffsetOne;
     private double m_turretOffsetTwo;
-    private double m_turretRadians;
-    private double dist;
     private boolean m_isFinished = false;
     private Pose2d m_robotPose;
     private Optional<Alliance> m_alliance;
@@ -46,47 +33,38 @@ public class NtargetStill extends Command {
     private double m_deltaX;
     private double m_hubX;
     private double m_hubY;
-    private final CommandXboxController m_driverController;
     private final turretHood m_turretSubsystem;
+    private double deltaYTurretOne;
+    private double deltaXTurretOne;
+    private double deltaYTurretTwo;
+    private double deltaXTurretTwo;
+    private double turretXOne;
+    private double turretYOne;
+    private double turretXTwo;
+    private double turretYTwo;
+    private double turretOneHeading;
+    private double turretTwoHeading;
+    private double launchHeadingTurretOne;
+    private double launchHeadingTurretTwo;
 
-    private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
-    .withDeadband(MaxSpeed*0.05).withHeadingPID(8, 0, 0.01)
-    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   
     /**
      * Creates a new set-PowerCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public NtargetStill(CommandSwerveDrivetrain drive, CommandXboxController driver, turretHood turret) {
+    public NtargetStill(CommandSwerveDrivetrain drive, turretHood turret) {
       m_Drivetrain = drive;
-      m_driverController = driver;
       m_turretSubsystem = turret;
-
-
-
-     /* if ((m_autoTarget) && (m_kUseLimelight)) {
-        m_turretOffset = Math.atan2(legTwo, legOne);
-        SmartDashboard.putNumber("turretOffset", m_turretOffset);
-        // robot pose 2d and rotation 2d compared to april tag coordinate
-      } */
      
       // Use addRequirements() here to declare subsystem dependencies.
-      
           
     }
    
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-    
-   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-   m_robotPose = m_Drivetrain.getState().Pose;
-    m_alliance = DriverStation.getAlliance();
+     m_alliance = DriverStation.getAlliance();
     if (m_alliance.get() == Alliance.Red) {
       m_hubX = Constants.kRedHubCoord[0];
       m_hubY = Constants.kRedHubCoord[1];
@@ -96,38 +74,35 @@ public class NtargetStill extends Command {
       m_hubY = Constants.kBlueHubCoord[1];
       m_red = false;
     } 
+   }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+   m_robotPose = m_Drivetrain.getState().Pose;
 
       m_deltaX =  m_hubX - m_robotPose.getX();
       m_deltaY =  m_hubY - m_robotPose.getY();
 
-    m_turretRadians = Math.atan2(m_deltaY, m_deltaX);
-    m_robotDegrees = (( m_turretRadians / Math.PI )*180);
     SmartDashboard.putNumber("deltaY", m_deltaY);
     SmartDashboard.putNumber("deltaX", m_deltaX);   
-    //SmartDashboard.putNumber("robot off", ((m_robotPose.getRotation().getDegrees())));
 
-   double turretXOne = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (8 * Math.sin(m_robotPose.getRotation().getDegrees())));
-   double turretYOne = m_robotPose.getY() + ((-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (8 * Math.cos(m_robotPose.getRotation().getDegrees())));
+    turretXOne = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (8 * Math.sin(m_robotPose.getRotation().getDegrees())));
+    turretYOne = m_robotPose.getY() + ((-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (8 * Math.cos(m_robotPose.getRotation().getDegrees())));
 
-   double turretXTwo = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (-8 * Math.sin(m_robotPose.getRotation().getDegrees())));
-   double turretYTwo = m_robotPose.getY() + ((-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (-8 * Math.cos(m_robotPose.getRotation().getDegrees())));
+    turretXTwo = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (-8 * Math.sin(m_robotPose.getRotation().getDegrees())));
+    turretYTwo = m_robotPose.getY() + ((-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (-8 * Math.cos(m_robotPose.getRotation().getDegrees())));
 
-  double deltaXTurretOne = m_hubX - turretXOne;
-   double deltaYTurretOne = m_hubY - turretYOne;
-   double deltaXTurretTwo = m_hubX - turretXTwo;
-   double deltaYTurretTwo = m_hubY - turretYTwo;
+   deltaXTurretOne = m_hubX - turretXOne;
+   deltaYTurretOne = m_hubY - turretYOne;
+   deltaXTurretTwo = m_hubX - turretXTwo;
+   deltaYTurretTwo = m_hubY - turretYTwo;
 
-   double launchHeadingTurretOne = Math.atan2(deltaYTurretOne, deltaXTurretOne);
-   double launchHeadingTurretTwo = Math.atan2(deltaYTurretTwo, deltaXTurretTwo);
-   double turretOneHeading = launchHeadingTurretOne;
-   double turretTwoHeading = launchHeadingTurretTwo;
+   launchHeadingTurretOne = Math.atan2(deltaYTurretOne, deltaXTurretOne);
+   launchHeadingTurretTwo = Math.atan2(deltaYTurretTwo, deltaXTurretTwo);
+   turretOneHeading = launchHeadingTurretOne;
+   turretTwoHeading = launchHeadingTurretTwo;
 
-    /*m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
-        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
-        .withTargetDirection(new Rotation2d(((m_robotDegrees)/180)*Math.PI)));
-    */
-
-    dist = Math.sqrt(Math.pow(m_deltaX, 2) + Math.pow(m_deltaY, 2));
     if (m_red == true) {
       m_turretDegrees = ((((Math.atan2(m_deltaY, m_deltaX))/ Math.PI )*180) - (m_robotPose.getRotation().getDegrees()) + 180);
     } else {
@@ -157,7 +132,6 @@ public class NtargetStill extends Command {
     m_turretOffsetTwo = (turretTwoHeading / 90);
     m_turretOffset = (m_turretDegrees / 90);
 
-    SmartDashboard.putNumber("distance", dist);
     SmartDashboard.putNumber("turret deg", m_turretDegrees);
     SmartDashboard.putNumber("turret off", m_turretOffset);
 

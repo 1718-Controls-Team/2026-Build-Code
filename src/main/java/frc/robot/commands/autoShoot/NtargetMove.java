@@ -1,27 +1,18 @@
 package frc.robot.commands.autoShoot;
 
 
-import frc.robot.subsystems.shooterIndexer;
+import frc.robot.subsystems.turretHood;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
-import static edu.wpi.first.units.Units.*;
-
 import java.util.Optional;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.LimelightHelpers;
-import frc.robot.generated.TunerConstants;
-import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.Constants;
 
 
@@ -29,15 +20,11 @@ import frc.robot.Constants;
 public class NtargetMove extends Command {
   private final CommandSwerveDrivetrain m_Drivetrain;
   
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     public boolean m_autoTarget = true;
     private double m_turretDegrees;
-    private double m_turretRadians;
     private boolean m_isFinished = false;
-    private PoseEstimate m_robotPose;
+    private Pose2d m_robotPose;
     private Optional<Alliance> m_alliance;
-    private double legOne;
-    private double legTwo;
     private double dist;
     private double currentTime;
     private double prevTime;
@@ -45,40 +32,55 @@ public class NtargetMove extends Command {
     private double accelerationY;
     private ChassisSpeeds velocity;
     private ChassisSpeeds previousLoopVelocity;
-    private final CommandXboxController m_driverController;
+    private boolean m_red;
+    private double m_deltaX;
+    private double m_deltaY;
+    private double m_turretOffsetOne;
+    private double m_turretOffsetTwo;
+    private double deltaYTurretOne;
+    private double deltaXTurretOne;
+    private double deltaYTurretTwo;
+    private double deltaXTurretTwo;
+    private double turretXOne;
+    private double turretYOne;
+    private double turretXTwo;
+    private double turretYTwo;
+    private double m_hubX;
+    private double m_hubY;
+    private double turretOneHeading;
+    private double turretTwoHeading;
+    private double launchHeadingTurretOne;
+    private double launchHeadingTurretTwo;
+    private final turretHood m_turretSubsystem;
 
     Timer loopTimer = new Timer();
-
-    private final SwerveRequest.FieldCentricFacingAngle autoAlign = new SwerveRequest.FieldCentricFacingAngle()
-    .withDeadband(MaxSpeed*0.05).withHeadingPID(8, 0, 0.01)
-    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     /**
      * Creates a new set-PowerCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public NtargetMove(CommandSwerveDrivetrain drive, CommandXboxController driver) {
+    public NtargetMove(CommandSwerveDrivetrain drive, turretHood turret) {
       m_Drivetrain = drive;
-      m_driverController = driver;
-
-
-
-     /* if ((m_autoTarget) && (m_kUseLimelight)) {
-        m_turretOffset = Math.atan2(legTwo, legOne);
-        SmartDashboard.putNumber("turretOffset", m_turretOffset);
-        // robot pose 2d and rotation 2d compared to april tag coordinate
-      } */
-     
+      m_turretSubsystem = turret;
       // Use addRequirements() here to declare subsystem dependencies.
-      // addRequirements(turretSubsystem);
-      
+      addRequirements(m_turretSubsystem);
           
     }
    
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+      m_alliance = DriverStation.getAlliance();
+    if (m_alliance.get() == Alliance.Red) {
+      m_hubX = Constants.kRedHubCoord[0];
+      m_hubY = Constants.kRedHubCoord[1];
+      m_red = true;
+    } else {
+      m_hubX = Constants.kBlueHubCoord[0];
+      m_hubY = Constants.kBlueHubCoord[1];
+      m_red = false;
+    } 
     loopTimer.reset();
     loopTimer.start();
     
@@ -99,39 +101,62 @@ public class NtargetMove extends Command {
     accelerationX = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
     accelerationY = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
 
-    m_alliance = DriverStation.getAlliance();
-    if (m_alliance.get() == Alliance.Red) {
-      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight");
-      legTwo = (Constants.kRedHubCoord[0] - m_robotPose.pose.getX());
-      legOne = (Constants.kRedHubCoord[1] - m_robotPose.pose.getY());
-    } 
-    else {
-      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-      legTwo = (Constants.kBlueHubCoord[0] - m_robotPose.pose.getX());
-      legOne = (Constants.kBlueHubCoord[1] - m_robotPose.pose.getY());
+    m_robotPose = m_Drivetrain.getState().Pose;
+
+    SmartDashboard.putNumber("deltaY", m_deltaY);
+    SmartDashboard.putNumber("deltaX", m_deltaX);   
+
+    turretXOne = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (8 * Math.sin(m_robotPose.getRotation().getDegrees())));
+    turretYOne = m_robotPose.getY() + ((-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (8 * Math.cos(m_robotPose.getRotation().getDegrees())));
+
+    turretXTwo = m_robotPose.getX() + ((-7 * Math.cos(m_robotPose.getRotation().getDegrees())) + (-8 * Math.sin(m_robotPose.getRotation().getDegrees())));
+    turretYTwo = m_robotPose.getY() + ((-7 * Math.sin(m_robotPose.getRotation().getDegrees())) + (-8 * Math.cos(m_robotPose.getRotation().getDegrees())));
+
+   deltaXTurretOne = m_hubX - turretXOne;
+   deltaYTurretOne = m_hubY - turretYOne;
+   deltaXTurretTwo = m_hubX - turretXTwo;
+   deltaYTurretTwo = m_hubY - turretYTwo;
+
+   launchHeadingTurretOne = Math.atan2(deltaYTurretOne, deltaXTurretOne);
+   launchHeadingTurretTwo = Math.atan2(deltaYTurretTwo, deltaXTurretTwo);
+   turretOneHeading = launchHeadingTurretOne;
+   turretTwoHeading = launchHeadingTurretTwo;
+
+    
+    dist = Math.sqrt(Math.pow(m_deltaX, 2) + Math.pow(m_deltaY, 2));
+
+    m_deltaX = (m_deltaX - Constants.kShotTimeTable.get(dist)*((accelerationX*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
+    m_deltaY = (m_deltaY - Constants.kShotTimeTable.get(dist)*((accelerationY*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
+   
+    dist = Math.sqrt(Math.pow(m_deltaX, 2) + Math.pow(m_deltaY, 2));
+    
+    if (m_red == true) {
+      m_turretDegrees = ((((Math.atan2(m_deltaY, m_deltaX))/ Math.PI )*180) - (m_robotPose.getRotation().getDegrees()) + 180);
+    } else {
+      m_turretDegrees = ((((Math.atan2(m_deltaY, m_deltaX))/ Math.PI )*180) - (m_robotPose.getRotation().getDegrees()) + 180);
     }
 
-    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
+    turretOneHeading = ((turretOneHeading + m_turretDegrees));
+    turretTwoHeading = ((turretTwoHeading + m_turretDegrees));
 
-    legTwo = (legTwo - Constants.kShotTimeTable.get(dist)*((accelerationX*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
-    legOne = (legOne - Constants.kShotTimeTable.get(dist)*((accelerationY*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
-   
-    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
+    if (turretOneHeading > 180) {
+      turretOneHeading = turretOneHeading - 360;
+      turretTwoHeading = turretTwoHeading - 360;
+    }
+    if (turretOneHeading < -180) {
+      turretOneHeading = turretOneHeading + 360;
+      turretTwoHeading = turretTwoHeading + 360;
+    }
 
-    
-    m_turretRadians = Math.atan2(legOne, legTwo);
-    m_turretDegrees = (( m_turretRadians / Math.PI )*180);
-    SmartDashboard.putNumber("turretOffset", m_turretDegrees);
-    SmartDashboard.putNumber("legone", legOne);
-    SmartDashboard.putNumber("robot Y", m_robotPose.pose.getY());
-    SmartDashboard.putNumber("robot X", m_robotPose.pose.getX());
-    SmartDashboard.putNumber("legtwo", legTwo);   
-    SmartDashboard.putNumber("robot off", ((m_turretDegrees + 180)));
-    m_Drivetrain.setControl(autoAlign.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
-        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
-        .withTargetDirection(new Rotation2d(((m_turretDegrees + 180)/180)*Math.PI)));
-    
-    //m_shooterSubsystem.setTurretMotorPos(m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees() + m_turretDegrees);
+    m_turretOffsetOne = (turretOneHeading / 90);
+    m_turretOffsetTwo = (turretTwoHeading / 90);
+
+    SmartDashboard.putNumber("distance", dist);
+    SmartDashboard.putNumber("turret deg", m_turretDegrees);
+
+     m_turretSubsystem.setTurretMotor1(m_turretOffsetTwo);
+     m_turretSubsystem.setTurretMotor2(m_turretOffsetOne);
+
   }
 
   // Called once the command ends or is interrupted.

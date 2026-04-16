@@ -76,8 +76,16 @@ public class shootTargetMove extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      shootFlag = 1;
-
+      m_alliance = DriverStation.getAlliance();
+    if (m_alliance.get() == Alliance.Red) {
+      m_hubX = Constants.kRedHubCoord[0];
+      m_hubY = Constants.kRedHubCoord[1];
+      m_red = true;
+    } else {
+      m_hubX = Constants.kBlueHubCoord[0];
+      m_hubY = Constants.kBlueHubCoord[1];
+      m_red = false;
+    } 
       loopTimer.reset();
       loopTimer.start();
       currentTime = loopTimer.get();
@@ -97,21 +105,10 @@ public class shootTargetMove extends Command {
     accelerationX = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
     accelerationY = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
     
-
     m_robotPose = m_Drivetrain.getState().Pose;
-    m_alliance = DriverStation.getAlliance();
-    if (m_alliance.get() == Alliance.Red) {
-      m_hubX = Constants.kRedHubCoord[0];
-      m_hubY = Constants.kRedHubCoord[1];
-      m_red = true;
-    } else {
-      m_hubX = Constants.kBlueHubCoord[0];
-      m_hubY = Constants.kBlueHubCoord[1];
-      m_red = false;
-    } 
 
-      m_deltaX =  m_hubX - m_robotPose.getX();
-      m_deltaY =  m_hubY - m_robotPose.getY();
+    m_deltaX =  m_hubX - m_robotPose.getX();
+    m_deltaY =  m_hubY - m_robotPose.getY();
 
     SmartDashboard.putNumber("deltaY", m_deltaY);
     SmartDashboard.putNumber("deltaX", m_deltaX);   
@@ -183,7 +180,7 @@ public class shootTargetMove extends Command {
       m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
     }
 
-      if (m_shooterSubsystem.getShooterSpeed() > (Constants.kSpeedTable.get(dist) - 9)) {
+      if (m_shooterSubsystem.getShooterSpeedR() > (Constants.kSpeedTable.get(dist) - 9)) {
         m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
         m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
         }

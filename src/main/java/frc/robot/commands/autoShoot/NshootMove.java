@@ -5,43 +5,41 @@
 package frc.robot.commands.autoShoot;
 
 import frc.robot.subsystems.shooterIndexer;
-import frc.robot.subsystems.hoodServo;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.spiralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import java.util.Optional;
-
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
-import frc.robot.LimelightHelpers.PoseEstimate;
 
 
 /** An example command that uses an example subsystem. */
 public class NshootMove extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final shooterIndexer m_shooterSubsystem;
-  private final hoodServo m_hoodSubsystem;
   private final spiralRoller m_spiralRollerSubsystem;
   private final CommandSwerveDrivetrain m_Drivetrain;
   
   
     private boolean m_isFinished = false;
-    private int shootFlag = 0;
-    private PoseEstimate m_robotPose;
-    private Optional<Alliance> m_alliance;
-    private double legOne;
-    private double legTwo;
+    private Pose2d m_robotPose;
     private double dist;
     private double currentTime;
     private double prevTime;
-    private double[] acceleration;
     private ChassisSpeeds velocity;
     private ChassisSpeeds previousLoopVelocity;
+    private double deltaX;
+    private double deltaY;
+    public boolean m_autoTarget = true;
+    private double m_hubX;
+    private double m_hubY;
+    private double m_deltaX;
+    private double m_deltaY;
+    private double accelerationX;
+    private double accelerationY;
 
     Timer loopTimer = new Timer();
   
@@ -51,9 +49,8 @@ public class NshootMove extends Command {
        *
        * @param subsystem The subsystem used by this command.
        */
-      public NshootMove(shooterIndexer shooter, hoodServo hood, spiralRoller spirals, CommandSwerveDrivetrain drivetrain) {
+      public NshootMove(shooterIndexer shooter, spiralRoller spirals, CommandSwerveDrivetrain drivetrain) {
         m_shooterSubsystem = shooter;
-        m_hoodSubsystem = hood;
         m_spiralRollerSubsystem = spirals;
         m_Drivetrain = drivetrain;
     
@@ -63,8 +60,6 @@ public class NshootMove extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      shootFlag = 1;
-
       loopTimer.reset();
       loopTimer.start();
       currentTime = loopTimer.get();
@@ -81,44 +76,35 @@ public class NshootMove extends Command {
     prevTime = currentTime;
     currentTime = loopTimer.get();
 
-    acceleration[0] = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
-    acceleration[1] = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
+    accelerationX = (velocity.vxMetersPerSecond - previousLoopVelocity.vxMetersPerSecond) / (currentTime - prevTime);
+    accelerationY = (velocity.vyMetersPerSecond - previousLoopVelocity.vyMetersPerSecond) / (currentTime - prevTime); 
+    
+    m_robotPose = m_Drivetrain.getState().Pose;
 
-    m_alliance = DriverStation.getAlliance();
-    if (m_alliance.get() == Alliance.Red) {
-      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight");
-      legTwo = (Constants.kRedHubCoord[0] - m_robotPose.pose.getX());
-      legOne = (Constants.kRedHubCoord[1] - m_robotPose.pose.getY());
-    } 
-    else {
-      m_robotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-      legTwo = (Constants.kBlueHubCoord[0] - m_robotPose.pose.getX());
-      legOne = (Constants.kBlueHubCoord[1] - m_robotPose.pose.getY());
+    m_deltaX =  m_hubX - m_robotPose.getX();
+    m_deltaY =  m_hubY - m_robotPose.getY();
+
+    SmartDashboard.putNumber("deltaY", m_deltaY);
+    SmartDashboard.putNumber("deltaX", m_deltaX);   
+
+    dist = Math.sqrt(Math.pow(m_deltaX, 2) + Math.pow(m_deltaY, 2));
+
+    deltaX = (m_deltaX - Constants.kShotTimeTable.get(dist)*((accelerationX*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
+    deltaY = (m_deltaY - Constants.kShotTimeTable.get(dist)*((accelerationY*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
+   
+    dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+
+    if (Constants.kSpeedTable.get(dist) >= 92) {
+      m_shooterSubsystem.setIndexerSpinTorq(85);
+    } else {
+      m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
     }
 
-    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
-
-    legTwo = (legTwo - Constants.kShotTimeTable.get(dist)*((acceleration[0]*Constants.kAccelCompFactor) + velocity.vxMetersPerSecond));
-    legOne = (legOne - Constants.kShotTimeTable.get(dist)*((acceleration[1]*Constants.kAccelCompFactor) + velocity.vyMetersPerSecond));
-   
-    dist = Math.sqrt(Math.pow(legTwo, 2) + Math.pow(legOne, 2));
-
-    switch (shootFlag) {
-        case 1:
-            m_spiralRollerSubsystem.setSpiralRollerSpinSpeed(Constants.kIndexerMainSpeed);
-            shootFlag = 2;
-          break;
-        case 2:
-            m_shooterSubsystem.setShooterSpinSpeed(Constants.kSpeedTable.get(dist));
-            shootFlag = 3;
-          break;
-        case 3:
-          if (m_shooterSubsystem.getShooterSpeed() > 5) {
-            m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
-          }
-          break;
+      if (m_shooterSubsystem.getShooterSpeedR() > (Constants.kSpeedTable.get(dist) - 9)) {
+        m_shooterSubsystem.setIndexerSpinSpeed(Constants.kIndexerMainSpeed);
+        m_spiralRollerSubsystem.setSpiralRollerOff(Constants.kRollerMainSpeed);
+        }
       }
-  }
 
   // Called once the command ends or is interrupted.
   @Override

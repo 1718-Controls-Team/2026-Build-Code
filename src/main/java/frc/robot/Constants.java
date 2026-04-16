@@ -15,10 +15,13 @@ public class Constants {
     // key - distance    value - speed
     public static final InterpolatingDoubleTreeMap kSpeedTable = new InterpolatingDoubleTreeMap();
     static {
-        kSpeedTable.put(4.57, 100.0);
-        kSpeedTable.put(3.39, 73.0);
-        kSpeedTable.put(2.6, 61.0);
-        /*
+        kSpeedTable.put(4.57, 99.0);
+        kSpeedTable.put(3.6, 89.0);
+        kSpeedTable.put(3.39, 83.0); 
+        kSpeedTable.put(3.1, 80.0); // SET FOR GOOD
+        kSpeedTable.put(2.99, 76.0);
+        kSpeedTable.put(2.6, 65.0);
+        /* 
         kSpeedTable.put(4.57, 83.0);
         kSpeedTable.put(3.39, 75.0);
         kSpeedTable.put(2.6, 64.0);
@@ -50,7 +53,7 @@ public class Constants {
 */
 
 // Velocity Controls
-    public static final double kIndexerMainSpeed = 81.5;
+    public static final double kIndexerMainSpeed = 85;
     public static final double kIndexerNoSpeed = 0;
 
     public static final double kShooterOutSpeed = 67;
@@ -176,12 +179,12 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kLeftShooterMotorProportional = 10;
+    public static final double kLeftShooterMotorProportional = 15;
     public static final double kLeftShooterMotorIntegral = 0;
     public static final double kLeftShooterMotorDerivative = 0;
 
     public static final double kLeftShooterMotorGravityFeedForward = 0;
-    public static final double kLeftShooterMotorVelocityFeedForward = 0.0025;
+    public static final double kLeftShooterMotorVelocityFeedForward = 0;
     public static final double kLeftShooterMotorStaticFeedForward = 3.05;
 
     public static final double kLeftShooterMotorPeakForwardVoltage = 11;
@@ -199,12 +202,12 @@ public class Constants {
  * ####################################################################################################################################
 */
 
-    public static final double kRightShooterMotorProportional = 10;
+    public static final double kRightShooterMotorProportional = 11;
     public static final double kRightShooterMotorIntegral = 0;
     public static final double kRightShooterMotorDerivative = 0;
 
     public static final double kRightShooterMotorGravityFeedForward = 0;
-    public static final double kRightShooterMotorVelocityFeedForward = 0.0025;
+    public static final double kRightShooterMotorVelocityFeedForward = 0;
     public static final double kRightShooterMotorStaticFeedForward = 3.05;
 
     public static final double kRightShooterMotorPeakForwardVoltage = 11;
@@ -223,13 +226,14 @@ public class Constants {
 */
 
 
-    public static final double kIndexerMotorProportional = 3.5;
+    public static final double kIndexerMotorProportional = 10;
     public static final double kIndexerMotorIntegral = 0;
     public static final double kIndexerMotorDerivative = 0;
 
     public static final double kIndexerMotorGravityFeedForward = 0;
     public static final double kIndexerMotorVelocityFeedForward = 0.112;
-    public static final double kIndexerMotorStaticFeedForward = 0;
+    public static final double kIndexerMotorStaticFeedForward = 3.05;
+
 
     public static final double kIndexerMotorPeakForwardVoltage = 11;
     public static final double kIndexerMotorPeakReverseVoltage = -11;

@@ -20,12 +20,12 @@
         "y": 1.3265972222222229
       },
       "prevControl": {
-        "x": 2.6957291666666667,
-        "y": 1.4683159722222228
+        "x": 2.6799826388888888,
+        "y": 1.4525694444444446
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "End of Flip 4"
     }
   ],
   "rotationTargets": [],
@@ -56,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.4758890032457
+    "rotation": -115.76932762433867
   },
   "reversed": false,
   "folder": "Flipped Right",

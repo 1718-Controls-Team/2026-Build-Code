@@ -48,7 +48,8 @@ public class Robot extends TimedRobot {
     
     CommandScheduler.getInstance().run(); 
     SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getRotation2d().getDegrees());
-    SmartDashboard.putNumber("velocity", m_shooterSubsystem.getShooterSpeed());
+    SmartDashboard.putNumber("velocityR", m_shooterSubsystem.getShooterSpeedR());
+    SmartDashboard.putNumber("velocityL", m_shooterSubsystem.getShooterSpeedL());
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     Optional<Alliance> alliance = DriverStation.getAlliance();
     if(alliance.get() == Alliance.Red){

@@ -168,7 +168,7 @@
                                 {
                                   "type": "wait",
                                   "data": {
-                                    "waitTime": 3.0
+                                    "waitTime": 1.0
                                   }
                                 }
                               ]
@@ -503,7 +503,39 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 20.0
+                        "waitTime": 10.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Flip 5"
+                }
+              },
+              {
+                "type": "race",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intakeDeploy"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.2
                       }
                     }
                   ]

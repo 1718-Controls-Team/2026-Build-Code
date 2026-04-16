@@ -60,10 +60,12 @@ public class shooterIndexer extends SubsystemBase {
     indexerMotor.setControl(ShooterVoltage.withOutput(output));
 
   }
-   public double getShooterSpeed(){
+   public double getShooterSpeedR(){
     return rightShooterMotor.getVelocity().getValueAsDouble();
   }
-
+  public double getShooterSpeedL(){
+    return leftShooterMotor.getVelocity().getValueAsDouble();
+  }
   public void setIndexerSpinTorq(double indexerSpeed){
     indexerMotor.setControl(GoodVelocityControl.withVelocity(indexerSpeed));
 
